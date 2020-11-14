@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    ports:
+      - "4001:3000"
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+
+  db:
+    image: "postgres:13"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=snakes
+      - POSTGRES_DB=flask-app
+
+volumes:
+  postgres_data:

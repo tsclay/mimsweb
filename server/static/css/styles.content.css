@@ -1,0 +1,315 @@
+/******************
+CONTENT
+******************/
+#root {
+  position: relative;
+}
+
+.editors {
+  position: fixed;
+  width: clamp(265px, 42vw, 400px);
+  z-index: 10;
+  box-sizing: border-box;
+  top: 5rem;
+  height: 10px;
+  right: 1rem;
+}
+
+.task-bar {
+  position: fixed;
+  width: 100%;
+  z-index: 9;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0;
+  height: 30px;
+  background: var(--toolbars);
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+}
+
+.tasks {
+  position: absolute;
+  top: 0;
+  left: 42px;
+  width: 100%;
+}
+
+.start-menu {
+  width: 42px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button > svg {
+  width: 2rem;
+  height: auto;
+}
+
+.start-menu > svg {
+  width: 100%;
+  height: 100%;
+}
+
+.content-toolbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(0, -100%);
+  width: 10rem;
+}
+
+.content-toolbar.hide {
+  display: none;
+}
+
+.create-icon {
+  width: 2rem;
+  height: auto;
+}
+
+.search-button,
+.create-button,
+.select-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.content-editor {
+  position: absolute;
+  top: 0;
+  display: flex;
+  border-radius: 4px;
+  flex-flow: column nowrap;
+  width: clamp(320px, 60vw, 480px);
+  background: var(--gray);
+  z-index: 10;
+  transform-box: fill-box;
+  transition: all 0.2s linear;
+  transform: translate(115%, 0);
+  transform-origin: top left;
+  right: 0;
+  max-height: 432px;
+  max-width: 500px;
+}
+
+.title-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  border-radius: 4px 4px 0 0;
+  grid-template-rows: 30px;
+  grid-template-columns: calc(100% - 44px) 20px 20px;
+  width: 100%;
+  background: var(--pretty);
+}
+
+.title-bar > * {
+  align-self: center;
+}
+
+.title-bar > button {
+  height: 20px;
+  width: 20px;
+  display: flex;
+  font-size: 15px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[name="headerText"],
+input[name="edit-header"] {
+  margin: 2.6rem 2.25rem 0.5rem 2.25rem;
+}
+
+.content-editor > textarea,
+.content-editor > .select.new-image-ref,
+textarea[name="edit-body"] {
+  margin: 0.5rem 2.25rem;
+}
+
+.content-editor > button[type="submit"] {
+  margin: 0.5rem 2.25rem 2.25rem 2.25rem;
+}
+
+.content-editor.active {
+  transform: translate(-1%, 0);
+}
+
+.content-editor.minimized {
+  max-height: 2.5rem;
+  max-width: 12rem;
+  transform: translate(0, 0);
+  left: 0;
+  overflow: hidden;
+}
+
+.active-edit {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 80%;
+  margin: 1rem auto 2rem auto;
+}
+
+.rendered-block {
+  position: relative;
+  z-index: 1;
+  padding: 1rem;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: 1fr;
+  column-gap: 1rem;
+  box-sizing: border-box;
+}
+
+.rendered-content,
+.rendered-image {
+  position: relative;
+  z-index: 2;
+}
+
+.rendered-block.btn-group {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  background: rgba(150, 255, 255, 0.61);
+  height: 100%;
+  width: 100%;
+}
+
+.rendered-block.btn-group > button {
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rendered-content > h2 {
+  margin: 0;
+}
+
+.rendered-image img {
+  width: 100%;
+  height: 100%;
+}
+
+.rendered-image {
+  max-height: 300px;
+}
+
+.select.new-image-ref {
+  position: relative;
+  background: rgba(250, 235, 150, 0.699);
+  margin: 0.5rem 0 1rem 0;
+  padding: 0.25rem 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 25px;
+}
+
+.selected-image-name {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-right: 0.5rem;
+}
+
+.image-grid-wrapper {
+  background: rgb(184, 184, 184);
+  position: absolute;
+  width: 100%;
+  min-height: 0px;
+  overflow-y: scroll;
+  bottom: 0;
+  transform: translateY(100%);
+  transition: min-height 0.1s linear;
+  overflow-x: hidden;
+}
+
+.image-grid-wrapper.active {
+  min-height: 150px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 100px);
+  align-content: center;
+  justify-items: center;
+  grid-auto-rows: 1fr;
+  gap: 1rem;
+  transform: translate(1rem, 1rem);
+}
+
+.image-grid img {
+  width: 100px;
+  height: 100px;
+}
+
+.arrow-icon {
+  fill: black;
+  stroke: #000000;
+  stroke-width: 0.5;
+  stroke-opacity: 1;
+  transition: transform 0.1s linear;
+  transform-origin: center;
+}
+
+.arrow-icon.active {
+  transition: transform 0.1s linear;
+  transform-origin: center;
+  transform: rotate(90deg);
+}
+
+.drop-arrow {
+  display: block;
+  margin-left: 0.5rem;
+}
+
+.delete-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.select-wrapper {
+  border-radius: 4px;
+  width: 40px;
+  height: 40px;
+  border: solid 1px black;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.select-box {
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 75%;
+  height: 75%;
+}

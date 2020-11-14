@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'partials/head.html'%}
+  <body onload="renderImages()">
+    <!-- NavBar to be sticky -->
+    {% include 'partials/nav-bar.html'%}
+    <div id="root">
+      <div class="asset-toolbar">
+        <label class="input-file-label">
+          <input
+            class="image-input"
+            onchange="generateImageEditor(event, 'new')"
+            type="file"
+            name="file"
+            id="new-image"
+            autocomplete="off"
+          />
+          <div class="add-image-button">
+            <svg
+              width="160mm"
+              height="160mm"
+              version="1.1"
+              viewBox="0 0 160 160"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                id="image-icon-sky"
+                x="15.62"
+                y="13.255"
+                width="121.54"
+                height="104.12"
+                ry="3.4685"
+                style="
+                  fill-rule: evenodd;
+                  fill: #afc6e9;
+                  stroke-linejoin: round;
+                  stroke-width: 0.30293;
+                  stroke: #212178;
+                "
+              />
+              <circle
+                id="image-icon-sun"
+                cx="101.07"
+                cy="41.857"
+                r="15"
+                style="fill-rule: evenodd; fill: #fea;"
+              />
+              <path
+                id="image-icon-mtn"
+                d="m15.567 131.82c-0.1008-0.16133-0.11377-0.97488-0.11377-7.1374 0-5.8751 0.01553-6.9408 0.09998-6.8623 0.11671 0.10862 0.10498 0.12178 3.704-4.1691 14.791-17.635 22.246-26.038 26.561-29.944 3.8555-3.4892 5.7875-3.859 7.9566-1.523 1.9461 2.0959 4.5211 6.4667 9.2052 15.625 0.83247 1.6276 1.6798 3.2246 1.8829 3.5489 0.85286 1.3614 1.681 1.4186 3.099 0.21444 0.72649-0.61698 1.6877-1.6062 5.2984-5.4528 10.832-11.539 16.969-17.668 21.269-21.238 1.7254-1.4326 3.3442-2.4253 4.5288-2.7769 0.78777-0.23384 1.9282-0.25013 2.6309-0.0376 1.5525 0.46951 3.248 1.7671 5.4705 4.1866 4.7051 5.1222 11.446 14.224 25.877 34.94 1.4595 2.0952 2.6811 3.8429 2.7145 3.8838 0.036 0.0439 0.10704 0.0314 0.1736-0.0305 0.10145-0.0944 0.11272 0.73463 0.11272 8.2896 0 8.0284 1.8973 7.0474-0.13364 8.53-2.2066 1.6108-4.4087 0.13557-60.178 0.13557h-60.045z"
+                style="
+                  fill-rule: evenodd;
+                  fill: #212178;
+                  stroke-linejoin: round;
+                  stroke-width: 0.087734;
+                  stroke: #212178;
+                "
+              />
+              <rect
+                id="image-icon-frame"
+                x="14.252"
+                y="11.074"
+                width="123.89"
+                height="123.89"
+                ry="3.644"
+                style="
+                  fill: none;
+                  stroke-linejoin: round;
+                  stroke-width: 6.1426;
+                  stroke: #000;
+                "
+              />
+              <circle
+                cx="114.32"
+                cy="117.5"
+                r="32.798"
+                style="
+                  fill-rule: evenodd;
+                  fill: #48b748;
+                  stroke-linejoin: round;
+                  stroke-width: 3.4041;
+                  stroke: #48b748;
+                "
+              />
+              <rect
+                x="84.347"
+                y="112.43"
+                width="59.945"
+                height="10.129"
+                ry="5.0643"
+                style="fill-rule: evenodd; fill: #fff; stroke-width: 0;"
+              />
+              <rect
+                transform="rotate(90)"
+                x="87.525"
+                y="-119.38"
+                width="59.945"
+                height="10.129"
+                ry="5.0643"
+                style="fill-rule: evenodd; fill: #fff; stroke-width: 0;"
+              />
+            </svg>
+          </div>
+        </label>
+      </div>
+      <div class="windows"></div>
+      <div id="search-container" class="asset-grid"></div>
+    </div>
+    <script src="{{url_for('static', filename='js/images.js')}}"></script>
+  </body>
+</html>

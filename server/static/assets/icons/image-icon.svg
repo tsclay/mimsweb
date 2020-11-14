@@ -1,0 +1,44 @@
+<svg
+   version="1.1"
+   viewBox="0 0 130.037 130.037"
+   height="130.037mm"
+   width="130.037mm">
+  <g
+     id="layer4">
+    <rect
+       ry="3.468545"
+       y="5.5239458"
+       x="4.6880851"
+       height="104.11692"
+       width="121.54297"
+       id="image-icon-sky"
+       style="fill:#afc6e9;fill-opacity:1;fill-rule:evenodd;stroke:#212178;stroke-width:0.30293;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+  <g
+     id="layer3">
+    <circle
+       r="15"
+       cx="90.1418"
+       cy="34.125595"
+       id="image-icon-sun"
+       style="fill:#ffeeaa;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:8.0108;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+  <g
+     id="layer2">
+    <path
+       id="image-icon-mtn"
+       d="m 4.6350376,124.08766 c -0.100799,-0.16133 -0.113766,-0.97488 -0.113766,-7.13735 0,-5.87511 0.01553,-6.94083 0.09998,-6.86226 0.1167097,0.10862 0.1049807,0.12178 3.7040477,-4.1691 C 23.116581,88.284432 30.571169,79.880515 34.886636,75.975068 c 3.855519,-3.489187 5.787504,-3.858997 7.956556,-1.523 1.946105,2.09589 4.52111,6.466677 9.205206,15.624791 0.832466,1.62759 1.679792,3.22459 1.882947,3.54886 0.852855,1.361347 1.681048,1.418647 3.09899,0.21444 0.72649,-0.61698 1.687658,-1.60616 5.298408,-5.452847 10.831575,-11.539294 16.969249,-17.668161 21.268969,-21.238368 1.725367,-1.43265 3.344247,-2.42529 4.528797,-2.77691 0.78777,-0.23384 1.928157,-0.25013 2.630927,-0.0376 1.55252,0.46951 3.24798,1.76706 5.470487,4.186597 4.705097,5.122227 11.445997,14.224074 25.876957,34.940209 1.45951,2.09519 2.68106,3.84289 2.71454,3.88378 0.036,0.0439 0.10704,0.0314 0.1736,-0.0305 0.10145,-0.0944 0.11272,0.73463 0.11272,8.2896 0,8.02837 1.89731,7.04745 -0.13364,8.53004 -2.20656,1.61077 -4.40869,0.13557 -60.178469,0.13557 H 4.7488023 Z"
+       style="fill:#212178;fill-opacity:1;fill-rule:evenodd;stroke:#212178;stroke-width:0.0877336;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+  <g
+     id="layer1">
+    <rect
+       ry="3.6439514"
+       y="3.3424013"
+       x="3.3208325"
+       height="123.89436"
+       width="123.89447"
+       id="image-icon-frame"
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:6.14265;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+  </g>
+</svg>

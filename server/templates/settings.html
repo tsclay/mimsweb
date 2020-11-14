@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include 'partials/head.html'%}
+
+  <body>
+    <!-- NavBar to be sticky -->
+    {% include 'partials/nav-bar.html'%}
+    <div id="root">
+      <form
+        onsubmit="changeSettings(event)"
+        id="user-settings"
+        style="display: none;"
+      ></form>
+      <div class="settings" id="search-container">
+        <h2>User Information</h2>
+        <div class="user-info">
+          <h4 class="attr-names">Name</h4>
+          <h4 class="attr-values">
+            <span data-id="db_values" id="first_name"
+              >{{current_user['first_name']}}</span
+            >
+            <span data-id="db_values" id="last_name"
+              >{{current_user['last_name']}}</span
+            >
+          </h4>
+          <h4 class="attr-names">Username</h4>
+          <h4 data-id="db_values" id="username" class="attr-values">
+            {{current_user['username']}}
+          </h4>
+          <h4 id="role-header" class="attr-names">Role</h4>
+          <h4 data-id="db_values" id="role-value" class="attr-values">
+            {{current_user['role']}}
+          </h4>
+          <h4 id="password-header" class="attr-names">Change Password</h4>
+
+          <div class="n-names">
+            <input
+              form="user-settings"
+              type="text"
+              name="first_name"
+              id="n-firstname"
+            />
+
+            <input
+              form="user-settings"
+              type="text"
+              name="last_name"
+              id="n-lastname"
+            />
+          </div>
+
+          <input
+            form="user-settings"
+            type="text"
+            name="username"
+            id="n-username"
+          />
+
+          <input
+            form="user-settings"
+            type="text"
+            name="role"
+            id="n-role"
+            disabled
+            value="admin"
+          />
+
+          <input
+            form="user-settings"
+            type="password"
+            name="password"
+            id="n-password"
+          />
+
+          <button type="submit" form="user-settings">Confirm</button>
+        </div>
+        <!-- <div class="user-site-settings">
+
+        </div> -->
+      </div>
+    </div>
+    <script src="{{url_for('static', filename='js/settings.js')}}"></script>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+.admin-nav {
+  position: sticky;
+  background: var(--toolbars);
+  z-index: 99;
+  top: 0;
+  height: 60px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 60px;
+  align-items: center;
+}
+
+.admin-cred {
+  grid-area: 1/1/1/1;
+  width: 100%;
+  margin-left: 1rem;
+  font-size: clamp(16px, 4vw, 30px);
+}
+
+.search-bar {
+  grid-area: 1/2/1/2;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-options {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translate(0, 100%);
+  list-style: none;
+  padding: 0 0 0 0.25rem;
+  margin: 0;
+  width: 100%;
+  background: var(--light);
+  box-sizing: border-box;
+}
+
+.filter-options > li {
+  margin: 0.25rem 0;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-wrapper > input:focus {
+  outline: none;
+}
+
+.input-wrapper > input {
+  padding-right: 30px;
+  /* padding-left: 100px; */
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.input-wrapper > svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 30px;
+}
+
+/* .notification {
+  position: relative;
+  grid-area: 1/2/1/2;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.81);
+  border-radius: 8px;
+  border: 4px solid var(--selected);
+  color: var(--light);
+}
+
+.notification :first-child {
+  margin-left: 1rem;
+}
+
+.notification :last-child {
+  margin-right: 1rem;
+}
+
+.n-btn-container {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.n-status {
+  min-width: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.n-exit-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 20px;
+  font-size: 15px;
+  padding: 0;
+} */
+
+.admin-datetime > * {
+  display: block;
+  width: 10px;
+}
+
+#time {
+  width: 120px;
+}
+
+.admin-controls {
+  grid-area: 1/3/1/3;
+  justify-self: right;
+  position: relative;
+  margin-right: 1rem;
+}
+
+.options-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-100%);
+}
+
+.fade-in {
+  animation: fadeIn 0.05s linear;
+  animation-fill-mode: forwards;
+}
+.fade-out {
+  animation: fadeOut 0.05s linear;
+  animation-fill-mode: forwards;
+}
+
+button.modal-btn {
+  width: 100%;
+}
+
+#options-toggle {
+  display: block;
+  width: 40px;
+}
+
+.burger-menu-icon {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+#options-toggle.active .top-bar {
+  transform: translate3d(15%, 0, 0) rotate(45deg);
+}
+
+#options-toggle.active .bottom-bar {
+  transform: translate3d(15%, 0, 0) rotate(-45deg);
+}
+
+#options-toggle.active .mid-bar {
+  opacity: 0;
+}
+
+.top-bar,
+.mid-bar,
+.bottom-bar {
+  transition: all 0.1s ease-in-out;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: translate3d(0, 0, 0) rotate(0deg);
+}
+
+.top-bar,
+.bottom-bar {
+  transform-origin: top left;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

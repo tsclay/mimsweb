@@ -1,0 +1,39 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "plugins": ["prettier"],
+  "extends": ["airbnb-base", "prettier"],
+  "parserOptions": {
+    "ecmaVersion": 12
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 80,
+        "singleQuote": true,
+        "semi": false,
+        "trailingComma": "none"
+      }
+    ]
+  },
+  "globals": {
+    "empty": "writable",
+    "htmlToElements": "writable",
+    "htmlToElement": "writable",
+    "searchForOne": "writable",
+    "searchForAll": "writable",
+    "createElement": "writable",
+    "fragmentElements": "writable",
+    "nestElements": "writable",
+    "removeNodes": "writable",
+    "animateIn": "writable",
+    "animateOut": "writable",
+    "transition": "writable",
+    "createSVG": "writable",
+    "contentGrid": "writable",
+    "needsContentEditor": "writable"
+  }
+}

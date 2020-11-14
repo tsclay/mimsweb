@@ -1,0 +1,20 @@
+<svg class="trash-can" width="400" height="450" version="1.1" viewBox="0 0 105.83 119.06" xmlns="http://www.w3.org/2000/svg">
+  <path d="m22.951 30.289h61.61c0.5235 0 0.99476 0.42382 0.94494 0.94494l-7.4083 77.485c-0.04982 0.52112-5.3265 0.94494-5.85 0.94494h-38.437c-0.5235 0-5.9444-0.42291-5.9836-0.94494l-5.8208-77.485c-0.03922-0.52203 0.42144-0.94494 0.94494-0.94494z" style="fill-rule:evenodd;fill:#999;stroke-width:0"/>
+  <rect x="51.815" y="49.944" width="2.0045" height="44.099" ry="1.0023" style="fill-rule:evenodd;fill:#ececec;stroke-width:.265;stroke:#999"/>
+  <rect transform="rotate(1)" x="60.142" y="48.893" width="2.0045" height="44.099" ry="1.0023" style="fill-rule:evenodd;fill:#ececec;stroke-width:.265;stroke:#999"/>
+  <rect transform="rotate(2)" x="68.447" y="47.579" width="2.0045" height="44.099" ry="1.0023" style="fill-rule:evenodd;fill:#ececec;stroke-width:.265;stroke:#999"/>
+  <rect transform="rotate(3)" x="76.722" y="46.004" width="2.0045" height="44.099" ry="1.0023" style="fill-rule:evenodd;fill:#ececec;stroke-width:.265;stroke:#999"/>
+  <rect transform="rotate(-1)" x="43.472" y="50.733" width="2.0045" height="44.099" ry="1.0023" style="fill-rule:evenodd;fill:#ececec;stroke-width:.265;stroke:#999"/>
+  <rect transform="rotate(-2)" x="35.12" y="51.26" width="2.0045" height="44.099" ry="1.0023" style="fill-rule:evenodd;fill:#ececec;stroke-width:.265;stroke:#999"/>
+  <rect transform="rotate(-3)" x="26.764" y="51.523" width="2.0045" height="44.099" ry="1.0023" style="fill-rule:evenodd;fill:#ececec;stroke-width:.265;stroke:#999"/>
+  <g class="trash-can-lid" transform="translate(-.060786 6.35)">
+    <path d="m33.872 12.653v-9.472h38.437v9.472" style="fill:none;stroke-width:.26458px;stroke:#999"/>
+    <path d="m40.128 12.248v-6.0598h25.862v6.0598" style="fill:none;stroke-width:.27166;stroke:#999"/>
+    <path d="m34.015 8.0121v-4.6771h38.166v9.3543h-6.5619v-6.1471h-25.042v6.1471h-6.5619z" style="fill-rule:evenodd;fill:#999;stroke-width:.13398;stroke:#999"/>
+    <rect x="10.093" y="22.817" width="85.86" height="2.0713" style="fill-rule:evenodd;fill:#999;stroke-width:0"/>
+    <rect x="9.9796" y="12.233" width="85.86" height="2.0713" style="fill-rule:evenodd;fill:#999;stroke-width:0"/>
+    <rect x="95.806" y="12.233" width="2.0714" height="12.655" style="fill-rule:evenodd;fill:#999;stroke-width:0"/>
+    <rect x="8.077" y="12.233" width="2.0714" height="12.655" style="fill-rule:evenodd;fill:#999;stroke-width:0"/>
+    <path d="m10.168 18.561v-4.2256h85.665v8.4513h-85.665z" style="fill-rule:evenodd;fill:#fff;stroke-width:.034606;stroke:#fff"/>
+  </g>
+</svg>
