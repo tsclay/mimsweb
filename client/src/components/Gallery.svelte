@@ -2,16 +2,16 @@
   import Image from './Image.svelte'
   let modalImgSrc
   let images = [
-    '../static/assets/img/barnes3.jpg',
-    '../static/assets/img/inside.jpg',
-    '../static/assets/img/parrish2.jpg',
-    '../static/assets/img/rebarnes.jpg',
-    '../static/assets/img/rebarnes1.jpg',
-    '../static/assets/img/rebarnes3.jpg',
-    '../static/assets/img/rekean1.jpg',
-    '../static/assets/img/rekean2.jpg',
-    '../static/assets/img/rekean3.jpg',
-    '../static/assets/img/reparish1.jpg'
+    '../assets/img/barnes3.jpg',
+    '../assets/img/inside.jpg',
+    '../assets/img/parrish2.jpg',
+    '../assets/img/rebarnes.jpg',
+    '../assets/img/rebarnes1.jpg',
+    '../assets/img/rebarnes3.jpg',
+    '../assets/img/rekean1.jpg',
+    '../assets/img/rekean2.jpg',
+    '../assets/img/rekean3.jpg',
+    '../assets/img/reparish1.jpg'
   ]
 
   const openImgModal = (e) => {
@@ -84,7 +84,7 @@
           isGallery
           styleOverride="margin-right: 1rem; width: 200px; height: 200px; flex-shrink: 0;"
           imgSrc={image}
-          imgSrcTiny={'./static/assets/img-blurry/1925blurred.jpg'}
+          imgSrcTiny={'./assets/img-blurry/1925blurred.jpg'}
           imgAlt="Gallery-{i}" />
       {/each}
     </div>

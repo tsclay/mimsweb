@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:14-alpine as base
 
 WORKDIR /usr/src/app
 
@@ -11,9 +11,13 @@ RUN npm install
 COPY ./src ./src
 COPY ./public ./public
 
+FROM base as dev
 EXPOSE 5000
-
 ENV HOST=0.0.0.0
-
-RUN npm run-script build
 CMD [ "npm", "run", "dev" ]
+
+FROM base as prod
+EXPOSE 6000
+ENV HOST=0.0.0.0
+RUN npm run-script build
+CMD [ "npm", 'start' ] 

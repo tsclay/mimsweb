@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 import json
 import os
@@ -20,7 +20,6 @@ def create_app():
     from server.blueprints.blacklist import blacklist
     from server.blueprints.settings import settings
     from server.blueprints.email_service import email_service
-    from server.blueprints.client import client
 
     server.register_blueprint(auth, url_prefix="/admin")
     server.register_blueprint(images, url_prefix='/admin/assets')
@@ -28,10 +27,13 @@ def create_app():
     server.register_blueprint(blacklist, url_prefix='/admin/blacklist')
     server.register_blueprint(settings)
     server.register_blueprint(email_service)
-    server.register_blueprint(client, url_prefix='/')
 
-    # @server.route('/', methods=["GET"])
-    # def admin_home():
-    #     return redirect(url_for('auth.home'))
+    @server.route('/', methods=["GET"])
+    def home():
+        return send_from_directory('../client/public', 'index.html')
+
+    @server.route("/<path:path>")
+    def send_assets(path):
+        return send_from_directory('../client/public', path)
 
     return server

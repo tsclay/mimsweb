@@ -47,9 +47,7 @@
 <div id="footer">
   <div class="logo-contact-wrapper">
     <div class="footer-logo">
-      <img
-        src="../static/assets/img/NEWNEWLOGO.png"
-        alt="Mims Family Painting" />
+      <img src="../assets/img/NEWNEWLOGO.png" alt="Mims Family Painting" />
     </div>
     <div class="company-contact">
       <p>Mims Family Painting</p>

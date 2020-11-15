@@ -40,11 +40,11 @@
 <div id="banner">
   <img
     class="banner-bkgd"
-    src="../static/assets/img/1925new.jpg"
+    src="../assets/img/1925new.jpg"
     alt="Mims Family Painting" />
   <div class="banner-text-wrapper">
     <div class="logo-wrapper">
-      <img src="../static/assets/img/NEWNEWLOGO.png" alt="logo" />
+      <img src="../assets/img/NEWNEWLOGO.png" alt="logo" />
     </div>
   </div>
 </div>
