@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   flask:
     build:
@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       target: dev
     ports:
-      - '4001:3000'
+      - "4001:3000"
     volumes:
       - .:/code
     depends_on:
@@ -18,14 +18,15 @@ services:
       dockerfile: Dockerfile.client
       target: dev
     ports:
-      - '5000:5000'
+      - "5000:5000"
+      - "35729:35729"
     volumes:
       - ./client:/usr/src/app
     depends_on:
       - flask
 
   db:
-    image: 'postgres:13'
+    image: "postgres:13"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
