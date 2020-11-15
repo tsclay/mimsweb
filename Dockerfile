@@ -38,7 +38,6 @@ ENV SECRET_KEY=FeedMeSeymour
 ENV APP_SETTINGS=config.Config
 ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
 EXPOSE 3000
-# CMD flask run
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
 # docker exec -it 66fcac09ed66 psql -d postgresql://dev:snakes@db:5432/flask-app
