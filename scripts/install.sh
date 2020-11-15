@@ -1,12 +1,19 @@
 #!/bin/sh
 
 echo "📦 Installing NPM packages 📦"
-cd client && npm i
-cd ../server/static/js && npm i
+cd client
+npm i
+cd ../server/static/js
+npm i
 
 cd ../../
-echo "🐍 Setting Python venv & installing pkgs 🐍"
+echo "🐍 Creating Python venv 🐍"
+sleep 0.1
 python3 -m venv ./venv
+echo "🐍 Activating venv 🐍"
+. venv/bin/activate
+sleep 0.1
 cd ../
-pip3 install --upgrade pip
-pip3 install -r requirements.txt
+echo "🐍 Upgrade pip & install requirements 🐍"
+pip install --upgrade pip
+pip install -r requirements.txt
