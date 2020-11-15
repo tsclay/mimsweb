@@ -1,15 +1,15 @@
 <script>
   import { fly, fade } from "svelte/transition";
-  let example;
   let errors = {};
   let selected = "Both";
+  let sending = false;
   let showOptions = false;
   let messageData = {
     name: null,
     email: null,
     message: null,
     phone: null,
-    preferredContact: "both",
+    pref_contact: "both",
   };
 
   const validateEmail = (e) => {
@@ -50,7 +50,7 @@
 
   const handleContactPref = (e) => {
     selected = e.target.innerText;
-    messageData.preferredContact = selected.toLowerCase();
+    messageData.pref_contact = selected.toLowerCase();
     showOptions = false;
   };
 
@@ -60,9 +60,17 @@
       errors["EmptyFields"] = "Please fill all fields.";
       return;
     }
-    messageData.preferredContact = selected;
-    const response = await JSON.stringify(messageData);
-    example = response;
+    sending = true;
+    const response = await fetch("/submit-form", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(messageData),
+      method: "POST",
+    });
+    const emailCompleted = await response.json();
+    sending = false;
   };
 </script>
 
@@ -313,10 +321,9 @@
           </div>
         {/if}
       </div>
-      <button type="submit">Send</button>
+      <button
+        type="submit"
+        disabled={sending ? true : false}>{sending ? 'Sending...' : 'Send'}</button>
     </form>
   </div>
-  {#if example}
-    <p>{example}</p>
-  {/if}
 </div>
