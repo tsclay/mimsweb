@@ -1,9 +1,7 @@
-/node_modules/
-/client/node_modules/
+node_modules/
+client/node_modules/
 client/public/build/
 
 .DS_Store
-
-(?!requirements).txt
 
 venv/
