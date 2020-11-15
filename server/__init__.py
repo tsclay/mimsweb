@@ -20,6 +20,7 @@ def create_app():
     from server.blueprints.blacklist import blacklist
     from server.blueprints.settings import settings
     from server.blueprints.email_service import email_service
+    from server.blueprints.client import client
 
     server.register_blueprint(auth, url_prefix="/admin")
     server.register_blueprint(images, url_prefix='/admin/assets')
@@ -27,9 +28,10 @@ def create_app():
     server.register_blueprint(blacklist, url_prefix='/admin/blacklist')
     server.register_blueprint(settings)
     server.register_blueprint(email_service)
+    server.register_blueprint(client, url_prefix='/')
 
-    @server.route('/', methods=["GET"])
-    def admin_home():
-        return redirect(url_for('auth.home'))
+    # @server.route('/', methods=["GET"])
+    # def admin_home():
+    #     return redirect(url_for('auth.home'))
 
     return server
