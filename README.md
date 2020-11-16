@@ -2,17 +2,12 @@
 
 New and improved website for Mims Family Painting.
 
-## Setup
-
-Install dependencies
-
-```bash
-bash scripts/install.sh
-```
-
 ## Development Environment
 
-Development depends on docker and docker-compose. Both should be installed.
+### Requirements
+
+- Docker
+- Docker-compose
 
 Docker-compose if used to orchestrate dev containers for the flask server, the Svelte server, and the PostgreSQL server.
 
@@ -28,11 +23,20 @@ To terminate docker-compose gracefully and unmount volumes
 bash scripts/dev-compose.sh down
 ```
 
-### Front-end
+### Setup
 
-Docker-compose creates a container called `client`, which is running `npm run dev` for Svelte.
+Following needed if developing outside Docker
 
-Any changes made in Svelte files will be rendered on page refresh.
+- Python 3.8
+- Node.js 14
+- npm:latest
+
+If the above are met, run install script
+
+```bash
+# Execute in project root
+bash scripts/install.sh
+```
 
 ## Project Navigation
 
@@ -52,3 +56,47 @@ managem used for content-management.
 - JS: `server/static/js`
 - Database schemas: `server/models`
 - Emailing manager: `server/blueprints/email_service.py`
+
+## References for Installing Node.js on top of Python image
+
+Why? Any front-end scaffolding that needs a bundling manager (Webpack, Rollup, etc.) needs Node.js. Otherwise, one could bundle the front-end manually before spinning up Docker in production.
+
+### Getting gpg.key for nodesource
+
+Without the right gpg.key, image will **not** allow downloads from the Node.js repo. Image needs `gnupg` and `curl`
+https://github.com/nodesource/distributions/issues/541
+https://github.com/FreeWaveTechnologies/ZumIQ/issues/8
+
+```Dockerfile
+RUN apt-get update || : && apt-get install -y gcc musl-dev netcat curl gnupg
+RUN curl --silent https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+```
+
+### Pointing to right repo
+
+Make `/etc/apt/sources.list.d/nodesource.list` with specified version of Node.js binary to fetch and install
+https://github.com/nodejs/help/issues/1040
+
+```Dockerfile
+RUN echo "deb https://deb.nodesource.com/node_14.x buster main\ndeb-src https://deb.nodesource.com/node_14.x buster main" > /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update
+RUN curl -sL https://deb.nodesource.com/node_14.x | apt-get install -y nodejs
+```
+
+### Differences from Nodesource
+
+The commands listed at the [nodesource repo](https://github.com/nodesource/distributions) don't quite work as written in Docker.
+
+From repo:
+
+```bash
+# Using Debian, as root
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
+apt-get install -y nodejs
+```
+
+Used in `Dockerfile`:
+
+```bash
+curl -sL https://deb.nodesource.com/node_14.x | apt-get install -y nodejs
+```
