@@ -3,12 +3,12 @@
 method="$1"
 
 if [[ "$method" == "up" ]]; then
-  echo '🐳 Starting Dev!🐳'
+  echo '🐳 Starting Production!🐳'
   docker-compose -f docker-compose.prod.yml build
   docker-compose -f docker-compose.prod.yml up
 fi
 
 if [[ "$method" == "down" ]]; then
-  echo 'Shutting down Dev...'
+  echo 'Shutting down Prod...'
   docker-compose -f docker-compose.prod.yml down
 fi
