@@ -4,6 +4,6 @@ setup:
     - as: DATABASE
   build:
     docker:
-      release:
+      web:
         dockerfile: dockerfile
         target: prod
