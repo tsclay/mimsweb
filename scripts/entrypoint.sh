@@ -27,6 +27,10 @@ if [ "$FLASK_ENV" = "production" ]; then
   echo "💻  Dev database created! 💻"
   python manage.py seed_db
   echo "🌱 Database seeded 🌱"
+  echo "🔐 Set non-root user & Change ownership 🔐"
+  groupadd -r mims && useradd -r -g mims mims
+  chown -R mims ./
+  echo "✅ Non-root user set! ✅"
   gunicorn -b $FLASK_RUN_HOST:${FLASK_RUN_PORT} 'server:create_app()'
 fi
 
