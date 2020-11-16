@@ -40,10 +40,7 @@ ENV SQL_PORT=5432
 ENV SQL_HOST=db
 ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
 ENV APP_SETTINGS=config.Config
-# RUN cd client && npm run build
-# RUN cd ..
 EXPOSE 5000
-# CMD gunicorn -b 0.0.0.0:${FLASK_RUN_PORT} 'server:create_app()'
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
 # docker exec -it 66fcac09ed66 psql -d postgresql://dev:snakes@db:5432/flask-app
