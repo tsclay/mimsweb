@@ -50,3 +50,12 @@ body {
 .logo > svg {
   display: block;
 }
+
+.login-link {
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  text-decoration: underline;
+  color: var(--primary);
+}
