@@ -18,7 +18,7 @@ if [ "$FLASK_ENV" = "development" ]; then
   flask run
 fi
 
-if [ "$FLASK_ENV" = "production" ]; then
+if [ "$FLASK_ENV" = "staging" ] || [ "$FLASK_ENV" = "production" ]; then
   cd client && npm run build
   echo "🚀 Svelte app bundled 🚀"
   cd ..
@@ -31,7 +31,7 @@ if [ "$FLASK_ENV" = "production" ]; then
   groupadd -r mims && useradd -r -g mims mims
   chown -R mims ./
   echo "✅ Non-root user set! ✅"
-  gunicorn -b $FLASK_RUN_HOST:${FLASK_RUN_PORT} 'server:create_app()'
+  gunicorn -b $FLASK_RUN_HOST:${PORT} 'server:create_app()'
 fi
 
 exec "$@"
