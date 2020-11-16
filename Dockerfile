@@ -29,11 +29,11 @@ EXPOSE 3000
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
 # Production image using Gunicorn
-FROM base as prod
+FROM base as stage
 ENV FLASK_APP=./server
-ENV FLASK_ENV=production
+ENV FLASK_ENV=staging
 ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=5000
+ENV PORT=5000
 ENV SECRET_KEY=FeedMeSeymour
 ENV DATABASE=postgres
 ENV SQL_PORT=5432
@@ -41,6 +41,19 @@ ENV SQL_HOST=db
 ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
 ENV APP_SETTINGS=config.Config
 EXPOSE 5000
+ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
+
+# Production image using Gunicorn
+FROM base as prod
+ENV FLASK_APP=./server
+ENV FLASK_ENV=production
+ENV FLASK_RUN_HOST=0.0.0.0
+ENV SECRET_KEY=FeedMeSeymour
+ENV DATABASE=postgres
+ENV SQL_PORT=5432
+ENV SQL_HOST=db
+ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
+ENV APP_SETTINGS=config.Config
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
 # docker exec -it 66fcac09ed66 psql -d postgresql://dev:snakes@db:5432/flask-app
