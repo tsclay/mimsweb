@@ -11,5 +11,5 @@ build:
 release:
   image: web
   command:
-    - echo 'Hello, Heroku!'
+    - echo "Hello, Heroku!";
 # blah
