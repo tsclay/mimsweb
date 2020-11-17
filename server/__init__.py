@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect, send_from_directory
+from flask import Flask, render_template, url_for, redirect, send_from_directory, request
 from flask_sqlalchemy import SQLAlchemy
 import json
 import os
@@ -27,6 +27,13 @@ def create_app():
     server.register_blueprint(blacklist, url_prefix='/admin/blacklist')
     server.register_blueprint(settings)
     server.register_blueprint(email_service)
+
+    @server.before_request
+    def before_request():
+        if not request.is_secure and os.environ["FLASK_ENV"] != "development":
+            url = request.url.replace("http://", "https://", 1)
+            code = 301
+            return redirect(url, code=code)
 
     @server.route('/', methods=["GET"])
     def home():
