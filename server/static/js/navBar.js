@@ -101,7 +101,7 @@ const search = (e) => {
   searchTargets = searchTargets ? searchTargets : [... searchContainer.childNodes]
   const found = []
   const needImages = value.match('>images') && value.match('>images').length > 0
-  const regex = needImages ? new RegExp(value.match(/(?:>images )(\w.+)/gi)[1], 'i') : new RegExp(value, "gi")
+  const regex = needImages ? new RegExp(value.match(/(?:>images )(\w.+)/)[1], 'i') : new RegExp(value, "gi")
   searchTargets.forEach(s => {
     if (needImages) {
       const {alt, src} = s.querySelector('img')
