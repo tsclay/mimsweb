@@ -11,9 +11,30 @@ images = Blueprint('images', __name__, template_folder='templates')
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 
 
+# @images.before_request
+# def before_request():
+#     if not request.is_secure and os.environ["FLASK_ENV"] != "development":
+#         url = request.url.replace("http://", "https://", 1)
+#         code = 301
+#         return redirect(url, code=code)
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def get_images():
+    if 'username' not in session:
+        return redirect(url_for('auth.login'))
+
+    db_images = Image.query.order_by(Image.id).all()
+    payload = []
+    for row in db_images:
+        payload.append({"id": row.id,
+                        "image_name": row.image_name,
+                        "image_link": row.image_link})
+    return json.dumps(payload)
 
 
 @images.route('', methods=["GET"])
@@ -40,7 +61,9 @@ def post_images():
         db.session.add(Image(image_link='/static/assets/' +
                              filename, image_name=request.form["image_name"]))
         db.session.commit()
-        return redirect(url_for('.get_images'))
+        payload = get_images()
+        return payload
+        # return redirect(url_for('.get_images'))
 
       #  return json.dumps(Images)
     else:
@@ -64,7 +87,9 @@ def replace_image():
         db_image.image_name = request.form["image_name"]
         db.session.add(db_image)
         db.session.commit()
-        return redirect(url_for('.get_images'))
+        payload = get_images()
+        return payload
+        # return redirect(url_for('.get_images'))
 
         #  return json.dumps(Images)
     else:
@@ -72,17 +97,9 @@ def replace_image():
 
 
 @images.route('/read', methods=["GET", "DELETE"])
-def get_images():
-    if 'username' not in session:
-        return redirect(url_for('auth.login'))
-
-    db_images = Image.query.order_by(Image.id).all()
-    payload = []
-    for row in db_images:
-        payload.append({"id": row.id,
-                        "image_name": row.image_name,
-                        "image_link": row.image_link})
-    return json.dumps(payload)
+def show_all_images():
+    payload = get_images()
+    return payload
 
 
 @images.route('/delete', methods=["DELETE", "POST"])
@@ -96,7 +113,9 @@ def delete_image():
         os.remove("server" + del_image.image_link)
         db.session.delete(del_image)
         db.session.commit()
-        return redirect(url_for('.get_images'))
+        payload = get_images()
+        return payload
+        # return redirect(url_for('.get_images'))
     elif request.method == 'POST':
         data = request.get_json()
         paired_headers = Header.query.filter_by(

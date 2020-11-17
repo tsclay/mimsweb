@@ -28,12 +28,12 @@ def create_app():
     server.register_blueprint(settings)
     server.register_blueprint(email_service)
 
-    @server.before_request
-    def before_request():
-        if not request.is_secure and os.environ["FLASK_ENV"] != "development":
-            url = request.url.replace("http://", "https://", 1)
-            code = 301
-            return redirect(url, code=code)
+    # @server.before_request
+    # def before_request():
+    #     if not request.is_secure and os.environ["FLASK_ENV"] != "development":
+    #         url = request.url.replace("http://", "https://", 1)
+    #         code = 301
+    #         return redirect(url, code=code)
 
     @server.route('/', methods=["GET"])
     def home():

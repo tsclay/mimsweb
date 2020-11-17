@@ -3,22 +3,20 @@ from server.models.Image import Image
 from server.models.Paragraph import Paragraph
 from server.models.Header import Header
 from server.db import db
-import server
+import os
 from sqlalchemy import or_
 from sqlalchemy.sql.operators import is_
 
 content = Blueprint('content', __name__, template_folder='templates')
 
 
-@content.route('', methods=["GET"])
-def render():
-    if 'username' not in session:
-        return redirect(url_for('auth.login'))
+# @content.before_request
+# def before_request():
+#     if not request.is_secure and os.environ["FLASK_ENV"] != "development":
+#         url = request.url.replace("http://", "https://", 1)
+#         code = 301
+#         return redirect(url, code=code)
 
-    return render_template('content.html', user=session["username"], title="Content")
-
-
-@content.route('/all', methods=["GET", "DELETE"])
 def read():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
@@ -48,6 +46,20 @@ def read():
     return json.dumps(r_dict, indent=2)
 
 
+@content.route('', methods=["GET"])
+def render():
+    if 'username' not in session:
+        return redirect(url_for('auth.login'))
+
+    return render_template('content.html', user=session["username"], title="Content")
+
+
+@content.route('/all', methods=["GET", "DELETE"])
+def show_all():
+    payload = read()
+    return payload
+
+
 @content.route('/create', methods=["POST"])
 def create():
     if 'username' not in session:
@@ -62,7 +74,9 @@ def create():
         db.session.add(new_header)
         db.session.add(new_paragraph)
         db.session.commit()
-        return redirect(url_for('.read'))
+        # return redirect(url_for('.read'))
+        payload = read()
+        return payload
     except Exception as Error:
         return json.dumps({"message": "Error"})
 
@@ -109,4 +123,6 @@ def delete():
     del_header = Header.query.filter_by(id=data['header_id']).first()
     db.session.delete(del_header)
     db.session.commit()
-    return redirect(url_for('.read'))
+    payload = read()
+    return payload
+    # return redirect(url_for('.read'))
