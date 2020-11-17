@@ -47,12 +47,12 @@ ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 FROM base as prod
 ENV FLASK_APP=./server
 ENV FLASK_ENV=production
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV SECRET_KEY=FeedMeSeymour
-ENV DATABASE=postgres
-ENV SQL_PORT=5432
-ENV SQL_HOST=db
-ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
+# ENV FLASK_RUN_HOST=0.0.0.0
+# ENV SECRET_KEY=FeedMeSeymour
+# ENV DATABASE=postgres
+# ENV SQL_PORT=5432
+# ENV SQL_HOST=db
+# ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
 ENV APP_SETTINGS=config.Config
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
