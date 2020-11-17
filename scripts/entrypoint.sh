@@ -19,7 +19,9 @@ if [ "$FLASK_ENV" = "development" ]; then
 fi
 
 if [ "$FLASK_ENV" = "staging" ] || [ "$FLASK_ENV" = "production" ]; then
-  cd client && npm run build
+  echo "📦 Installing NPM packages 📦"
+  cd client && npm i
+  npm run build
   echo "🚀 Svelte app bundled 🚀"
   cd ..
   sleep 0.1
