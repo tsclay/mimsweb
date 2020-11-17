@@ -8,4 +8,8 @@ build:
       dockerfile: Dockerfile
       target: prod
     web: Dockerfile
+release:
+  image: web
+  command:
+    - echo 'Hello, Heroku!'
 # blah
