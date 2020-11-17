@@ -13,12 +13,12 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Production image using Gunicorn
-FROM base as prod
+FROM base AS prod
 ENV FLASK_APP=./server
 ENV FLASK_ENV=production
 # ENV FLASK_RUN_HOST=0.0.0.0
 # ENV SECRET_KEY=FeedMeSeymour
-ENV DATABASE=postgres
+# ENV DATABASE=postgres
 # ENV SQL_PORT=5432
 # ENV SQL_HOST=db
 # ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
@@ -27,7 +27,7 @@ ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
 # Dev image using 'flask run' to leverage helpful error msgs and 
 # reloading
-FROM base as dev
+FROM base AS dev
 ENV FLASK_APP=./server
 ENV FLASK_RUN_HOST=0.0.0.0
 ENV FLASK_RUN_PORT=3000
@@ -42,7 +42,7 @@ EXPOSE 3000
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
 # Production image using Gunicorn
-FROM base as stage
+FROM base AS stage
 ENV FLASK_APP=./server
 ENV FLASK_ENV=staging
 ENV FLASK_RUN_HOST=0.0.0.0
