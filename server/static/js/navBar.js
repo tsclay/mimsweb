@@ -1,8 +1,3 @@
-//= ===========================================================
-// State variables
-//= ===========================================================
-let needsModal = false
-
 //= ==========================================================
 // Menu button & Modal
 //= ==========================================================
@@ -26,6 +21,7 @@ let needsModal = false
 
 // nestElements(searchForOne('.admin-nav'), [notification()])
 
+// Logout user thru AJAX
 const logoutUser = async () => {
   const username = searchForOne('#session-username')
   const response = await fetch('/admin/logout', {
@@ -42,6 +38,7 @@ const logoutUser = async () => {
   }
 }
 
+// Create options-modal to be toggled
 const modal = nestElements(createElement('div', { class: 'options-modal' }), [
   createElement('a', { href: '/admin', class: 'button modal-btn' }, 'Home'),
   createElement(
@@ -74,6 +71,8 @@ const modal = nestElements(createElement('div', { class: 'options-modal' }), [
   ) 
 ])
 
+// Toggle modal
+let needsModal = false
 const showModal = () => {
   if (!needsModal) {
     searchForOne('#options-toggle').classList.add('active')
@@ -86,6 +85,8 @@ const showModal = () => {
   }
 }
 
+// Filter #search-container for items with partially-matching text
+// Typing '>images [search term here]' will search img tags
 let searchTargets 
 const search = (e) => {
   e.preventDefault()
@@ -115,6 +116,7 @@ const search = (e) => {
   return searchTargets
 }
 
+// Typing '>' first will toggle dropdown options similar to VSCode functionality
 const displaySearchFilters = (e) => {
   const {value} = e.target
   const check = searchForOne('ul.filter-options')
