@@ -1,6 +1,13 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+# driver = 'postgresql+psycopg2://'
+
+# connection_string = connection_string = driver \
+#     + os.environ['RDS_USERNAME'] + ':' + os.environ['RDS_PASSWORD'] \
+#     + '@' + os.environ['RDS_HOSTNAME'] + ':' + os.environ['RDS_PORT'] \
+#     + '/' + os.environ['RDS_DB_NAME']
+
 
 class Config(object):
     DEBUG = False

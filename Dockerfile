@@ -17,7 +17,9 @@ COPY . .
 FROM base AS prod
 ENV FLASK_APP=./server
 ENV FLASK_ENV=production
+ENV PORT=4001
 ENV APP_SETTINGS=config.Config
+EXPOSE 4001
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
 # Dev image using 'flask run' to leverage helpful error msgs and 
@@ -45,8 +47,8 @@ ENV PORT=5000
 ENV SECRET_KEY=FeedMeSeymour
 ENV DATABASE=postgres
 ENV SQL_PORT=5432
-ENV SQL_HOST=db
-ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
+ENV SQL_HOST=elephant.cjjk1fur9ng2.us-west-2.rds.amazonaws.com
+ENV DATABASE_URL=postgresql://tester:password@elephant.cjjk1fur9ng2.us-west-2.rds.amazonaws.com:5432/test
 ENV APP_SETTINGS=config.Config
 EXPOSE 5000
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]

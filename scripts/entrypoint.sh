@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ "$DATABASE" = "postgres" ]; then
+if [ nc -z $DATABASE ] && [ "$DATABASE" = "postgres" ]; then
   echo "Waiting for postgres..."
 
   while ! nc -z $SQL_HOST $SQL_PORT; do
@@ -33,7 +33,7 @@ if [ "$FLASK_ENV" = "staging" ]; then
   groupadd -r mims && useradd -r -g mims mims
   chown -R mims ./
   echo "✅ Non-root user set! ✅"
-  gunicorn -b $FLASK_RUN_HOST:${PORT} 'server:create_app()'
+  gunicorn -b $FLASK_RUN_HOST:$PORT 'server:create_app()'
 fi
 
 if [ "$FLASK_ENV" = "production" ]; then
