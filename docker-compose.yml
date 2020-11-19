@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
       target: prod
     ports:
-      - '443:4001'
+      - '80:4001'
     env_file:
       - .env
     restart: always
