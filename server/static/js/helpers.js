@@ -1,21 +1,3 @@
-/* eslint-disable no-self-assign */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-unused-vars */
-// const htmlToElements = (htmlString) => {
-//   const template = document.createElement('template')
-//   htmlString.trim()
-//   template.innerHTML = htmlString
-//   template.innerHTML.trim()
-//   return template.content.childNodes
-// }
-
-// const htmlToElement = (htmlString) => {
-//   const template = document.createElement('template')
-//   htmlString.trim()
-//   template.innerHTML = htmlString
-//   template.innerHTML.trim()
-//   return template.content.firstChild
-// }
 //= ==========================================================
 // DOM Searching
 //= ==========================================================
@@ -173,109 +155,6 @@ const empty = (parent, callback) => {
 }
 
 //= ==========================================================
-// CSS Transition & Animation
-//= ==========================================================
-
-/**
- * Move one element from one parent to another using an animation to show
- * the action.
- *
- * @param {HTMLElement} node - The node to animate. This only affects the node's insertion into the DOM.
- * @param {Object} props - Other CSS props to animate; translate is handled, but can add extra translates if needed
- * @param {Object} classOptions - The class name and whether to add or remove it
- * @param {HTMLElement} parent - The parent to which the animated node will be appended
- */
-// const animateTo = (node, props, classOptions, parent) => {
-//   const style = getComputedStyle(node)
-//   console.log(style.transform)
-//   const transform = style.transform === '' ? 'none' : style.transform
-//   const from = node.getBoundingClientRect()
-//   const to = parent.getBoundingClientRect()
-//   let correctiveX = 0
-//   let correctiveY = 0
-//   if (parent.lastElementChild && classOptions.change === 'add') {
-//     const lastChild = parent.lastElementChild.getBoundingClientRect()
-//     correctiveX = lastChild.left + lastChild.width
-//   }
-//   if (parent.lastElementChild && classOptions.change === 'remove') {
-//     const lastChild = parent.lastElementChild.getBoundingClientRect()
-//     correctiveY = 35 * parent.children.length - 1
-//   }
-
-//   const player = node.animate(
-//     [
-//       {
-//         transform: `${transform} translate(${-1.0 * dx + correctiveX}px,${
-//           -1.0 * dy + correctiveY
-//         }px)`,
-//         ...props
-//       }
-//     ],
-//     {
-//       duration: 200,
-//       easing: 'linear',
-//       composite: 'replace'
-//     }
-//   )
-
-//   const swapParents = (e) => {
-//     parent.appendChild(node)
-//     if (classOptions.change === 'add') {
-//       node.classList.add(classOptions.className)
-//       node.style.transform = `translate(${correctiveX}px, 0px)`
-//     } else if (classOptions.change === 'remove') {
-//       node.classList.remove(classOptions.className)
-//       node.style.transform = ''
-//       node.style.overflow = 'visible'
-//       node.style.transform = `translate(-3.37px, ${
-//         35 * (parent.children.length - 1)
-//       }px)`
-//     }
-//     console.log('all done')
-//     player.removeEventListener('finish', swapParents, true)
-//   }
-
-//   player.addEventListener('finish', swapParents, true)
-// }
-
-/**
- * Using an animation defined in CSS, give a node a cool entrance.
- * Animation must be defined using ```@keyframes```
- *
- * @param {HTMLElement} node - The node to animate. This only affects the node's insertion into the DOM.
- * @param {String} animator - The class name that references the ```@keyframe``` animation (i.e. a fade-in or slide-in animation)
- * @param {HTMLElement} parent - The parent to which the animated node will be appended
- */
-const animateIn = (node, animator, parent) => {
-  const removeAnimator = () => {
-    node.classList.remove(animator)
-    node.removeEventListener('animationend', removeAnimator)
-  }
-  node.addEventListener('animationend', removeAnimator)
-  node.classList.add(animator)
-  parent.appendChild(node)
-}
-
-/**
- * Using an animation defined in CSS, give a node a grand exit.
- * Animation must be defined using ```@keyframes```
- *
- * Note that this function will use ```node.remove()``` instead of ```someParent.removeChild(node)```
- *
- * @param {HTMLElement} node - The node to animate. This only affects the node's removal from the DOM.
- * @param {String} animator - The class name that references the ```@keyframe``` animation (i.e. a custom fade-out or slide-out animation)
- */
-const animateOut = (node, animator) => {
-  const removeAnimator = () => {
-    node.remove()
-    node.classList.remove(animator)
-    node.removeEventListener('animationend', removeAnimator)
-  }
-  node.classList.add(animator)
-  node.addEventListener('animationend', removeAnimator)
-}
-
-//= ==========================================================
 // Transition
 //= ==========================================================
 const transitionObservers = new Set()
@@ -296,21 +175,12 @@ const transitionObservers = new Set()
  * @param {callback} observerArgs.callback - The callback function to execute when the IntersectionObserver detects changes
  */
 const transition = (direction, node, transitionClass, parent, observerArgs) => {
-  // const fullyOut = (e) => {
-  //   const { width, height } = e.target.getBoundingClientRect()
-  //   if (width === 0 && height === 0) {
-  //     e.target.remove()
-  //   }
-  //   e.target.removeEventListener('transitionend', fullyOut, true)
-  // }
-
   const createObserver = (target, options, callback) => {
     const observer = new IntersectionObserver(callback, options)
     observer.observe(target)
     transitionObservers.add(target)
     return observer
   }
-  // console.log('reg observers before if block', transitionObservers)
 
   /**
    * Append an element to a parent container, attach a class name for its entrance transition, and trigger it to execute by calculating its ```offsetWidth```.
@@ -324,7 +194,6 @@ const transition = (direction, node, transitionClass, parent, observerArgs) => {
    * @param {HTMLElement} p - The parent node to which the node is appended
    */
   const transitionIn = (n, t, p) => {
-    // n.addEventListener('transitionend', fullyOut, true)
     if (p.lastChild === n) {
       n.offsetWidth = n.offsetWidth
       n.classList.add(t)
@@ -346,7 +215,6 @@ const transition = (direction, node, transitionClass, parent, observerArgs) => {
    * @param {String} t - The class name that references the entrance transition used for this node
    */
   const transitionOut = (n, t) => {
-    // n.addEventListener('transitionend', fullyOut, true)
     n.classList.remove(t)
   }
 
@@ -408,4 +276,76 @@ const transition = (direction, node, transitionClass, parent, observerArgs) => {
   transitionOut(node, transitionClass)
   output = 'out'
   return output
+}
+
+//===========================================================
+// Animate => FLIP
+//===========================================================
+
+/**
+ * Move one element from one parent to another using an animation to show
+ * the action.
+ *
+ * @param {HTMLElement} node - The node to animate. This only affects the node's insertion into the DOM.
+ * @param {Object} props - Other CSS props to animate; translate is handled, but can add extra translates if needed
+ * @param {Object} classOptions - The class name and whether to add or remove it
+ * @param {HTMLElement} parent - The parent to which the animated node will be appended
+ */
+const animateTo = (node, props, classOptions, parent) => {
+  const style = getComputedStyle(node)
+  console.log(style.transform)
+  const transform = style.transform === '' ? 'none' : style.transform
+  const from = node.getBoundingClientRect()
+  const to = parent.getBoundingClientRect()
+  let correctiveX = 0
+  let correctiveY = 0
+  if (parent.lastElementChild && classOptions.change === 'add') {
+    const lastChild = parent.lastElementChild.getBoundingClientRect()
+    correctiveX = lastChild.left - to.left + lastChild.width
+  }
+  if (parent.lastElementChild && classOptions.change === 'remove') {
+    const lastChild = parent.lastElementChild.getBoundingClientRect()
+    correctiveY = 35 * parent.children.length - 1
+  }
+
+  const dx = from.left - to.left
+  const dy = from.top - to.top
+  console.log('node rect', from)
+  console.log('parent rect', to)
+  console.log(`dx: ${dx}, dy: ${dy}`)
+
+  const player = node.animate(
+    [
+      {
+        transform: `${transform} translate(${-1.0 * dx + correctiveX}px,${
+          -1.0 * dy + correctiveY
+        }px)`,
+        ...props
+      }
+    ],
+    {
+      duration: 200,
+      easing: 'linear',
+      composite: 'replace'
+    }
+  )
+
+  const swapParents = (e) => {
+    parent.appendChild(node)
+    if (classOptions.change === 'add') {
+      node.classList.add(classOptions.className)
+      node.style.transform = `translate(${correctiveX}px, 0px)`
+    } else if (classOptions.change === 'remove') {
+      node.classList.remove(classOptions.className)
+      node.style.transform = ''
+      node.style.overflow = 'visible'
+      node.style.transform = `translate(-3.37px, ${
+        35 * (parent.children.length - 1)
+      }px)`
+    }
+    console.log('all done')
+    player.removeEventListener('finish', swapParents, true)
+  }
+
+  player.addEventListener('finish', swapParents, true)
 }
