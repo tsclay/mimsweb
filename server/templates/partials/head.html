@@ -59,6 +59,11 @@
     rel="stylesheet"
     href="{{url_for('static', filename='css/styles.settings.css')}}"
   />
+  {% endif %} {% if title == 'Galleries' %}
+  <link
+    rel="stylesheet"
+    href="{{url_for('static', filename='css/styles.galleries.css')}}"
+  />
   {% endif %}
 
   <script src="{{url_for('static', filename='js/helpers.js')}}"></script>
