@@ -243,7 +243,6 @@ const renderContent = async (preResponse = null) => {
     content = preResponse
   }
   empty(contentGrid)
-  console.time('contentLoad')
   content.forEach((c) => {
     const cFragment = fragmentElements([
       createElement(
@@ -297,7 +296,6 @@ const renderContent = async (preResponse = null) => {
     ])
     contentGrid.appendChild(pkgContent)
   })
-  console.timeEnd('contentLoad')
 }
 
 // UPDATE existing content, update data in DOM upon success from server
@@ -308,7 +306,6 @@ const editContent = (e) => {
   } = e.currentTarget.parentElement.parentElement.children
   const { 0: header, 1: paragraph } = content.children
   const { 0: pairedImage } = image.children
-  // console.log('editContent imageRef', pairedImage)
   const editForm = generateEditForm(header, paragraph, pairedImage, e)
 
   const existingForms = searchForAll('.editors > .content-editor')
