@@ -5,6 +5,7 @@
   },
   "plugins": ["prettier"],
   "extends": ["airbnb-base", "prettier"],
+  "files": ["./*.js"],
   "parserOptions": {
     "ecmaVersion": 12
   },
