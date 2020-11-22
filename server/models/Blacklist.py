@@ -1,5 +1,4 @@
 from server.db import db
-from sqlalchemy.dialects.postgresql import JSON
 
 
 class Blacklist(db.Model):

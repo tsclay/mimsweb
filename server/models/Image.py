@@ -12,5 +12,3 @@ class Image(db.Model):
     def __init__(self, image_link, image_name):
         self.image_link = image_link
         self.image_name = image_name
-        # self.header_id = header_id
-        # self.paragraph_id

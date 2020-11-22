@@ -1,5 +1,4 @@
 from server.db import db
-from sqlalchemy.dialects.postgresql import JSON
 
 
 class Header(db.Model):
@@ -18,8 +17,6 @@ class Header(db.Model):
 
     def __init__(self, header_text):
         self.header_text = header_text
-        # self.image_id = image_id
-        # self.paragraph_id = paragraph_id
 
     def __repr__(self):
         return f'<Header {self.id}, {self.header_text}><Paragraph {self.h_paragraph.id}, {self.h_paragraph.paragraph_text}><Image {self.h_image.id}, {self.h_image.image_name}, {self.h_image.image_link}>'
