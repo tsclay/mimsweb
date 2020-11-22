@@ -53,6 +53,11 @@ const modal = nestElements(createElement('div', { class: 'options-modal' }), [
   ),
   createElement(
     'a',
+    { href: '/admin/galleries', class: 'button modal-btn' },
+    'Galleries'
+  ),
+  createElement(
+    'a',
     { href: '/admin/blacklist', class: 'button modal-btn' },
     'Blacklist'
   ),
