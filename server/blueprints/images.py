@@ -42,7 +42,7 @@ def handle_images():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
 
-    return render_template('images.html', user=session["username"], title='Images')
+    return render_template('images.html', user=session["username"], role=session["role"], title='Images')
 
 
 @images.route('/create', methods=["POST"])

@@ -10,13 +10,6 @@ from sqlalchemy.sql.operators import is_
 content = Blueprint('content', __name__, template_folder='templates')
 
 
-# @content.before_request
-# def before_request():
-#     if not request.is_secure and os.environ["FLASK_ENV"] != "development":
-#         url = request.url.replace("http://", "https://", 1)
-#         code = 301
-#         return redirect(url, code=code)
-
 def read():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
@@ -51,7 +44,7 @@ def render():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
 
-    return render_template('content.html', user=session["username"], title="Content")
+    return render_template('content.html', user=session["username"], role=session["role"], title="Content")
 
 
 @content.route('/all', methods=["GET", "DELETE"])

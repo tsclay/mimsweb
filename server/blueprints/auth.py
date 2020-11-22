@@ -11,7 +11,7 @@ def home():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
 
-    return render_template('home.html', user=session["username"], title='Home')
+    return render_template('home.html', user=session["username"], role=session["role"], title='Home')
 
 
 @auth.route('/login', methods=["GET", "POST"])
@@ -27,6 +27,7 @@ def login():
         return redirect(url_for('auth.login'))
     elif username == found_user.username and password == found_user.password:
         session["username"] = request.form["username"]
+        session["role"] = found_user.role
         found_user.active = True
         db.session.add(found_user)
         db.session.commit()
@@ -46,4 +47,5 @@ def logout():
     db.session.add(found_user)
     db.session.commit()
     session.pop('username', None)
+    session.pop('role', None)
     return json.dumps({"message": 'Logout successful'})

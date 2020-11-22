@@ -8,4 +8,4 @@ def show_page():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
 
-    return render_template('blacklist.html', user=session['username'], title='Blacklist')
+    return render_template('blacklist.html', user=session["username"], role=session["role"], title='Blacklist')
