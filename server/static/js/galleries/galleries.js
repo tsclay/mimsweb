@@ -232,7 +232,7 @@ const selectThisContent = (e) => {
 // Fetch content data on page load and insert into DOM
 // On refreshes and revisits, use the cached content for quicker load
 // After CREATE, re-render the content and re-cache
-const renderContent = async (preResponse = null) => {
+const renderGalleries = async (preResponse = null) => {
   let content = null
   nestElements(searchForOne('.content-grid'), [loadingSpinner])
   if (preResponse === null) {

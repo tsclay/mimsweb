@@ -1,5 +1,4 @@
 const generateCreateForm = () => {
-  const thisImageDropdown = generateImageDropdown()
   const exitBtn = createElement(
     'button',
     {
@@ -49,29 +48,43 @@ const generateCreateForm = () => {
         cols: 30,
         rows: 10
       }),
-      thisImageDropdown,
+      createElement(
+        'div',
+        {
+          class: 'img-modal-activator',
+          onclick: 'generateImageModal(event)'
+        },
+        'Toggle Modal'
+      ),
       createElement('button', { type: 'submit' }, 'Create')
     ]
   )
 
   // CREATE new content, send to server to store in db, and re-render content
-  const createNewContent = async (e) => {
+  const createNewGallery = async (e) => {
     e.preventDefault()
-    const { 1: h, 2: p, 3: i } = e.target.children
-    const headerText = h.value
-    const contentBody = p.value
-    const imageRef = i.dataset.imageId
-    const response = await fetch('/admin/content/create', {
-      method: 'POST',
-      body: JSON.stringify({
-        header_text: headerText,
-        paragraph_text: contentBody,
-        image_id: parseInt(imageRef)
-      }),
-      headers: { 'Content-Type': 'application/json' }
-    })
-    const json = await response.json()
-    renderContent(json)
+    const { 1: header, 2: paragraph } = e.target.children
+
+    console.log(
+      JSON.stringify({
+        header_text: header.value,
+        paragraph_text: paragraph.value,
+        images: [...gallery.keys()]
+      })
+    )
+
+    // const response = await fetch('/admin/galleries/create', {
+    //   method: 'POST',
+    //   body: JSON.stringify({
+    //     header_text: header.value,
+    //     paragraph_text: paragraph.value,
+    //     images: [...gallery.keys()]
+    //   }),
+    //   headers: { 'Content-Type': 'application/json' }
+    // })
+    // const json = await response.json()
+    // console.log(json)
+    // renderGalleries(json)
     exitBtn.click()
   }
 
@@ -187,7 +200,7 @@ const generateCreateForm = () => {
 
   exitBtn.addEventListener('click', handleExit)
   minimizeBtn.addEventListener('click', handleMinimize)
-  createForm.addEventListener('submit', createNewContent)
+  createForm.addEventListener('submit', createNewGallery)
 
   return createForm
 }
