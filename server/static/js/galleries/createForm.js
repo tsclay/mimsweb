@@ -64,26 +64,17 @@ const generateCreateForm = () => {
   const createNewGallery = async (e) => {
     e.preventDefault()
     const { 1: header, 2: paragraph } = e.target.children
-
-    console.log(
-      JSON.stringify({
-        header_text: header.value,
-        paragraph_text: paragraph.value,
+    const response = await fetch('/admin/galleries/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        gallery_name: header.value,
+        description: paragraph.value,
         images: [...gallery.keys()]
-      })
-    )
-
-    // const response = await fetch('/admin/galleries/create', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     header_text: header.value,
-    //     paragraph_text: paragraph.value,
-    //     images: [...gallery.keys()]
-    //   }),
-    //   headers: { 'Content-Type': 'application/json' }
-    // })
-    // const json = await response.json()
-    // console.log(json)
+      }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    const json = await response.json()
+    console.log(json)
     // renderGalleries(json)
     exitBtn.click()
   }
