@@ -5,7 +5,9 @@ GLOBAL
   --light: rgb(212, 212, 212);
   --gray: rgb(104, 104, 104);
   --primary: rgb(97, 97, 250);
-  --selected: rgba(150, 255, 255, 0.61);
+  --selected: rgba(60, 244, 244, 0.61);
+  --bubble: rgb(60, 244, 244);
+  /* --selected: rgba(150, 255, 255, 0.61); */
   --toolbars: #f9d083;
   --pretty: rgb(186, 186, 255);
 }
