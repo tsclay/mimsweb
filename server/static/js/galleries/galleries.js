@@ -1,4 +1,4 @@
-const contentGrid = searchForOne('div.content-grid')
+const galleryGrid = searchForOne('div.gallery-grid')
 let multiSelectMode = false
 const styleEl = createElement('style')
 nestElements(document.head, [styleEl])
@@ -232,69 +232,25 @@ const selectThisContent = (e) => {
 // Fetch content data on page load and insert into DOM
 // On refreshes and revisits, use the cached content for quicker load
 // After CREATE, re-render the content and re-cache
-const renderGalleries = async (preResponse = null) => {
-  let content = null
-  nestElements(searchForOne('.content-grid'), [loadingSpinner])
-  if (preResponse === null) {
-    const response = await fetch('/admin/content/all')
-    const json = await response.json()
-    content = json
-  } else {
-    content = preResponse
-  }
-  empty(contentGrid)
-  content.forEach((c) => {
+const renderGalleries = async () => {
+  const loading = loadingSpinner.cloneNode(true)
+  nestElements(searchForOne('.gallery-grid'), [loading])
+  const response = await fetch('/admin/galleries/read')
+  const galleries = await response.json()
+  empty(galleryGrid)
+  galleries.forEach((c) => {
     const cFragment = fragmentElements([
       createElement(
         'h2',
         {
           'data-id': c.id
         },
-        c.header_text
+        c.gallery_name
       ),
-      createElement(
-        'p',
-        {
-          'data-id': c.paragraph_id
-        },
-        c.paragraph_text
-      )
+      createElement('p', null, c.description)
     ])
-
-    const renderedContent = nestElements(
-      createElement('div', {
-        id: `content${c.id}`,
-        'data-image-pair': c.image_id,
-        class: 'rendered-content'
-      }),
-      [cFragment]
-    )
-
-    const renderedImage = nestElements(
-      createElement('div', {
-        class: 'rendered-image'
-      }),
-      [
-        createElement('img', {
-          src: c.image_link,
-          alt: c.image_name,
-          'data-id': c.image_id,
-          'data-content-ref': `content${c.id}`
-        })
-      ]
-    )
-
-    const pkgContent = fragmentElements([
-      nestElements(
-        createElement('div', {
-          class: 'rendered-block',
-          onclick: 'selectThisContent(event)',
-          'data-content-id': c.id
-        }),
-        [renderedContent, renderedImage]
-      )
-    ])
-    contentGrid.appendChild(pkgContent)
+    // TODO
+    // - Construct markup for galleries
   })
 }
 
