@@ -17,7 +17,7 @@ def create_app():
     from server.blueprints.blacklist import blacklist
     from server.blueprints.settings import settings
     from server.blueprints.email_service import email_service
-    from server.blueprints.galleries import galleries
+    from server.blueprints.gallery import galleries
 
     server.register_blueprint(auth, url_prefix="/admin")
     server.register_blueprint(images, url_prefix='/admin/assets')

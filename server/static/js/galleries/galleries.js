@@ -238,6 +238,7 @@ const renderGalleries = async () => {
   const response = await fetch('/admin/galleries/read')
   const galleries = await response.json()
   empty(galleryGrid)
+  const galleryRow = createElement('div', { class: 'gallery-row' })
   galleries.forEach((c) => {
     const cFragment = fragmentElements([
       createElement(
@@ -247,7 +248,8 @@ const renderGalleries = async () => {
         },
         c.gallery_name
       ),
-      createElement('p', null, c.description)
+      createElement('p', null, c.description),
+      galleryRow
     ])
     // TODO
     // - Construct markup for galleries

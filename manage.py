@@ -5,7 +5,8 @@ from server.models.Admin import Admin
 from server.models.Header import Header
 from server.models.Image import Image
 from server.models.Paragraph import Paragraph
-from server.models.Gallery import Gallery
+from server.models.Gallery_Info import Gallery_Info
+from server.models.Galleries import Galleries
 from server.models.Role import Role
 
 cli = FlaskGroup(server)
