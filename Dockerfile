@@ -8,9 +8,9 @@ RUN echo "deb https://deb.nodesource.com/node_14.x buster main\ndeb-src https://
 RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/node_14.x | apt-get install -y nodejs
 RUN pip install --upgrade pip
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+# COPY requirements.txt requirements.txt
 COPY . .
+RUN pip install -r requirements.txt
 
 # Production image using Gunicorn
 # SECRET_KEY and DATABASE_URL defined in Heroku
