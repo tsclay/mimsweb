@@ -69,7 +69,9 @@ const generateCreateForm = () => {
       body: JSON.stringify({
         gallery_name: header.value,
         description: paragraph.value,
-        images: [...gallery.keys()]
+        images: [...gallery.values()].map(
+          (g) => g.src.match(/(?=\/static\/).+/)[0]
+        )
       }),
       headers: { 'Content-Type': 'application/json' }
     })
