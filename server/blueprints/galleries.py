@@ -16,6 +16,11 @@ def handle_images():
     return render_template('galleries.html', user=session["username"], role=session["role"], title='Galleries')
 
 
+@galleries.route('/read', methods=["GET"])
+def get_galleries():
+    pass
+
+
 @galleries.route('/create', methods=["POST"])
 def create_gallery():
     if 'username' not in session:
@@ -39,7 +44,8 @@ def create_gallery():
             "id": row.id,
             "gallery_name": gallery_name,
             "description": description,
-            "images": images
+            "images": images,
+            "last_updated_by": row.last_updated_by
         }
 
         r_dict.append(item)
