@@ -48,10 +48,15 @@ def create_gallery():
     gallery_json = {"gallery_name": results[0].gallery_info.gallery_name,
                     "description": results[0].gallery_info.description,
                     "last_updated_by": results[0].gallery_info.last_updated_by,
+                    "last_updated": results[0].gallery_info.last_updated,
                     "images": []}
 
     for row in results:
         image = row.gallery_image.image_link
         gallery_json['images'].append(image)
 
-    return json.dumps(gallery_json, indent=2)
+    def default(obj):
+        if isinstance(obj, (datetime.date, datetime.datetime)):
+            return obj.isoformat()
+
+    return json.dumps(gallery_json, indent=2, default=default)
