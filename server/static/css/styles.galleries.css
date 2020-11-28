@@ -127,18 +127,18 @@ button > svg {
   align-items: center;
 }
 
-input[name="headerText"],
-input[name="edit-header"] {
+input[name='headerText'],
+input[name='edit-header'] {
   margin: 2.6rem 2.25rem 0.5rem 2.25rem;
 }
 
 .content-editor > textarea,
 .content-editor > .select.new-image-ref,
-textarea[name="edit-body"] {
+textarea[name='edit-body'] {
   margin: 0.5rem 2.25rem;
 }
 
-.content-editor > button[type="submit"] {
+.content-editor > button[type='submit'] {
   margin: 0.5rem 2.25rem 2.25rem 2.25rem;
 }
 
@@ -159,7 +159,7 @@ textarea[name="edit-body"] {
   flex-flow: column nowrap;
 }
 
-.content-grid {
+.gallery-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
@@ -369,4 +369,9 @@ textarea[name="edit-body"] {
   background: var(--toolbars);
   padding: 8px;
   box-sizing: border-box;
+}
+
+.gallery-img {
+  width: 150px;
+  height: 150px;
 }
