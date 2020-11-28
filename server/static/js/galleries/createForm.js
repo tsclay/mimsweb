@@ -1,4 +1,11 @@
 const generateCreateForm = () => {
+  /*
+   * ************************************************
+   *
+   * Elements
+   *
+   * ************************************************
+   */
   const exitBtn = createElement(
     'button',
     {
@@ -60,6 +67,13 @@ const generateCreateForm = () => {
     ]
   )
 
+  /*
+   * ************************************************
+   *
+   * Methods
+   *
+   * ************************************************
+   */
   // CREATE new content, send to server to store in db, and re-render content
   const createNewGallery = async (e) => {
     e.preventDefault()
@@ -74,8 +88,7 @@ const generateCreateForm = () => {
       headers: { 'Content-Type': 'application/json' }
     })
     const json = await response.json()
-    console.log(json)
-    // renderGalleries(json)
+    renderGalleries(json)
     exitBtn.click()
   }
 
@@ -189,6 +202,13 @@ const generateCreateForm = () => {
     }
   }
 
+  /*
+   * ************************************************
+   *
+   * Register listeners
+   *
+   * ************************************************
+   */
   exitBtn.addEventListener('click', handleExit)
   minimizeBtn.addEventListener('click', handleMinimize)
   createForm.addEventListener('submit', createNewGallery)
