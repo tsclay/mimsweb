@@ -16,6 +16,9 @@ def fetch_galleries():
     results = Galleries.query.outerjoin(Gallery_Info, Gallery_Info.id == Galleries.info_id).outerjoin(
         Image, Image.id == Galleries.image_id).order_by(Galleries.id).all()
 
+    if len(results) == 0:
+        return json.dumps({"message": "No galleries! Get started by creating one!"})
+
 # Loop thru all rows, need to diff by galleries.id becuase ALL images are returned
     marker = results[0].info_id
     end_of_results = results[-1].id
@@ -86,4 +89,26 @@ def create_gallery():
     db.session.add(new_gallery_info)
     db.session.commit()
 
+    return fetch_galleries()
+
+
+@ galleries.route('/update', methods=["PUT"])
+def update_gallery():
+
+    return fetch_galleries()
+
+
+@ galleries.route('/delete', methods=["DELETE"])
+def delete_gallery():
+    if 'username' not in session:
+        return redirect(url_for('auth.login'))
+
+    data = request.get_json()
+    gallery_to_delete = Galleries.query.filter_by(
+        info_id=data["gallery_id"]).all()
+
+    for image in gallery_to_delete:
+        db.session.delete(image)
+
+    db.session.commit()
     return fetch_galleries()

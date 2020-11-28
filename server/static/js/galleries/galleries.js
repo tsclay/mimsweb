@@ -53,21 +53,21 @@ const selectThisContent = (e) => {
   parentDiv.querySelectorAll('.selected').forEach((d) => {
     if (d !== div) {
       d.classList.toggle('selected')
-      d.querySelector('div.rendered-block.btn-group').remove()
+      d.querySelector('div.rendered-gallery.btn-group').remove()
     }
   })
   div.classList.toggle('selected')
   if (div.classList[div.classList.length - 1] === 'selected') {
     const controls = fragmentElements([
       nestElements(
-        createElement('div', { class: 'rendered-block btn-group' }),
+        createElement('div', { class: 'rendered-gallery btn-group' }),
         [
           createElement(
             'button',
             {
               type: 'button',
-              value: `content${div.dataset.contentId}`,
-              onclick: 'editContent(event)'
+              value: div.dataset.galleryId,
+              onclick: 'editGallery(event)'
             },
             'Edit'
           ),
@@ -75,8 +75,8 @@ const selectThisContent = (e) => {
             createElement('button', {
               type: 'button',
               class: 'delete-button',
-              value: div.dataset.contentId,
-              onclick: 'deleteContent(event)'
+              value: div.dataset.galleryId,
+              onclick: 'deleteGallery(event)'
             }),
             [
               nestElements(
@@ -225,7 +225,7 @@ const selectThisContent = (e) => {
     ])
     div.prepend(controls)
   } else {
-    div.querySelector('div.rendered-block.btn-group').remove()
+    div.querySelector('div.rendered-gallery.btn-group').remove()
   }
 }
 
@@ -234,24 +234,20 @@ const selectThisContent = (e) => {
 // After CREATE, re-render the content and re-cache
 const renderGalleries = async (fetchedGalleries = null) => {
   let galleries
-  nestElements(galleryGrid, [loadingSpinner.cloneNode(true)])
+  empty(galleryGrid)
+  const loader = loadingSpinner.cloneNode(true)
+  nestElements(galleryGrid, [loader])
   if (fetchedGalleries) {
     galleries = fetchedGalleries
   } else {
     const response = await fetch('/admin/galleries/read')
     galleries = await response.json()
   }
-  empty(galleryGrid)
+  loader.remove()
   galleries.forEach((c) => {
     const galleryRow = createElement('div', { class: 'gallery-row' })
     const galleryFragment = fragmentElements([
-      createElement(
-        'h2',
-        {
-          'data-id': c.id
-        },
-        c.gallery_name
-      ),
+      createElement('h2', null, c.gallery_name),
       createElement('p', null, c.description),
       galleryRow
     ])
@@ -264,22 +260,25 @@ const renderGalleries = async (fetchedGalleries = null) => {
       nestElements(galleryRow, [galleryImg])
     })
     const renderedGallery = nestElements(
-      createElement('div', { class: 'rendered-gallery' }),
+      createElement('div', {
+        class: 'rendered-gallery',
+        'data-gallery-id': c.id
+      }),
       [galleryFragment]
     )
+    renderedGallery.addEventListener('click', selectThisContent)
     nestElements(galleryGrid, [renderedGallery])
   })
 }
 
 // UPDATE existing content, update data in DOM upon success from server
-const editContent = (e) => {
+const editGallery = (e) => {
   const {
-    1: content,
-    2: image
+    1: galleryName,
+    2: galleryDetails,
+    3: galleryRow
   } = e.currentTarget.parentElement.parentElement.children
-  const { 0: header, 1: paragraph } = content.children
-  const { 0: pairedImage } = image.children
-  const editForm = generateEditForm(header, paragraph, pairedImage, e)
+  const editForm = generateEditForm(galleryName, galleryDetails, galleryRow, e)
 
   const existingForms = searchForAll('.editors > .content-editor')
   activeForms = existingForms.length
@@ -298,20 +297,20 @@ const editContent = (e) => {
   return formCount
 }
 
-const deleteContent = async (e) => {
+const deleteGallery = async (e) => {
   const request = {
     method: 'DELETE',
     body: JSON.stringify({
-      header_id: parseInt(e.currentTarget.value),
-      delete_content: true
+      gallery_id: parseInt(e.currentTarget.value),
+      delete_gallery: true
     }),
     headers: {
       'Content-Type': 'application/json'
     }
   }
-  const response = await fetch('/admin/content/delete', request)
+  const response = await fetch('/admin/galleries/delete', request)
   const json = await response.json()
-  renderContent(json)
+  renderGalleries(json)
 }
 
 const selectQueue = new Set()
@@ -333,7 +332,7 @@ const addToSelectQueue = (e) => {
 
 const selectAllMode = () => {
   if (!multiSelectMode) {
-    const allContentRows = searchForAll('.rendered-block')
+    const allContentRows = searchForAll('.rendered-gallery')
     allContentRows.forEach((r) => {
       const selectBox = nestElements(
         createElement('div', {

@@ -8,7 +8,7 @@
  * @param {HTMLElement} paragraph - The paragraph text for selected content to edit
  * @param {HTMLElement} image - The paired image to update
  */
-const generateEditForm = (header, paragraph, image, e) => {
+const generateEditForm = (name, details, row, e) => {
   const exitBtn = createElement(
     'button',
     {
@@ -32,7 +32,7 @@ const generateEditForm = (header, paragraph, image, e) => {
     {
       class: 'box-title'
     },
-    header.innerText
+    name.innerText
   )
 
   const titleBar = nestElements(createElement('div', { class: 'title-bar' }), [
@@ -44,11 +44,11 @@ const generateEditForm = (header, paragraph, image, e) => {
   const textArea = createElement('textarea', {
     cols: 30,
     rows: 10,
-    'data-id': paragraph.getAttribute('data-id'),
+    'data-id': row.getAttribute('data-id'),
     name: 'edit-body'
   })
 
-  textArea.value = paragraph.innerText
+  textArea.value = details.innerText
 
   const editForm = nestElements(
     createElement('form', {
@@ -59,11 +59,15 @@ const generateEditForm = (header, paragraph, image, e) => {
       createElement('input', {
         name: 'edit-header',
         type: 'text',
-        'data-id': header.getAttribute('data-id'),
-        value: header.innerText
+        'data-id': name.getAttribute('data-id'),
+        value: name.innerText
       }),
       textArea,
-      generateImageDropdown(image),
+      createElement(
+        'div',
+        { onclick: 'generateImageModal(event)' },
+        'Toggle Modal'
+      ),
       createElement(
         'button',
         { type: 'submit', value: e.target.value[e.target.value.length - 1] },
