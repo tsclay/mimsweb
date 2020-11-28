@@ -232,15 +232,19 @@ const selectThisContent = (e) => {
 // Fetch content data on page load and insert into DOM
 // On refreshes and revisits, use the cached content for quicker load
 // After CREATE, re-render the content and re-cache
-const renderGalleries = async () => {
-  const loading = loadingSpinner.cloneNode(true)
-  nestElements(searchForOne('.gallery-grid'), [loading])
-  const response = await fetch('/admin/galleries/read')
-  const galleries = await response.json()
+const renderGalleries = async (fetchedGalleries = null) => {
+  let galleries
+  nestElements(galleryGrid, [loadingSpinner.cloneNode(true)])
+  if (fetchedGalleries) {
+    galleries = fetchedGalleries
+  } else {
+    const response = await fetch('/admin/galleries/read')
+    galleries = await response.json()
+  }
   empty(galleryGrid)
-  const galleryRow = createElement('div', { class: 'gallery-row' })
   galleries.forEach((c) => {
-    const cFragment = fragmentElements([
+    const galleryRow = createElement('div', { class: 'gallery-row' })
+    const galleryFragment = fragmentElements([
       createElement(
         'h2',
         {
@@ -251,8 +255,19 @@ const renderGalleries = async () => {
       createElement('p', null, c.description),
       galleryRow
     ])
-    // TODO
-    // - Construct markup for galleries
+    c.images.forEach((i) => {
+      const galleryImg = createElement('img', {
+        class: 'gallery-img',
+        alt: i.alt,
+        src: i.src
+      })
+      nestElements(galleryRow, [galleryImg])
+    })
+    const renderedGallery = nestElements(
+      createElement('div', { class: 'rendered-gallery' }),
+      [galleryFragment]
+    )
+    nestElements(galleryGrid, [renderedGallery])
   })
 }
 
@@ -346,3 +361,5 @@ const selectAllMode = () => {
   showMenu()
   return multiSelectMode
 }
+
+renderGalleries()
