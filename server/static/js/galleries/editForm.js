@@ -109,11 +109,6 @@ const generateEditForm = (name, details, row, e) => {
     const response = await fetch('/admin/galleries/update', request)
     const updated = await response.json()
     renderGalleries(updated)
-    // header.innerText = updated.header_text
-    // paragraph.innerText = updated.paragraph_text
-    // image.src = updated.image_link
-    // image.alt = updated.image_name
-    // image.setAttribute('data-id', updated.image_id)
     exit.click()
   }
 

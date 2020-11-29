@@ -38,7 +38,9 @@ const showContentEditor = (e) => {
     searchForOne('.editors')
   )
   formCount += 1
-  showMenu()
+  if (e.currentTarget === searchForOne('button.create-button')) {
+    showMenu()
+  }
   return formCount
 }
 
@@ -272,10 +274,21 @@ const renderGalleries = async (fetchedGalleries = null) => {
       nestElements(galleryGrid, [renderedGallery])
     })
   } else {
-    const noGalleries = createElement(
-      'div',
-      { class: 'message' },
-      galleries.message
+    const noGalleries = nestElements(
+      createElement('div', { class: 'message' }),
+      [
+        createElement('p', { class: 'message-text' }, 'No galleries!'),
+        createElement(
+          'p',
+          { class: 'message-text' },
+          'Get started by creating a gallery!'
+        ),
+        createElement(
+          'a',
+          { class: 'message-link', onclick: 'showContentEditor(event)' },
+          'Create a new gallery'
+        )
+      ]
     )
     nestElements(galleryGrid, [noGalleries])
   }

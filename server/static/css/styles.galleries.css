@@ -127,18 +127,18 @@ button > svg {
   align-items: center;
 }
 
-input[name='headerText'],
-input[name='edit-header'] {
+input[name="headerText"],
+input[name="edit-header"] {
   margin: 2.6rem 2.25rem 0.5rem 2.25rem;
 }
 
 .content-editor > textarea,
 .content-editor > .select.new-image-ref,
-textarea[name='edit-body'] {
+textarea[name="edit-body"] {
   margin: 0.5rem 2.25rem;
 }
 
-.content-editor > button[type='submit'] {
+.content-editor > button[type="submit"] {
   margin: 0.5rem 2.25rem 2.25rem 2.25rem;
 }
 
@@ -370,4 +370,20 @@ textarea[name='edit-body'] {
 .gallery-img {
   width: 150px;
   height: 150px;
+}
+
+.message {
+  border: 1px solid var(--primary);
+  padding: 5rem;
+  box-sizing: border-box;
+  border-radius: 4px;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(50%, 100%);
+  width: 50%;
 }
