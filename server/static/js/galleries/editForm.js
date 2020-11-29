@@ -75,6 +75,7 @@ const generateEditForm = (name, details, row, e) => {
       createElement(
         'div',
         {
+          class: 'img-modal-activator',
           'data-gallery-ref': row.parentElement.dataset.galleryId,
           onclick: 'generateImageModal(event, true)'
         },

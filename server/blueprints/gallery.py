@@ -96,7 +96,11 @@ def create_gallery():
 @ galleries.route('/update', methods=["PUT"])
 def update_gallery():
 
-    return fetch_galleries()
+    data = request.get_json()
+    gallery_to_update = Galleries.query.filter_by(info_id=data["id"]).outerjoin(Gallery_Info, Gallery_Info.id == Galleries.info_id).outerjoin(
+        Image, Image.id == Galleries.image_id).order_by(Galleries.id).all()
+
+    return json.dumps(gallery_to_update)
 
 
 @ galleries.route('/delete', methods=["DELETE"])
