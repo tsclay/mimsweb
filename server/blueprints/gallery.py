@@ -43,10 +43,11 @@ def fetch_galleries():
                             "images": []}
             marker = row.info_id
 
+        image_id = row.gallery_image.id
         image_link = row.gallery_image.image_link
         image_name = row.gallery_image.image_name
         gallery_json['images'].append(
-            {"alt": image_name, "src": image_link})
+            {"id": image_id, "alt": image_name, "src": image_link})
         # Append the last gallery after adding the last image to it
         if row.id == end_of_results:
             all_galleries.append(gallery_json)
