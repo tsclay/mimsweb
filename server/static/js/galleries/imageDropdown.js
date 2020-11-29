@@ -1,7 +1,8 @@
 const gallery = new Map()
 
-const generateImageModal = (e) => {
+const generateImageModal = (e, editing = false) => {
   const parentForm = e.target.parentElement
+  console.log(parentForm.dataset)
 
   const loading = loadingSpinner.cloneNode(true)
 
@@ -122,8 +123,10 @@ const generateImageModal = (e) => {
 
   const cancelProcess = (e) => {
     const thisGallerySelector = e.currentTarget.closest('.multi-select-img')
-    gallery.clear()
     thisGallerySelector.remove()
+    if (!editing) {
+      gallery.clear()
+    }
   }
 
   const toggleInstructions = (e) => {

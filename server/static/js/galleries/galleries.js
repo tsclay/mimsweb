@@ -237,38 +237,48 @@ const renderGalleries = async (fetchedGalleries = null) => {
   empty(galleryGrid)
   const loader = loadingSpinner.cloneNode(true)
   nestElements(galleryGrid, [loader])
-  if (fetchedGalleries) {
+  if (fetchedGalleries && fetchedGalleries.length > 0) {
     galleries = fetchedGalleries
   } else {
     const response = await fetch('/admin/galleries/read')
     galleries = await response.json()
   }
   loader.remove()
-  galleries.forEach((c) => {
-    const galleryRow = createElement('div', { class: 'gallery-row' })
-    const galleryFragment = fragmentElements([
-      createElement('h2', null, c.gallery_name),
-      createElement('p', null, c.description),
-      galleryRow
-    ])
-    c.images.forEach((i) => {
-      const galleryImg = createElement('img', {
-        class: 'gallery-img',
-        alt: i.alt,
-        src: i.src
+  if (galleries.length > 0) {
+    galleries.forEach((c) => {
+      const galleryRow = createElement('div', { class: 'gallery-row' })
+      const galleryFragment = fragmentElements([
+        createElement('h2', null, c.gallery_name),
+        createElement('p', null, c.description),
+        galleryRow
+      ])
+      c.images.forEach((i) => {
+        const galleryImg = createElement('img', {
+          'data-image-id': i.id,
+          class: 'gallery-img',
+          alt: i.alt,
+          src: i.src
+        })
+        nestElements(galleryRow, [galleryImg])
       })
-      nestElements(galleryRow, [galleryImg])
+      const renderedGallery = nestElements(
+        createElement('div', {
+          class: 'rendered-gallery',
+          'data-gallery-id': c.id
+        }),
+        [galleryFragment]
+      )
+      renderedGallery.addEventListener('click', selectThisContent)
+      nestElements(galleryGrid, [renderedGallery])
     })
-    const renderedGallery = nestElements(
-      createElement('div', {
-        class: 'rendered-gallery',
-        'data-gallery-id': c.id
-      }),
-      [galleryFragment]
+  } else {
+    const noGalleries = createElement(
+      'div',
+      { class: 'message' },
+      galleries.message
     )
-    renderedGallery.addEventListener('click', selectThisContent)
-    nestElements(galleryGrid, [renderedGallery])
-  })
+    nestElements(galleryGrid, [noGalleries])
+  }
 }
 
 // UPDATE existing content, update data in DOM upon success from server

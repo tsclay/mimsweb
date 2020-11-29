@@ -44,11 +44,20 @@ const generateEditForm = (name, details, row, e) => {
   const textArea = createElement('textarea', {
     cols: 30,
     rows: 10,
-    'data-id': row.getAttribute('data-id'),
+    'data-id': row.dataset.galleryId,
     name: 'edit-body'
   })
 
   textArea.value = details.innerText
+  console.log(row.childNodes)
+  row.childNodes.forEach((r, i) => {
+    gallery.set(r.dataset.imageId, {
+      image_id: r.dataset.imageId,
+      alt: r.alt,
+      src: r.src,
+      css_selector: `img[data-id="${r.dataset.imageId}"]`
+    })
+  })
 
   const editForm = nestElements(
     createElement('form', {
@@ -59,13 +68,16 @@ const generateEditForm = (name, details, row, e) => {
       createElement('input', {
         name: 'edit-header',
         type: 'text',
-        'data-id': name.getAttribute('data-id'),
+        'data-id': row.parentElement.dataset.galleryId,
         value: name.innerText
       }),
       textArea,
       createElement(
         'div',
-        { onclick: 'generateImageModal(event)' },
+        {
+          'data-gallery-ref': row.parentElement.dataset.galleryId,
+          onclick: 'generateImageModal(event, true)'
+        },
         'Toggle Modal'
       ),
       createElement(
