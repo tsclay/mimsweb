@@ -44,12 +44,12 @@ const generateEditForm = (name, details, row, e) => {
   const textArea = createElement('textarea', {
     cols: 30,
     rows: 10,
-    'data-id': row.dataset.galleryId,
+    'data-id': row.parentElement.dataset.galleryId,
     name: 'edit-body'
   })
 
   textArea.value = details.innerText
-  console.log(row.childNodes)
+
   row.childNodes.forEach((r, i) => {
     gallery.set(r.dataset.imageId, {
       image_id: r.dataset.imageId,
@@ -106,13 +106,14 @@ const generateEditForm = (name, details, row, e) => {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch('/admin/content/update', request)
+    const response = await fetch('/admin/galleries/update', request)
     const updated = await response.json()
-    header.innerText = updated.header_text
-    paragraph.innerText = updated.paragraph_text
-    image.src = updated.image_link
-    image.alt = updated.image_name
-    image.setAttribute('data-id', updated.image_id)
+    renderGalleries(updated)
+    // header.innerText = updated.header_text
+    // paragraph.innerText = updated.paragraph_text
+    // image.src = updated.image_link
+    // image.alt = updated.image_name
+    // image.setAttribute('data-id', updated.image_id)
     exit.click()
   }
 
