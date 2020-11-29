@@ -91,16 +91,15 @@ const generateEditForm = (name, details, row, e) => {
   const updateContent = async (e) => {
     e.preventDefault()
     console.log(e.target.children)
-    const { 0: titleBar, 1: h, 2: p, 3: selectedImage } = e.target.children
+    const { 0: titleBar, 1: h, 2: p } = e.target.children
     const { 2: exit } = titleBar.children
     const request = {
       method: 'PUT',
       body: JSON.stringify({
-        header_text: h.value,
-        paragraph_text: p.value,
-        image_id: parseInt(selectedImage.dataset.imageId),
-        paragraph_id: parseInt(h.dataset.id),
-        header_id: parseInt(p.dataset.id)
+        id: h.dataset.id,
+        gallery_name: h.value,
+        description: p.value,
+        images: [...gallery.keys()]
       }),
       headers: {
         'Content-Type': 'application/json'
