@@ -97,10 +97,26 @@ def create_gallery():
 def update_gallery():
 
     data = request.get_json()
-    gallery_to_update = Galleries.query.filter_by(info_id=data["id"]).outerjoin(Gallery_Info, Gallery_Info.id == Galleries.info_id).outerjoin(
-        Image, Image.id == Galleries.image_id).order_by(Galleries.id).all()
+    images_to_update = Galleries.query.filter_by(
+        info_id=data["id"]).order_by(Galleries.id).all()
+    info_to_update = Gallery_Info.query.filter_by(id=data["id"]).first()
 
-    return json.dumps(gallery_to_update)
+    info_to_update.gallery_name = data["gallery_name"]
+    info_to_update.description = data["description"]
+    info_to_update.last_updated_by = session["username"]
+    info_to_update.last_updated = datetime.datetime.now()
+
+    for i in range(len(images_to_update)):
+        if i < len(data["images"]):
+            images_to_update[i].image_id = data["images"][i]
+            db.session.add(images_to_update[i])
+        else:
+            db.session.delete(images_to_update[i])
+
+    db.session.add(info_to_update)
+    db.session.commit()
+
+    return fetch_galleries()
 
 
 @ galleries.route('/delete', methods=["DELETE"])
