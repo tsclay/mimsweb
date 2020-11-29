@@ -14,7 +14,7 @@ galleries = Blueprint('galleries', __name__, template_folder='templates')
 def fetch_galleries():
     all_galleries = []
     results = Galleries.query.outerjoin(Gallery_Info, Gallery_Info.id == Galleries.info_id).outerjoin(
-        Image, Image.id == Galleries.image_id).order_by(Galleries.id).all()
+        Image, Image.id == Galleries.image_id).order_by(Gallery_Info.id, Galleries.id).all()
 
     if len(results) == 0:
         return json.dumps({"message": "No galleries! Get started by creating one!"})
@@ -106,12 +106,26 @@ def update_gallery():
     info_to_update.last_updated_by = session["username"]
     info_to_update.last_updated = datetime.datetime.now()
 
-    for i in range(len(images_to_update)):
-        if i < len(data["images"]):
-            images_to_update[i].image_id = data["images"][i]
-            db.session.add(images_to_update[i])
-        else:
-            db.session.delete(images_to_update[i])
+    if len(images_to_update) >= len(data["images"]):
+        # if submitted changes is == or < stored data
+        for i in range(len(images_to_update)):
+            if i < len(data["images"]):
+                images_to_update[i].image_id = data["images"][i]
+                db.session.add(images_to_update[i])
+            else:
+                db.session.delete(images_to_update[i])
+    else:
+        # if submitted changes > stored data
+        for i in range(len(data["images"])):
+            try:
+                images_to_update[i].image_id = data["images"][i]
+                db.session.add(images_to_update[i])
+            except IndexError:
+                new_gallery = Galleries()
+                new_gallery.gallery_info = info_to_update
+                new_gallery.gallery_image = Image.query.filter_by(
+                    id=data["images"][i]).first()
+                db.session.add(new_gallery)
 
     db.session.add(info_to_update)
     db.session.commit()
@@ -125,11 +139,6 @@ def delete_gallery():
         return redirect(url_for('auth.login'))
 
     data = request.get_json()
-    # gallery_to_delete = Galleries.query.filter_by(
-    #     info_id=data["gallery_id"]).all()
-
-    # for image in gallery_to_delete:
-    #     db.session.delete(image)
     gallery_to_delete = Gallery_Info.query.filter_by(
         id=data["gallery_id"]).first()
 
