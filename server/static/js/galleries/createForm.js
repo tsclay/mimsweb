@@ -77,6 +77,10 @@ const generateCreateForm = () => {
   // CREATE new content, send to server to store in db, and re-render content
   const createNewGallery = async (e) => {
     e.preventDefault()
+    if (gallery.size === 0) {
+      alert('You must select at least one image for the gallery.')
+      return
+    }
     const { 1: header, 2: paragraph } = e.target.children
     const response = await fetch('/admin/galleries/create', {
       method: 'POST',
@@ -89,10 +93,12 @@ const generateCreateForm = () => {
     })
     const json = await response.json()
     renderGalleries(json)
+    gallery.clear()
     exitBtn.click()
   }
 
   const handleExit = (e) => {
+    gallery.clear()
     const tasksRect = searchForOne('.tasks').getBoundingClientRect()
     const thisForm = e.currentTarget.parentElement.parentElement
     const thisFormCount = Number(thisForm.dataset.formCount)

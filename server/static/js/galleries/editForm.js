@@ -91,6 +91,10 @@ const generateEditForm = (name, details, row, e) => {
 
   const updateContent = async (e) => {
     e.preventDefault()
+    if (gallery.size === 0) {
+      alert('You must select at least one image for the gallery.')
+      return
+    }
     console.log(e.target.children)
     const { 0: titleBar, 1: h, 2: p } = e.target.children
     const { 2: exit } = titleBar.children
@@ -109,10 +113,12 @@ const generateEditForm = (name, details, row, e) => {
     const response = await fetch('/admin/galleries/update', request)
     const updated = await response.json()
     renderGalleries(updated)
+    gallery.clear()
     exit.click()
   }
 
   const handleExit = (e) => {
+    gallery.clear()
     const tasksRect = searchForOne('.tasks').getBoundingClientRect()
     const thisForm = e.currentTarget.parentElement.parentElement
     const thisFormCount = Number(thisForm.dataset.formCount)
