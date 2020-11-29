@@ -279,14 +279,9 @@ const renderGalleries = async (fetchedGalleries = null) => {
       [
         createElement('p', { class: 'message-text' }, 'No galleries!'),
         createElement(
-          'p',
-          { class: 'message-text' },
-          'Get started by creating a gallery!'
-        ),
-        createElement(
           'a',
           { class: 'message-link', onclick: 'showContentEditor(event)' },
-          'Create a new gallery'
+          'Get started by creating a gallery!'
         )
       ]
     )
