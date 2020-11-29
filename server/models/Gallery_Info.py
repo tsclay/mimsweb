@@ -9,6 +9,8 @@ class Gallery_Info(db.Model):
     description = db.Column(db.Text(), nullable=True)
     last_updated = db.Column(db.DateTime(False), nullable=True)
     last_updated_by = db.Column(db.String(128), nullable=True)
+    # galleries_rel = db.relationship('Galleries', backref=db.backref(
+    #     "Galleries"), ondelete="cascade")
 
     def __init__(self, gallery_name,
                  description,

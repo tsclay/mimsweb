@@ -125,11 +125,15 @@ def delete_gallery():
         return redirect(url_for('auth.login'))
 
     data = request.get_json()
-    gallery_to_delete = Galleries.query.filter_by(
-        info_id=data["gallery_id"]).all()
+    # gallery_to_delete = Galleries.query.filter_by(
+    #     info_id=data["gallery_id"]).all()
 
-    for image in gallery_to_delete:
-        db.session.delete(image)
+    # for image in gallery_to_delete:
+    #     db.session.delete(image)
+    gallery_to_delete = Gallery_Info.query.filter_by(
+        id=data["gallery_id"]).first()
+
+    db.session.delete(gallery_to_delete)
 
     db.session.commit()
     return fetch_galleries()
