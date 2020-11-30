@@ -242,7 +242,6 @@ textarea[name='edit-body'] {
   position: absolute;
   width: 100%;
   min-height: 0px;
-  overflow-y: scroll;
   bottom: 0;
   transform: translateY(100%);
   transition: min-height 0.1s linear;
@@ -251,6 +250,7 @@ textarea[name='edit-body'] {
 
 .image-grid-wrapper.active {
   min-height: 150px;
+  max-height: 320px;
 }
 
 .image-grid {
@@ -271,6 +271,7 @@ textarea[name='edit-body'] {
   margin: 0 auto;
   padding: 1rem;
   width: 90%;
+  overflow-y: scroll;
 }
 
 .image-grid img {
