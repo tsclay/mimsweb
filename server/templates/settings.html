@@ -74,11 +74,36 @@
 
           <button type="submit" form="user-settings">Confirm</button>
         </div>
-        <!-- <div class="user-site-settings">
-
-        </div> -->
+        {% if role == 'admin'%}
+        <div class="create-user">
+            <form onsubmit="createUser(event)" id="new-user-form" style="display: none;"></form>
+          <h2>Create User</h2>
+          <p>
+            Provide the credentials for the new user you wish to create. 
+            Password and username will automatically be assigned, and the user will receive these credentials via email.
+          </p>
+          <div class="new-user-info">
+            <h4 class="attr-names">Name</h4>
+            <h4 class="attr-names">Email</h4>
+            <h4 class="attr-names">Role</h4>
+            <div class="n-names">
+              <input form="new-user-form" type="text" name="first_name" id="n-firstname" placeholder="First Name" />
+              <input form="new-user-form" type="text" name="last_name" id="n-lastname" placeholder="Last Name" />
+            </div>
+            <input form="new-user-form" type="text" name="email" id="n-email" placeholder="Email Address" />
+            <div onclick="showRoleOptions(event)" class="select-role-wrapper">
+              <span>Select a role</span>
+              <div class="role-options"></div>
+            </div>
+            <button type="submit" form="new-user-form">Create User</button>
+          </div>
+        </div>
+        {% endif %}
       </div>
     </div>
-    <script src="{{url_for('static', filename='js/settings.js')}}"></script>
+    <script src="{{url_for('static', filename='js/settings/settings.js')}}"></script>
+    {% if role == 'admin'%}
+    <script src="{{url_for('static', filename='js/settings/admin.js')}}"></script>
+    {% endif %}
   </body>
 </html>
