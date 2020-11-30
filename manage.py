@@ -83,9 +83,6 @@ roles = [
                                       "create/read/update/update gallery", "create/read/update/delete blacklist", "create/read/update/delete admin"]}
 ]
 
-for role in roles:
-    seed.append(Role(role_name=role["name"], permissions=role["permissions"]))
-
 headers = ['Five generations of excellence',
            'Fully licensed, insured, bonded, and certified',
            'Serving Residential & Commercial',
@@ -117,12 +114,16 @@ paired_image_files = [{"name": "inside", "path": "/static/assets/uploads/inside.
                       {"name": "parrish2", "path": "/static/assets/uploads/parrish2.jpg"},
                       {"name": "rekean3", "path": "/static/assets/uploads/rekean3.jpg"}]
 
+# Handle portfolio images & gallery
 art_gallery_info = Gallery_Info(
     gallery_name="See our work", description="Check out our gallery below!", last_updated=None, last_updated_by=None)
 
 seed.append(art_gallery_info)
 seed.append(
     Image(image_link="/static/assets/uploads/1925new.jpg", image_name="1925new"))
+
+for role in roles:
+    seed.append(Role(role_name=role["name"], permissions=role["permissions"]))
 
 for i in range(4):
     header = Header(header_text=headers[i])
@@ -136,6 +137,15 @@ for i in range(4):
     new_gallery.gallery_info = art_gallery_info
     seed.extend([header, para, linked_img, new_gallery])
 
+for i in range(len(art_files)):
+    image = Image(
+        image_link=art_files[i]["path"], image_name=art_files[i]["name"])
+    new_gallery = Galleries()
+    new_gallery.gallery_info = art_gallery_info
+    new_gallery.gallery_image = image
+    seed.extend([image, new_gallery])
+
+# Handle testimonials & gallery
 testimonial_gallery_info = Gallery_Info(
     gallery_name="Recognized in the community", description="Many of our clients and collaborators have expressed their gratitude for our hard work. Check them out below!", last_updated=None, last_updated_by=None)
 
@@ -150,15 +160,6 @@ for i in range(len(testimonial_files)):
     seed.extend([image, new_gallery])
 
 
-for i in range(len(art_files)):
-    image = Image(
-        image_link=art_files[i]["path"], image_name=art_files[i]["name"])
-    new_gallery = Galleries()
-    new_gallery.gallery_info = art_gallery_info
-    new_gallery.gallery_image = image
-    seed.extend([image, new_gallery])
-
-
 @ cli.command('create_db')
 def create_db():
     db.drop_all()
@@ -168,9 +169,9 @@ def create_db():
 
 @ cli.command('seed_db')
 def seed_db():
-    db.session.add(Admin(first_name='Tim', last_name='Clay',
+    db.session.add(Admin(first_name='Tim', last_name='Clay', email='tsclay9@gmail.com',
                          username="tclay", password="trees", role="admin"))
-    db.session.add(Admin(first_name="John", last_name="Smith",
+    db.session.add(Admin(first_name="John", last_name="Smith", email='sample@example.com',
                          username='jsmith', password='apples', role='admin'))
     db.session.add_all(seed)
 
