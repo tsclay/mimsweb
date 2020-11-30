@@ -16,4 +16,4 @@ class Config(object):
     PREFERRED_URL_SCHEME = 'https'
     SQLALCHEMY_DATABASE_URI = os.environ["DATABASE_URL"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOAD_FOLDER = 'server/static/assets'
+    UPLOAD_FOLDER = 'server/static/assets/uploads'
