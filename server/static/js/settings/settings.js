@@ -35,6 +35,5 @@ const changeSettings = async (e) => {
   lastName.value = ''
   username.value = ''
   password.value = ''
-  // role.value = ''
   searchForOne('#session-username').innerText = updatedUser.username
 }

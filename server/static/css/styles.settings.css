@@ -1,4 +1,5 @@
-.user-info {
+.user-info,
+.new-user-info {
   display: grid;
   grid-template-columns: clamp(100px, 30%, 300px) 60%;
   grid-auto-rows: 50px;
@@ -6,12 +7,12 @@
   align-content: center;
 }
 
-.user-info .attr-names,
-.user-info .attr-values {
+.attr-names,
+.attr-values {
   grid-column: 1;
 }
 
-.user-info .attr-values {
+.attr-values {
   justify-self: end;
 }
 
@@ -32,6 +33,10 @@
   flex-flow: row nowrap;
   justify-content: space-between;
 }
+
+.n-names * {
+  width: 49%;
+}
 .user-info .n-names {
   grid-area: 2/2/2/2;
 }
@@ -45,8 +50,57 @@
   grid-area: 8/2/8/2;
 }
 
-.user-info button[type="submit"] {
+.user-info button[type='submit'] {
   grid-area: 10/1/10/3;
   justify-self: center;
   width: 50%;
+}
+
+.new-user-info .n-names {
+  grid-area: 1/2/1/2;
+}
+
+.new-user-info h4:nth-of-type(1) {
+  grid-area: 1/1/1/1;
+}
+
+.new-user-info h4:nth-of-type(2) {
+  grid-area: 3/1/3/1;
+}
+
+.new-user-info h4:nth-of-type(3) {
+  grid-area: 5/1/5/1;
+}
+
+.new-user-info > input:nth-of-type(1) {
+  grid-area: 3/2/3/2;
+}
+
+.new-user-info button[type='submit'] {
+  grid-area: 7/1/7/3;
+  justify-self: center;
+  width: 50%;
+}
+
+.select-role-wrapper {
+  position: relative;
+  grid-area: 5/2/5/2;
+}
+
+.role-options {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 0px;
+  transition: min-height 0.2s 0s;
+}
+
+.role-options:not(:empty) {
+  min-height: 200px;
+  transition: min-height 0.2s 0s;
+}
+
+.role-options p {
+  cursor: pointer;
 }
