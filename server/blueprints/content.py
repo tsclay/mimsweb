@@ -4,8 +4,6 @@ from server.models.Paragraph import Paragraph
 from server.models.Header import Header
 from server.db import db
 import os
-from sqlalchemy import or_
-from sqlalchemy.sql.operators import is_
 
 content = Blueprint('content', __name__, template_folder='templates')
 
