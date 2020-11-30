@@ -367,6 +367,13 @@ textarea[name='edit-body'] {
   box-sizing: border-box;
 }
 
+.gallery-row {
+  overflow-x: scroll;
+  max-width: 80%;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
 .gallery-img {
   width: 150px;
   height: 150px;
