@@ -8,15 +8,7 @@ from server.models.Image import Image
 from server.models.Header import Header
 
 images = Blueprint('images', __name__, template_folder='templates')
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
-
-# @images.before_request
-# def before_request():
-#     if not request.is_secure and os.environ["FLASK_ENV"] != "development":
-#         url = request.url.replace("http://", "https://", 1)
-#         code = 301
-#         return redirect(url, code=code)
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 
 def allowed_file(filename):
@@ -58,14 +50,10 @@ def post_images():
     if file.filename != "" and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-        db.session.add(Image(image_link='/static/assets/' +
+        db.session.add(Image(image_link='/static/assets/uploads/' +
                              filename, image_name=request.form["image_name"]))
         db.session.commit()
-        payload = get_images()
-        return payload
-        # return redirect(url_for('.get_images'))
-
-      #  return json.dumps(Images)
+        return get_images()
     else:
         return redirect('/admin/asset-editor')
 
@@ -83,23 +71,18 @@ def replace_image():
         db_image = Image.query.filter_by(id=request.form["image_id"]).first()
         old_image_path = 'server' + db_image.image_link
         os.remove(old_image_path)
-        db_image.image_link = '/static/assets/' + filename
+        db_image.image_link = '/static/assets/uploads/' + filename
         db_image.image_name = request.form["image_name"]
         db.session.add(db_image)
         db.session.commit()
-        payload = get_images()
-        return payload
-        # return redirect(url_for('.get_images'))
-
-        #  return json.dumps(Images)
+        return get_images()
     else:
         return redirect('/admin/asset-editor')
 
 
 @images.route('/read', methods=["GET", "DELETE"])
 def show_all_images():
-    payload = get_images()
-    return payload
+    return get_images()
 
 
 @images.route('/delete', methods=["DELETE", "POST"])
