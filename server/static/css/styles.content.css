@@ -164,6 +164,7 @@ textarea[name='edit-body'] {
   gap: 1rem;
   width: 80%;
   margin: 1rem auto 2rem auto;
+  max-width: 1000px;
 }
 
 .rendered-block {

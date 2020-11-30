@@ -34,7 +34,6 @@
   padding: 3rem;
   z-index: 1;
   border-radius: 8px;
-  justify-self: center;
   border: 0.5px solid var(--light);
 }
 .asset-box.selected {
@@ -53,7 +52,7 @@
   font-size: unset;
   height: 40px;
 }
-input[type="file"] {
+input[type='file'] {
   display: none;
 }
 .input-file-label {
@@ -72,7 +71,7 @@ input[type="file"] {
 .image-uploader > * {
   margin-bottom: 0.5rem;
 }
-input[name="new-image-name"] {
+input[name='new-image-name'] {
   box-sizing: border-box;
 }
 .image-uploader > *:not(.exit-btn) {
