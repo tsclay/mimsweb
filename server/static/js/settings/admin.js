@@ -1,6 +1,25 @@
-const createUser = (e) => {
+const createUser = async (e) => {
   e.preventDefault()
-  console.log(e.target)
+  const { 0: firstName, 1: lastName, 2: email, 3: role } = e.target
+  const request = {
+    method: 'POST',
+    body: JSON.stringify({
+      first_name: firstName.value,
+      last_name: lastName.value,
+      email: email.value,
+      role: role.value
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }
+  const response = await fetch('/admin/create-user', request)
+  const json = await response.json()
+  firstName.value = ''
+  lastName.value = ''
+  email.value = ''
+  role.value = ''
+  renderUsers(json)
 }
 
 const selectOption = (e) => {
