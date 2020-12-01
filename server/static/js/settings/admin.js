@@ -56,12 +56,12 @@ const showRoleOptions = (e) => {
     ])
   ]
   if (userRole === 'admin') {
-    nestElements(options, [
+    options.push(
       nestElements(createElement('p', { onclick: 'selectOption(event)' }), [
         createElement('span', { class: 'option-text' }, 'Admin'),
         createElement('span', { class: 'underline' })
       ])
-    ])
+    )
   }
   nestElements(optionsContainer, options)
 }
