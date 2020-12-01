@@ -18,6 +18,7 @@ def create_app():
     from server.blueprints.settings import settings
     from server.blueprints.email_service import email_service
     from server.blueprints.gallery import galleries
+    from server.blueprints.users import users
 
     server.register_blueprint(auth, url_prefix="/admin")
     server.register_blueprint(images, url_prefix='/admin/assets')
@@ -26,6 +27,7 @@ def create_app():
     server.register_blueprint(blacklist, url_prefix='/admin/blacklist')
     server.register_blueprint(settings)
     server.register_blueprint(email_service)
+    server.register_blueprint(users)
 
     @server.route('/', methods=["GET"])
     def home():
