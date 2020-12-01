@@ -121,15 +121,20 @@
               id="n-role"
               style="display: none;"
             />
-            <div onclick="showRoleOptions(event)" class="select-role-wrapper">
+            <div
+              tabindex="0"
+              onclick="showRoleOptions(event)"
+              class="select-role-wrapper"
+            >
               <p>Select a role</p>
               <div class="role-options"></div>
             </div>
             <button type="submit" form="new-user-form">Create User</button>
           </div>
         </div>
-        <div class="user-list">
+        <div class="users">
           <h2>Users</h2>
+          <div class="user-list"></div>
         </div>
         {% endif %}
       </div>

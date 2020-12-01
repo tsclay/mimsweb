@@ -92,6 +92,10 @@
   align-items: center;
 }
 
+.select-role-wrapper:focus {
+  outline-style: auto;
+}
+
 .select-role-wrapper > p {
   font-size: 1.25rem;
 }
