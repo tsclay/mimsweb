@@ -32,15 +32,14 @@ const loadingSpinner = nestElements(
 
 const formatDateTimeString = (isoStr) => {
   const date = new Date(isoStr)
-  let hours = date.getHours()
+  const offset = Math.floor(date.getTimezoneOffset() / 60)
+  let hours = date.getHours() - offset
   let minutes = date.getMinutes()
   let seconds = date.getSeconds()
-  const offset = Math.floor(date.getTimezoneOffset() / 60)
-  let meridiem = 'AM'
-  if (offset > 0 && hours >= 12) {
-    hours = (hours - offset) % 12
-    meridiem = hours > 12 ? 'PM' : 'AM'
-  } else if (offset > 0 && hours === 0) {
+  const meridiem = hours >= 12 ? 'PM' : 'AM'
+  if (hours >= 13) {
+    hours %= 12
+  } else if (hours === 0) {
     hours = 12
   }
 
@@ -51,3 +50,5 @@ const formatDateTimeString = (isoStr) => {
     date.getMonth() + 1
   }/${date.getDate()}/${date.getFullYear()} at ${hours}:${minutes}:${seconds} ${meridiem}`
 }
+
+const userRole = searchForOne('meta[name="role"]').content

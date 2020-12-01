@@ -53,12 +53,16 @@ const showRoleOptions = (e) => {
     nestElements(createElement('p', { onclick: 'selectOption(event)' }), [
       createElement('span', { class: 'option-text' }, 'Manager'),
       createElement('span', { class: 'underline' })
-    ]),
-    nestElements(createElement('p', { onclick: 'selectOption(event)' }), [
-      createElement('span', { class: 'option-text' }, 'Admin'),
-      createElement('span', { class: 'underline' })
     ])
   ]
+  if (userRole === 'admin') {
+    nestElements(options, [
+      nestElements(createElement('p', { onclick: 'selectOption(event)' }), [
+        createElement('span', { class: 'option-text' }, 'Admin'),
+        createElement('span', { class: 'underline' })
+      ])
+    ])
+  }
   nestElements(optionsContainer, options)
 }
 
@@ -88,60 +92,96 @@ const renderUsers = async (fetchedUsers = null) => {
           null,
           `${u.username}\n${u.role}\n${
             u.last_logged_in
-              ? formatDateTimeString(u.last_logged_in)
+              ? `Last login: ${formatDateTimeString(u.last_logged_in)}`
               : "Hasn't logged in yet"
           }`
-        ),
+        )
+      ]
+    )
+    if (userRole === 'admin')
+      nestElements(existingUser, [
         createElement(
           'button',
           { value: u.id, type: 'button', onclick: 'confirmDelete(event)' },
           'X'
         )
-      ]
-    )
+      ])
     nestElements(target, [existingUser])
   })
 }
 
-const deleteUser = async (e) => {
-  const userId = e.target.value
-  const response = await fetch('/admin/users', {
-    body: JSON.stringify({ id: userId }),
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' }
-  })
-  const json = await response.json()
-  renderUsers(json)
-}
+let deleteUser
+let confirmDelete
 
-const confirmDelete = (e) => {
-  const popUp = nestElements(
-    createElement('div', { style: 'position: absolute' }),
-    [
-      createElement(
-        'p',
-        null,
-        'This operation will permanently delete this user.\n\nAre you sure about this?'
-      ),
-      createElement(
-        'button',
-        { onclick: 'deleteUser(event)', type: 'button', value: e.target.value },
-        'Confirm'
-      ),
-      createElement(
-        'button',
-        {
-          type: 'button',
-          style: 'position: absolute; top: 4px; right: 4px;',
-          onclick: `((e) => {
+if (userRole === 'admin') {
+  deleteUser = async (e) => {
+    const userId = e.target.value
+    const response = await fetch('/admin/users', {
+      body: JSON.stringify({ id: userId }),
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    })
+    const json = await response.json()
+    renderUsers(json)
+  }
+
+  confirmDelete = (e) => {
+    const popUp = nestElements(
+      createElement('div', {
+        style: `position: fixed;
+      background: var(--gray);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 50%;
+      height: 200px;
+      padding: 2rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-flow: column nowrap;`
+      }),
+      [
+        createElement(
+          'p',
+          {
+            style: `text-align: center;
+        margin-bottom: 2rem;`
+          },
+          'This operation will permanently delete this user.\n\nAre you sure about this?'
+        ),
+        createElement(
+          'button',
+          {
+            onclick: 'deleteUser(event)',
+            type: 'button',
+            value: e.target.value
+          },
+          'Confirm'
+        ),
+        createElement(
+          'button',
+          {
+            type: 'button',
+            style: `position: absolute;
+          top: 4px;
+          right: 4px;
+          height: 20px;
+          width: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 15px;
+          padding: 0;`,
+            onclick: `((e) => {
             e.target.parentElement.remove()
           })(event)`
-        },
-        'X'
-      )
-    ]
-  )
-  nestElements(e.target.parentElement, [popUp])
+          },
+          'X'
+        )
+      ]
+    )
+    nestElements(e.target.parentElement, [popUp])
+  }
 }
 
 renderUsers()
