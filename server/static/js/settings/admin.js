@@ -57,14 +57,19 @@ const renderUsers = async (fetchedUsers = null) => {
     const existingUser = nestElements(
       createElement('div', {
         class: 'existing-user',
-        style: 'position: relative;',
+        style: `position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;`,
         'data-user-id': u.id
       }),
       [
         createElement(
           'p',
           null,
-          `${u.username}\n${u.role}\n${u.last_logged_in}`
+          `${u.username}\n${u.role}\n${
+            u.last_logged_in ? u.last_logged_in : "Hasn't logged in yet"
+          }`
         ),
         createElement(
           'button',
