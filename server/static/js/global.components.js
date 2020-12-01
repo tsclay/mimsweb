@@ -29,3 +29,25 @@ const loadingSpinner = nestElements(
     )
   ]
 )
+
+const formatDateTimeString = (isoStr) => {
+  const date = new Date(isoStr)
+  let hours = date.getHours()
+  let minutes = date.getMinutes()
+  let seconds = date.getSeconds()
+  const offset = Math.floor(date.getTimezoneOffset() / 60)
+  let meridiem = 'AM'
+  if (offset > 0 && hours >= 12) {
+    hours = (hours - offset) % 12
+    meridiem = hours > 12 ? 'PM' : 'AM'
+  } else if (offset > 0 && hours === 0) {
+    hours = 12
+  }
+
+  minutes = minutes < 10 ? `0${minutes}` : minutes
+  seconds = seconds < 10 ? `0${seconds}` : seconds
+
+  return `${
+    date.getMonth() + 1
+  }/${date.getDate()}/${date.getFullYear()} at ${hours}:${minutes}:${seconds} ${meridiem}`
+}

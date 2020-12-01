@@ -87,7 +87,9 @@ const renderUsers = async (fetchedUsers = null) => {
           'p',
           null,
           `${u.username}\n${u.role}\n${
-            u.last_logged_in ? u.last_logged_in : "Hasn't logged in yet"
+            u.last_logged_in
+              ? formatDateTimeString(u.last_logged_in)
+              : "Hasn't logged in yet"
           }`
         ),
         createElement(
