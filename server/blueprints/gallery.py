@@ -1,3 +1,4 @@
+from datetime import timezone
 from server.models.Galleries import Galleries
 from flask import current_app, Blueprint, url_for, render_template, request, session, redirect
 import datetime
@@ -79,7 +80,7 @@ def create_gallery():
 
     data = request.get_json()
     new_gallery_info = Gallery_Info(
-        gallery_name=data["gallery_name"], description=data["description"], last_updated=datetime.datetime.now(), last_updated_by=session["username"])
+        gallery_name=data["gallery_name"], description=data["description"], last_updated=datetime.datetime.now(timezone.utc), last_updated_by=session["username"])
 
     for num in data["images"]:
         new_gallery = Galleries()
@@ -104,7 +105,7 @@ def update_gallery():
     info_to_update.gallery_name = data["gallery_name"]
     info_to_update.description = data["description"]
     info_to_update.last_updated_by = session["username"]
-    info_to_update.last_updated = datetime.datetime.now()
+    info_to_update.last_updated = datetime.datetime.now(timezone.utc)
 
     if len(images_to_update) >= len(data["images"]):
         # if submitted changes is == or < stored data

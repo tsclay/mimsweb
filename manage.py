@@ -170,9 +170,9 @@ def create_db():
 @ cli.command('seed_db')
 def seed_db():
     db.session.add(Admin(first_name='Tim', last_name='Clay', email='tsclay9@gmail.com',
-                         username="tclay", password="trees", role="admin"))
+                         username="tclay", password="trees", role="admin", last_logged_in=None))
     db.session.add(Admin(first_name="John", last_name="Smith", email='sample@example.com',
-                         username='jsmith', password='apples', role='admin'))
+                         username='jsmith', password='apples', role='admin', last_logged_in=None))
     db.session.add_all(seed)
 
     db.session.commit()

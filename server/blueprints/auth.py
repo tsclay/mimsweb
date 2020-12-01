@@ -1,3 +1,5 @@
+import datetime
+from datetime import timezone
 from flask import current_app, Blueprint, url_for, render_template, request, session, redirect
 import json
 from server.db import db
@@ -29,6 +31,7 @@ def login():
         session["username"] = request.form["username"]
         session["role"] = found_user.role
         found_user.active = True
+        found_user.last_logged_in = datetime.datetime.now(timezone.utc)
         db.session.add(found_user)
         db.session.commit()
         return redirect(url_for('auth.home'))
