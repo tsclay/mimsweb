@@ -78,7 +78,7 @@ roles = [
     {"name": "writer", "permissions": [
         "create/read/update/delete content", "read gallery", "read image"]},
     {"name": "manager", "permissions": ["create/read/update/delete image", "create/read/update/delete content",
-                                        "create/read/update/update gallery", "create/read/update/delete blacklist"]},
+                                        "create/read/update/update gallery", "create/read/update/delete blacklist", "create/read admin"]},
     {"name": "admin", "permissions": ["create/read/update/delete image", "create/read/update/delete content",
                                       "create/read/update/update gallery", "create/read/update/delete blacklist", "create/read/update/delete admin"]}
 ]
@@ -172,9 +172,9 @@ def seed_db():
     db.session.add(Admin(first_name="John", last_name="Smith", email='jsmith@example.com',
                          username='jsmith', password='apples', role='admin', last_logged_in=None))
     db.session.add(Admin(first_name="Jane", last_name="Doe", email='jdoe@example.com',
-                         username='jdoe', password='apples', role='admin', last_logged_in=None))
+                         username='jdoe', password='apples', role='curator', last_logged_in=None))
     db.session.add(Admin(first_name="Bruce", last_name="Wayne", email='bwayne@example.com',
-                         username='bwayne', password='batman', role='admin', last_logged_in=None))
+                         username='bwayne', password='batman', role='manager', last_logged_in=None))
     db.session.add_all(seed)
 
     db.session.commit()
