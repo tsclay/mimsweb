@@ -139,7 +139,12 @@
           <button type="submit">Enter</button>
         </form>
         <a class="login-link" href="/">Main Website</a>
+        <a class="login-link" onclick="toggleRecoveryForm(event)"
+          >Recover Account</a
+        >
       </div>
     </div>
+    <script src="{{url_for('static', filename='js/helpers.js')}}"></script>
+    <script src="{{url_for('static', filename='js/recoverAcct.js')}}"></script>
   </body>
 </html>
