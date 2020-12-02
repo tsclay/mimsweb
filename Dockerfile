@@ -21,16 +21,7 @@ ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 # Dev image using 'flask run' to leverage helpful error msgs and 
 # reloading
 FROM base AS dev
-ENV FLASK_APP=./server
-ENV FLASK_RUN_HOST=0.0.0.0
-ENV FLASK_RUN_PORT=3000
 ENV FLASK_ENV=development
-ENV SQL_PORT=5432
-ENV SQL_HOST=db
-ENV DATABASE=postgres
-ENV SECRET_KEY=FeedMeSeymour
-ENV APP_SETTINGS=config.Config
-ENV DATABASE_URL=postgresql://dev:snakes@db:5432/flask-app
 EXPOSE 3000
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 

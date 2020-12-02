@@ -11,6 +11,9 @@ if [ nc -z $DATABASE ] && [ "$DATABASE" = "postgres" ]; then
 fi
 
 if [ "$FLASK_ENV" = "development" ]; then
+  echo "🏞 Loading .env 🏞"
+  set -a
+  source .dev.env
   python manage.py create_db
   echo "💻  Dev database created! 💻"
   python manage.py seed_db
@@ -39,7 +42,7 @@ fi
 if [ "$FLASK_ENV" = "production" ]; then
   echo "🏞 Loading .env 🏞"
   set -a
-  source .env
+  source .prod.env
   echo "📦 Installing NPM packages 📦"
   cd client && npm i
   npm run build
