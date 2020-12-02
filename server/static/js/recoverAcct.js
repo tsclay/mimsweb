@@ -32,29 +32,59 @@ const toggleRecoveryForm = (e) => {
       createElement('input', {
         type: 'text',
         name: 'username',
-        placeholder: 'Username'
+        placeholder: 'Username',
+        style: `
+        width: 100%;
+        box-sizing: border-box;`
       }),
       createElement('input', {
         type: 'text',
         name: 'first_name',
-        placeholder: 'First Name'
+        placeholder: 'First Name',
+        style: `
+        width: 100%;
+        box-sizing: border-box;`
       }),
       createElement('input', {
         type: 'text',
         name: 'last_name',
-        placeholder: 'Last Name'
+        placeholder: 'Last Name',
+        style: `
+        width: 100%;
+        box-sizing: border-box;`
       }),
       createElement('input', {
         type: 'text',
         name: 'email',
-        placeholder: 'Email Address'
+        placeholder: 'Email Address',
+        style: `
+        width: 100%;
+        box-sizing: border-box;`
       }),
       createElement(
         'button',
         {
-          type: 'submit'
+          type: 'submit',
+          style: `
+          margin-top: 2rem;
+          width: 100%;`
         },
         'Confirm'
+      )
+    ]
+  )
+  const explanation = nestElements(
+    createElement('div', {
+      style: `
+      width: 100%;`
+    }),
+    [
+      createElement('h4', null, 'Account Recovery'),
+      createElement(
+        'p',
+        null,
+        `Fill all of the following fields with your information. You'll receive an email with a reset link.
+      `
       )
     ]
   )
@@ -65,12 +95,14 @@ const toggleRecoveryForm = (e) => {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 50%;
+      width: clamp(320px, 75%, 400px);
+      height: 75%;
       padding: 2rem;
       box-sizing: border-box;
       background: var(--gray)`
     }),
     [
+      explanation,
       recoveryForm,
       createElement(
         'button',
