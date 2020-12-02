@@ -9,8 +9,6 @@ content = Blueprint('content', __name__, template_folder='templates')
 
 
 def read():
-    if 'username' not in session:
-        return redirect(url_for('auth.login'))
     # sql = "SELECT * FROM headers h LEFT OUTER JOIN paragraphs p ON h.paragraph_id = p.id LEFT OUTER JOIN images i ON i.id = h.image_id ORDER BY h.id;"
     # results = db.session.execute(sql)
     results = Header.query.outerjoin(Paragraph, Paragraph.id == Header.paragraph_id).outerjoin(
