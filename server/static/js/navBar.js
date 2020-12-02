@@ -23,7 +23,7 @@
 
 // Logout user thru AJAX
 const logoutUser = async () => {
-  const username = searchForOne('#session-username')
+  const username = searchForOne('#session-username').innerText
   const response = await fetch('/admin/logout', {
     method: 'POST',
     headers: {
