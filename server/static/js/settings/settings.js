@@ -31,7 +31,6 @@ const changeSettings = async (e) => {
   shownUsername.innerText = updatedUser.username
   firstName.value = ''
   lastName.value = ''
-  username.value = ''
   password.value = ''
   searchForOne('#session-username').innerText = updatedUser.username
 }
