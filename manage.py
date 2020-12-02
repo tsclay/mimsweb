@@ -8,8 +8,31 @@ from server.models.Paragraph import Paragraph
 from server.models.Gallery_Info import Gallery_Info
 from server.models.Galleries import Galleries
 from server.models.Role import Role
+import base64
+import os
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 cli = FlaskGroup(server)
+
+
+def hash_password(user_cred):
+    secret = os.environ["SECRET_KEY"]
+    password = bytes(secret, "utf-8")
+    salt = b"saltysaltysalt"
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=100000,
+    )
+    key = base64.urlsafe_b64encode(kdf.derive(password))
+    f = Fernet(key)
+    str_to_encrypt = bytes(f"{user_cred}", "utf-8")
+    encrypted_str = f.encrypt(str_to_encrypt).decode("utf-8")
+    return encrypted_str
+
 
 seed = []
 
@@ -170,11 +193,11 @@ def create_db():
 @ cli.command('seed_db')
 def seed_db():
     db.session.add(Admin(first_name="John", last_name="Smith", email='jsmith@example.com',
-                         username='jsmith', password='apples', role='admin', recovery_link=None, last_logged_in=None))
+                         username='jsmith', password=hash_password('apples'), role='admin', recovery_link=None, last_logged_in=None))
     db.session.add(Admin(first_name="Jane", last_name="Doe", email='jdoe@example.com',
-                         username='jdoe', password='apples', role='curator', recovery_link=None, last_logged_in=None))
+                         username='jdoe', password=hash_password('apples'), role='curator', recovery_link=None, last_logged_in=None))
     db.session.add(Admin(first_name="Bruce", last_name="Wayne", email='bwayne@example.com',
-                         username='bwayne', password='batman', role='manager', recovery_link=None, last_logged_in=None))
+                         username='bwayne', password=hash_password('batman'), role='manager', recovery_link=None, last_logged_in=None))
     db.session.add_all(seed)
 
     db.session.commit()
