@@ -31,25 +31,10 @@ const loadingSpinner = nestElements(
 )
 
 const formatDateTimeString = (isoStr) => {
-  const date = new Date(isoStr)
-  const offset = Math.floor(date.getTimezoneOffset() / 60)
-  let hours = date.getHours() - offset
-  const meridiem = hours < 0 || hours >= 13 ? 'PM' : 'AM'
-  hours = hours < 0 ? hours + 12 : hours
-  let minutes = date.getMinutes()
-  let seconds = date.getSeconds()
-  if (hours >= 13) {
-    hours %= 12
-  } else if (hours === 0) {
-    hours = 12
-  }
-
-  minutes = minutes < 10 ? `0${minutes}` : minutes
-  seconds = seconds < 10 ? `0${seconds}` : seconds
-
-  return `${date.toLocaleDateString()} at ${hours}:${minutes}:${seconds} ${meridiem}`
+  const date = new Date((isoStr += 'Z'))
+  return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`
 }
 
 const userRole = searchForOne('meta[name="role"]').content
 
-// console.log(formatDateTimeString('2020-12-02T00:00:00.601108'))
+console.log(formatDateTimeString('2020-12-02T00:00:00.601108Z'))
