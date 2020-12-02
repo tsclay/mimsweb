@@ -34,9 +34,10 @@ const formatDateTimeString = (isoStr) => {
   const date = new Date(isoStr)
   const offset = Math.floor(date.getTimezoneOffset() / 60)
   let hours = date.getHours() - offset
+  const meridiem = hours < 0 || hours >= 13 ? 'PM' : 'AM'
+  hours = hours < 0 ? hours + 12 : hours
   let minutes = date.getMinutes()
   let seconds = date.getSeconds()
-  const meridiem = hours >= 12 ? 'PM' : 'AM'
   if (hours >= 13) {
     hours %= 12
   } else if (hours === 0) {
@@ -46,9 +47,9 @@ const formatDateTimeString = (isoStr) => {
   minutes = minutes < 10 ? `0${minutes}` : minutes
   seconds = seconds < 10 ? `0${seconds}` : seconds
 
-  return `${
-    date.getMonth() + 1
-  }/${date.getDate()}/${date.getFullYear()} at ${hours}:${minutes}:${seconds} ${meridiem}`
+  return `${date.toLocaleDateString()} at ${hours}:${minutes}:${seconds} ${meridiem}`
 }
 
 const userRole = searchForOne('meta[name="role"]').content
+
+// console.log(formatDateTimeString('2020-12-02T00:00:00.601108'))
