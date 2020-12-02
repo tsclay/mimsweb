@@ -19,7 +19,7 @@ def home():
 @auth.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        message = request.args["message"]
+        message = request.args.get('message')
         if message is not None:
             return render_template('login.html', message=json.loads(message))
         else:
