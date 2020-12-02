@@ -26,9 +26,9 @@ const logoutUser = async () => {
   const username = searchForOne('#session-username')
   const response = await fetch('/admin/logout', {
     method: 'POST',
-    headers: { 
-      'Content-Type': 'application/x-www-form-urlencoded', 
-      'Accept': 'application/json'
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      Accept: 'application/json'
     },
     body: `username=${username}`
   })
@@ -73,7 +73,7 @@ const modal = nestElements(createElement('div', { class: 'options-modal' }), [
       onclick: 'logoutUser()'
     },
     'Logout'
-  ) 
+  )
 ])
 
 // Toggle modal
@@ -92,26 +92,28 @@ const showModal = () => {
 
 // Filter #search-container for items with partially-matching text
 // Typing '>images [search term here]' will search img tags
-let searchTargets 
+let searchTargets
 const search = (e) => {
   e.preventDefault()
   const searchContainer = searchForOne('#search-container')
-  let {value} = e.target.elements[0]
+  const { value } = e.target.elements[0]
   if (!value && searchTargets) {
     empty(searchContainer, () => {
-       searchContainer.appendChild(fragmentElements(searchTargets))
-    }) 
+      searchContainer.appendChild(fragmentElements(searchTargets))
+    })
     return
   }
   if (!value) return
-  searchTargets = searchTargets ? searchTargets : [... searchContainer.childNodes]
+  searchTargets = searchTargets || [...searchContainer.childNodes]
   const found = []
   const needImages = value.match('>images') && value.match('>images').length > 0
-  const regex = needImages ? new RegExp(value.match(/(?:>images )(\w.+)/i)[1], 'i') : new RegExp(value, "gi")
-  searchTargets.forEach(s => {
+  const regex = needImages
+    ? new RegExp(value.match(/(?:>images )(\w.+)/i)[1], 'i')
+    : new RegExp(value, 'gi')
+  searchTargets.forEach((s) => {
     if (needImages) {
-      const {alt, src} = s.querySelector('img')
-      regex.test(alt) ? found.push(s) : (regex.test(src) ? found.push(s) : null)
+      const { alt, src } = s.querySelector('img')
+      regex.test(alt) ? found.push(s) : regex.test(src) ? found.push(s) : null
     } else {
       s.textContent.match(regex) ? found.push(s) : null
     }
@@ -123,7 +125,7 @@ const search = (e) => {
 
 // Typing '>' first will toggle dropdown options similar to VSCode functionality
 const displaySearchFilters = (e) => {
-  const {value} = e.target
+  const { value } = e.target
   const check = searchForOne('ul.filter-options')
   if (value !== '>' && check) {
     check.remove()
@@ -141,14 +143,11 @@ const displaySearchFilters = (e) => {
   }
 
   const filtersDropdown = nestElements(
-    createElement('ul',
-    {
+    createElement('ul', {
       class: 'filter-options'
-    }
-  ),
-  [
-    createElement('li', null, '>images')
-  ])
+    }),
+    [createElement('li', null, '>images')]
+  )
 
   filtersDropdown.addEventListener('click', handleSelection)
 

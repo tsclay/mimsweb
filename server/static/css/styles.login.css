@@ -60,3 +60,16 @@ body {
   color: var(--primary);
   cursor: pointer;
 }
+
+.messages {
+  height: 20px;
+}
+
+.messages > * {
+  opacity: 1;
+  transition: opacity 300ms linear;
+}
+
+.fade-out {
+  opacity: 0;
+}

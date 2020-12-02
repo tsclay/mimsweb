@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'partials/head.html'%}
+<style>
+  #root {
+    width: clamp(382px, 50%, 400px);
+    padding: 2rem;
+    box-sizing: border-box;
+    margin: 2rem auto;
+  }
+  #root > * {
+    width: 100%;
+  }
+  form {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+  form > * {
+    box-sizing: border-box;
+  }
+  form button {
+    margin-top: 2rem;
+  }
+</style>
+<body>
+  <div id="root">
+    <h1>Reset Your Password</h1>
+    <form method="POST" action="{{url}}">
+      <label for="new-password">New Password</label>
+      <input type="text" name="password" id="new-password" placeholder="New Password">
+      <button type="submit">Confirm</button>
+    </form>
+  </div>
+  <!-- <script>
+    const submitNewPassword = async (e) => {
+      const {0: newPassword} = e.target
+      const url = searchForOne('meta[name="recovery"]').content
+      const response = await fetch(url, {
+        body: JSON.stringify({
+          new_password: newPassword.value
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST"
+      }) 
+      const json = await response.json()
+      if (json.message === 'Success!') {
+        window.location.replace('/admin/login')
+      }
+    }
+  </script> -->
+</body>
+
+</html>

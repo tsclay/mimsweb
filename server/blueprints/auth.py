@@ -19,7 +19,11 @@ def home():
 @auth.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template('login.html')
+        message = request.args["message"]
+        if message is not None:
+            return render_template('login.html', message=json.loads(message))
+        else:
+            return render_template('login.html')
 
     username = request.form["username"]
     password = request.form["password"]

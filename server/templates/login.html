@@ -123,6 +123,11 @@
         </svg>
       </div>
       <div class="login-container">
+        <div class="messages">
+          {% if message is defined %}
+          <p style="color: green;">{{message["message"]}}</p>
+          {% endif %}
+        </div>
         <form action="/admin/login" method="POST">
           <input
             type="text"
@@ -146,5 +151,19 @@
     </div>
     <script src="{{url_for('static', filename='js/helpers.js')}}"></script>
     <script src="{{url_for('static', filename='js/recoverAcct.js')}}"></script>
+    {% if message is defined %}
+    <script>
+      let messageTimer
+      messageTimer = setTimeout(() => {
+        const allMessages = searchForAll('.messages > *')
+        allMessages.forEach(m => {
+          m.addEventListener('transitionend', (e) => {
+            m.remove()
+          })
+          m.classList.toggle('fade-out')
+        })
+      }, 3000)
+    </script>
+    {% endif %}
   </body>
 </html>
