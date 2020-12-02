@@ -1,6 +1,18 @@
 const createUser = async (e) => {
   e.preventDefault()
-  const { 0: firstName, 1: lastName, 2: email, 3: role } = e.target
+  const {
+    0: firstName,
+    1: lastName,
+    2: email,
+    3: role,
+    4: submitBtn
+  } = e.target
+  empty(submitBtn, () => {
+    const loading = loadingSpinner.cloneNode(true)
+    loading.style.cssText = `width: 2rem; position: static; transform: translate(0,0);`
+    submitBtn.disabled = true
+    nestElements(submitBtn, [loading])
+  })
   const request = {
     method: 'POST',
     body: JSON.stringify({
@@ -15,6 +27,10 @@ const createUser = async (e) => {
   }
   const response = await fetch('/admin/create-user', request)
   const json = await response.json()
+  empty(submitBtn, () => {
+    submitBtn.disabled = false
+    submitBtn.innerText = 'Create User'
+  })
   firstName.value = ''
   lastName.value = ''
   email.value = ''

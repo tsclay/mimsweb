@@ -82,6 +82,14 @@
   grid-area: 7/1/7/3;
   justify-self: center;
   width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.new-user-info button[type="submit"]:disabled {
+  background-color: var(--gray);
+  cursor: wait;
 }
 
 .select-role-wrapper {
