@@ -10,7 +10,7 @@ class Admin(db.Model):
     last_name = db.Column(db.String(128), unique=False, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     username = db.Column(db.String(128), unique=True, nullable=False)
-    password = db.Column(db.String(128), nullable=False)
+    password = db.Column(db.Text, nullable=False)
     role = db.Column(db.String(128), unique=False, nullable=False)
     recovery_link = db.Column(db.Text, unique=False, nullable=True)
     active = db.Column(db.Boolean(), default=False, nullable=False)

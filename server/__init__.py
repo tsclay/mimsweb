@@ -22,8 +22,8 @@ def create_app():
 
     server.register_blueprint(auth, url_prefix="/admin")
     server.register_blueprint(images, url_prefix='/admin/assets')
-    server.register_blueprint(content, url_prefix='/admin/content')
-    server.register_blueprint(galleries, url_prefix='/admin/galleries')
+    server.register_blueprint(content, url_prefix='/content')
+    server.register_blueprint(galleries, url_prefix='/galleries')
     server.register_blueprint(blacklist, url_prefix='/admin/blacklist')
     server.register_blueprint(settings)
     server.register_blueprint(email_service)

@@ -236,7 +236,7 @@ const renderContent = async (preResponse = null) => {
   let content = null
   nestElements(searchForOne('.content-grid'), [loadingSpinner])
   if (preResponse === null) {
-    const response = await fetch('/admin/content/all')
+    const response = await fetch('/content')
     const json = await response.json()
     content = json
   } else {
@@ -336,7 +336,7 @@ const deleteContent = async (e) => {
       'Content-Type': 'application/json'
     }
   }
-  const response = await fetch('/admin/content/delete', request)
+  const response = await fetch('/content/admin/delete', request)
   const json = await response.json()
   renderContent(json)
 }

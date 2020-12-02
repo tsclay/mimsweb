@@ -110,7 +110,7 @@ const generateEditForm = (name, details, row, e) => {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch('/admin/galleries/update', request)
+    const response = await fetch('/galleries/admin/update', request)
     const updated = await response.json()
     renderGalleries(updated)
     gallery.clear()

@@ -48,12 +48,12 @@ const modal = nestElements(createElement('div', { class: 'options-modal' }), [
   ),
   createElement(
     'a',
-    { href: '/admin/content', class: 'button modal-btn' },
+    { href: '/content/admin', class: 'button modal-btn' },
     'Content'
   ),
   createElement(
     'a',
-    { href: '/admin/galleries', class: 'button modal-btn' },
+    { href: '/galleries/admin', class: 'button modal-btn' },
     'Galleries'
   ),
   createElement(

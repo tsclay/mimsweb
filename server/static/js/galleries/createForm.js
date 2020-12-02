@@ -82,7 +82,7 @@ const generateCreateForm = () => {
       return
     }
     const { 1: header, 2: paragraph } = e.target.children
-    const response = await fetch('/admin/galleries/create', {
+    const response = await fetch('/galleries/admin/create', {
       method: 'POST',
       body: JSON.stringify({
         gallery_name: header.value,

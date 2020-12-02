@@ -61,7 +61,7 @@ const generateCreateForm = () => {
     const headerText = h.value
     const contentBody = p.value
     const imageRef = i.dataset.imageId
-    const response = await fetch('/admin/content/create', {
+    const response = await fetch('/content/admin/create', {
       method: 'POST',
       body: JSON.stringify({
         header_text: headerText,

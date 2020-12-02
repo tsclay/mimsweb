@@ -35,7 +35,7 @@ def read():
     return json.dumps(r_dict, indent=2)
 
 
-@content.route('', methods=["GET"])
+@content.route('/admin', methods=["GET"])
 def render():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
@@ -43,13 +43,13 @@ def render():
     return render_template('content.html', user=session["username"], role=session["role"], title="Content")
 
 
-@content.route('/all', methods=["GET", "DELETE"])
+@content.route('', methods=["GET"])
 def show_all():
     payload = read()
     return payload
 
 
-@content.route('/create', methods=["POST"])
+@content.route('/admin/create', methods=["POST"])
 def create():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
@@ -70,7 +70,7 @@ def create():
         return json.dumps({"message": "Error"})
 
 
-@content.route('/update', methods=["PUT"])
+@content.route('/admin/update', methods=["PUT"])
 def update():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
@@ -103,7 +103,7 @@ def update():
 # Found out how to delete one header and delete para and image in same query
 
 
-@content.route('/delete', methods=["DELETE"])
+@content.route('/admin/delete', methods=["DELETE"])
 def delete():
     if 'username' not in session:
         return redirect(url_for('auth.login'))

@@ -60,7 +60,7 @@ def fetch_galleries():
     return json.dumps(all_galleries, indent=2, default=default)
 
 
-@ galleries.route('', methods=["GET"])
+@ galleries.route('/admin', methods=["GET"])
 def handle_images():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
@@ -68,12 +68,12 @@ def handle_images():
     return render_template('galleries.html', user=session["username"], role=session["role"], title='Galleries')
 
 
-@ galleries.route('/read', methods=["GET"])
+@ galleries.route('', methods=["GET"])
 def get_galleries():
     return fetch_galleries()
 
 
-@ galleries.route('/create', methods=["POST"])
+@ galleries.route('/admin/create', methods=["POST"])
 def create_gallery():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
@@ -94,7 +94,7 @@ def create_gallery():
     return fetch_galleries()
 
 
-@ galleries.route('/update', methods=["PUT"])
+@ galleries.route('/admin/update', methods=["PUT"])
 def update_gallery():
 
     data = request.get_json()
@@ -134,7 +134,7 @@ def update_gallery():
     return fetch_galleries()
 
 
-@ galleries.route('/delete', methods=["DELETE"])
+@ galleries.route('/admin/delete', methods=["DELETE"])
 def delete_gallery():
     if 'username' not in session:
         return redirect(url_for('auth.login'))

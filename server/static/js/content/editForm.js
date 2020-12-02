@@ -90,7 +90,7 @@ const generateEditForm = (header, paragraph, image, e) => {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch('/admin/content/update', request)
+    const response = await fetch('/content/admin/update', request)
     const updated = await response.json()
     header.innerText = updated.header_text
     paragraph.innerText = updated.paragraph_text

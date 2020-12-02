@@ -242,7 +242,7 @@ const renderGalleries = async (fetchedGalleries = null) => {
   if (fetchedGalleries && fetchedGalleries.length > 0) {
     galleries = fetchedGalleries
   } else {
-    const response = await fetch('/admin/galleries/read')
+    const response = await fetch('/galleries')
     galleries = await response.json()
   }
   loader.remove()
@@ -326,7 +326,7 @@ const deleteGallery = async (e) => {
       'Content-Type': 'application/json'
     }
   }
-  const response = await fetch('/admin/galleries/delete', request)
+  const response = await fetch('/galleries/admin/delete', request)
   const json = await response.json()
   renderGalleries(json)
 }
