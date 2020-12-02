@@ -13,12 +13,8 @@ COPY . .
 RUN pip install -r requirements.txt
 
 # Production image using Gunicorn
-# SECRET_KEY and DATABASE_URL defined in Heroku
 FROM base AS prod
-ENV FLASK_APP=./server
 ENV FLASK_ENV=production
-ENV PORT=4001
-ENV APP_SETTINGS=config.Config
 EXPOSE 4001
 ENTRYPOINT [ "/code/scripts/entrypoint.sh" ]
 
