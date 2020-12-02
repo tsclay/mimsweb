@@ -29,9 +29,9 @@ def login():
     password = request.form["password"]
     found_user = Admin.query.filter_by(
         username=username).first()
-    if found_user == None:
-        return redirect(url_for('auth.login'))
-    elif username == found_user.username and password == found_user.password:
+    if found_user is not None and \
+            username == found_user.username and \
+            password == found_user.password:
         session["username"] = request.form["username"]
         session["role"] = found_user.role
         found_user.active = True
@@ -40,7 +40,7 @@ def login():
         db.session.commit()
         return redirect(url_for('auth.home'))
     else:
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('auth.login', message=json.dumps({"error": "Double-check your credentials and try again."})))
 
 
 @auth.route('/logout', methods=["POST"])

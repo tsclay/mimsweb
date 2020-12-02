@@ -124,7 +124,9 @@
       </div>
       <div class="login-container">
         <div class="messages">
-          {% if message is defined %}
+          {% if message is defined and "error" in message %}
+          <p style="color: red;">{{message["error"]}}</p>
+          {% elif message is defined and "message" in message %}
           <p style="color: green;">{{message["message"]}}</p>
           {% endif %}
         </div>

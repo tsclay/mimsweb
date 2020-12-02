@@ -18,7 +18,7 @@ body {
   grid-area: 2/2/2/2;
   align-self: center;
   justify-self: center;
-  width: clamp(260px, 100%, 325px);
+  width: clamp(365px, 100%, 400px);
 }
 
 .login-container > form {
