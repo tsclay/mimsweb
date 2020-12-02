@@ -3,14 +3,7 @@ const changeSettings = async (e) => {
   const [shownFirstName, shownLastName, shownUsername] = searchForAll(
     '[data-id="db_values"]'
   )
-  const {
-    0: firstName,
-    1: lastName,
-    2: username,
-    3: password,
-    4: submitBtn
-  } = e.target
-  console.log(e.target)
+  const { 0: firstName, 1: lastName, 2: password, 3: submitBtn } = e.target
   empty(submitBtn, () => {
     const loading = loadingSpinner.cloneNode(true)
     loading.style.cssText = `width: 2rem; position: static; transform: translate(0,0);`
@@ -21,7 +14,6 @@ const changeSettings = async (e) => {
     body: JSON.stringify({
       first_name: firstName.value,
       last_name: lastName.value,
-      username: username.value,
       password: password.value
     }),
     headers: {
