@@ -52,10 +52,13 @@
   grid-area: 8/2/8/2;
 }
 
-.user-info button[type="submit"] {
+.user-info button[type='submit'] {
   grid-area: 10/1/10/3;
   justify-self: center;
   width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .new-user-info .n-names {
@@ -78,7 +81,7 @@
   grid-area: 3/2/3/2;
 }
 
-.new-user-info button[type="submit"] {
+.new-user-info button[type='submit'] {
   grid-area: 7/1/7/3;
   justify-self: center;
   width: 50%;
@@ -87,7 +90,7 @@
   justify-content: center;
 }
 
-.new-user-info button[type="submit"]:disabled {
+button[type='submit']:disabled {
   background-color: var(--gray);
   cursor: wait;
 }
