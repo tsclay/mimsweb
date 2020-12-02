@@ -3,7 +3,8 @@ const changeSettings = async (e) => {
   const [shownFirstName, shownLastName, shownUsername] = searchForAll(
     '[data-id="db_values"]'
   )
-  const { 0: firstName, 1: lastName, 2: username, 4: password } = e.target
+  const { 0: firstName, 1: lastName, 2: username, 3: password } = e.target
+  console.log(e.target)
   const response = await fetch('/admin/settings', {
     body: JSON.stringify({
       first_name: firstName.value,
