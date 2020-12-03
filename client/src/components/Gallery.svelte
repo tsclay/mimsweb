@@ -1,18 +1,20 @@
 <script>
   import Image from './Image.svelte'
+  export let resources
+  let gallery = resources.galleries[0]
   let modalImgSrc
-  let images = [
-    '../assets/img/barnes3.jpg',
-    '../assets/img/inside.jpg',
-    '../assets/img/parrish2.jpg',
-    '../assets/img/rebarnes.jpg',
-    '../assets/img/rebarnes1.jpg',
-    '../assets/img/rebarnes3.jpg',
-    '../assets/img/rekean1.jpg',
-    '../assets/img/rekean2.jpg',
-    '../assets/img/rekean3.jpg',
-    '../assets/img/reparish1.jpg'
-  ]
+  // let images = [
+  //   '../assets/img/barnes3.jpg',
+  //   '../assets/img/inside.jpg',
+  //   '../assets/img/parrish2.jpg',
+  //   '../assets/img/rebarnes.jpg',
+  //   '../assets/img/rebarnes1.jpg',
+  //   '../assets/img/rebarnes3.jpg',
+  //   '../assets/img/rekean1.jpg',
+  //   '../assets/img/rekean2.jpg',
+  //   '../assets/img/rekean3.jpg',
+  //   '../assets/img/reparish1.jpg'
+  // ]
 
   const openImgModal = (e) => {
     modalImgSrc = e.detail.imgSrc
@@ -74,18 +76,18 @@
 </style>
 
 <div id="gallery" class="component">
-  <h1>See our work</h1>
-  <p>Check out our gallery below!</p>
+  <h1>{gallery.gallery_name}</h1>
+  <p>{gallery.description}</p>
   <div class="carousel-wrapper">
     <div class="carousel-container">
-      {#each images as image, i}
+      {#each gallery.images as image, i}
         <Image
           on:openImg={openImgModal}
           isGallery
           styleOverride="margin-right: 1rem; width: 200px; height: 200px; flex-shrink: 0;"
-          imgSrc={image}
+          imgSrc={image.src}
           imgSrcTiny={'./assets/img-blurry/1925blurred.jpg'}
-          imgAlt="Gallery-{i}" />
+          imgAlt={image.alt} />
       {/each}
     </div>
   </div>

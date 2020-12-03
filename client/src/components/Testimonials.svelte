@@ -1,32 +1,34 @@
 <script>
   import Image from './Image.svelte'
-  let images = [
-    '../assets/testimonials/testimonial2014-02-27-at-9-14-30-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-16-21-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-18-24-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-19-30-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-20-49-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-21-54-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-22-55-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-24-01-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-26-25-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-27-30-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-28-45-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-29-43-am.png',
-    '../assets/testimonials/testimonial2014-02-27-at-9-31-08-am.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-43-00-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-44-51-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-45-19-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-46-33-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-46-50-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-47-01-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-49-50-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-50-17-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-50-58-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-51-30-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-51-52-pm.png',
-    '../assets/testimonials/testimonial2014-03-04-at-12-55-08-pm.png'
-  ]
+  export let resources
+  let gallery = resources.galleries[1]
+  // let images = [
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-14-30-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-16-21-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-18-24-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-19-30-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-20-49-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-21-54-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-22-55-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-24-01-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-26-25-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-27-30-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-28-45-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-29-43-am.png',
+  //   '../assets/testimonials/testimonial2014-02-27-at-9-31-08-am.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-43-00-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-44-51-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-45-19-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-46-33-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-46-50-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-47-01-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-49-50-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-50-17-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-50-58-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-51-30-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-51-52-pm.png',
+  //   '../assets/testimonials/testimonial2014-03-04-at-12-55-08-pm.png'
+  // ]
 
   let modalImgSrc
 
@@ -97,13 +99,13 @@
   </p>
   <div class="carousel-wrapper">
     <div class="carousel-container">
-      {#each images as image, i}
+      {#each gallery.images as image, i}
         <Image
           on:openImg={openImgModal}
           styleOverride="margin-right: 1rem; width: 200px; height: 200px; flex-shrink: 0;"
-          imgSrc={image}
+          imgSrc={image.src}
           imgSrcTiny={'./assets/img-blurry/1925blurred.jpg'}
-          imgAlt="Testimonial-{i}" />
+          imgAlt={Image.alt} />
       {/each}
     </div>
     {#if modalImgSrc}

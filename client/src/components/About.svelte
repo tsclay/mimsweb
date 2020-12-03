@@ -1,9 +1,18 @@
 <script>
   import Image from './Image.svelte'
   export let width
+  export let resources
+
+  let content = resources.content
+  console.log(resources)
 </script>
 
 <style type="text/scss">
+  p {
+    white-space: pre-line;
+    line-height: 1.35rem;
+  }
+
   #about {
     margin-top: 2rem;
     width: 100%;
@@ -424,61 +433,37 @@
 
   <Image
     gridArea={width > 600 ? '1/1/1/1' : '2/1/2/1'}
-    imgSrc="./assets/img/tinified/inside.jpg"
+    imgSrc={content[0].image_link}
     imgSrcTiny={'./assets/img-blurry/1925blurred.jpg'}
-    imgAlt="Mims Painting, 1925"
+    imgAlt={content[0].image_name}
     hideBtn={true} />
   <div class="about-text1">
-    <h1>Five generations of excellence</h1>
-    <p>
-      We are built on six generations of highly-skilled workmanship, outstanding
-      customer relations, and exceptional service in the painting industry.
-    </p>
-    <p>
-      We serve Nassau and Suffolk Counties on Long Island, Westchester County,
-      and New York City, and we're proud to be one of the largest
-      long-established high-quality painting companies in New York.
-    </p>
+    <h1>{content[0].header_text}</h1>
+    <p>{content[0].paragraph_text}</p>
   </div>
 
   <div class="about-text2">
-    <h1>Fully licensed, insured, bonded, and certified</h1>
-    <p>
-      More than 75 well-trained, experienced painters will be at your disposal,
-      24 hours a day, 365 days a year. Same day emergency service is available,
-      as needed.
-    </p>
-    <p>
-      Our company works closely with builders, architects, designers, and
-      homeowners to ensure they will get a well run, quality paint job.
-    </p>
+    <h1>{content[1].header_text}</h1>
+    <p>{content[1].paragraph_text}</p>
   </div>
 
   <Image
     gridArea={width > 600 ? '2/3/2/3' : '4/1/4/1'}
-    imgSrc="./assets/img/tinified/rebarnes3.jpg"
+    imgSrc={content[1].image_link}
     imgSrcTiny={'./assets/img-blurry/1925blurred.jpg'}
-    imgAlt="Paint work on non-conventional canvases"
+    imgAlt={content[1].image_name}
     hideBtn={true} />
 
   <Image
     gridArea={width > 600 ? '3/1/3/1' : '6/1/6/1'}
-    imgSrc="./assets/img/tinified/parrish2.jpg"
+    imgSrc={content[2].image_link}
     imgSrcTiny={'./assets/img-blurry/1925blurred.jpg'}
-    imgAlt="Blah"
+    imgAlt={content[2].image_name}
     hideBtn={true} />
 
   <div class="about-text3">
-    <h1>Serving Residential & Commercial</h1>
-    <p>
-      Our residential repaint work caters to a wide spectrum of homes, from
-      mansions to cottages. All projects undertaken are family run with utmost
-      efficiency, and care is taken to accommodate any given environment.
-    </p>
-    <p>
-      Our commercial work experience includes banks, office buildings,
-      restaurants, nursing homes, lighthouses and retail stores.
-    </p>
+    <h1>{content[2].header_text}</h1>
+    <p>{content[2].paragraph_text}</p>
   </div>
 
   <!-- <p>
@@ -489,18 +474,13 @@
   <!-- This should go close to contact form -->
 
   <div class="about-text4">
-    <h1>Competitive, flexible pricing</h1>
-    <p>
-      Our pricing is competitive with other quality contractors but we will work
-      with you on budget limitations as needed. We offer a variety of payment
-      options to accommodate your budget, as well as zero interest payment
-      plans.
-    </p>
+    <h1>{content[3].header_text}</h1>
+    <p>{content[3].paragraph_text}</p>
   </div>
   <Image
     gridArea={width > 600 ? '4/3/4/3' : '8/1/8/1'}
-    imgSrc="./assets/img/tinified/rekean3.jpg"
+    imgSrc={content[3].image_link}
     imgSrcTiny={'./assets/img-blurry/1925blurred.jpg'}
-    imgAlt="Blah"
+    imgAlt={content[3].image_name}
     hideBtn={true} />
 </div>
