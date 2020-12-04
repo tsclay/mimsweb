@@ -50,17 +50,17 @@ def create_app():
         ### Deliver only the content and galleries that are in use on the client website
 
         ```sql
-        SELECT clients.id, headers.header_text, clients.content_id, paragraphs.paragraph_text, images.image_name, images.image_link, clients, gallery_id, gallery_info.gallery_name, gallery_info.description FROM client_resources as clients LEFT OUTER JOIN headers
-        ON headers.id = clients.content_id
+        SELECT clients.resource_id, headers.header_text, clients.content_id, paragraphs.paragraph_text, images.image_name, images.image_link, clients.gallery_id, gallery_info.gallery_name, gallery_info.description, galleries.index_id FROM client_resources as clients 
+        LEFT OUTER JOIN headers ON headers.header_id = clients.content_id
         LEFT OUTER JOIN galleries ON galleries.info_id = clients.gallery_id
-        LEFT OUTER JOIN paragraphs ON paragraphs.id = headers.paragraph_id
-        LEFT OUTER JOIN images ON images.id = headers.image_id OR images.id = galleries.image_id
-        LEFT OUTER JOIN gallery_info ON galleries.info_id = gallery_info.id
-        ORDER BY clients.content_id, clients.gallery_id, clients.id;
+        LEFT OUTER JOIN paragraphs ON paragraphs.paragraph_id = headers.paragraph_id
+        LEFT OUTER JOIN images ON images.image_id = headers.image_id OR images.image_id = galleries.image_id
+        LEFT OUTER JOIN gallery_info ON galleries.info_id = gallery_info.gallery_id
+        ORDER BY clients.content_id, clients.gallery_id, galleries.index_id, clients.resource_id;
         ```
         """
-        resources = Client_Resources.query.with_entities(Client_Resources.id, Client_Resources.content_id, Header.header_text, Paragraph.paragraph_text, Image.image_name, Image.image_link, Client_Resources.gallery_id, Gallery_Info.gallery_name, Gallery_Info.description).outerjoin(Header, Header.id == Client_Resources.content_id).outerjoin(
-            Galleries, Galleries.info_id == Client_Resources.gallery_id).outerjoin(Paragraph, Paragraph.id == Header.paragraph_id).outerjoin(Image, ((Image.id == Header.image_id) | (Image.id == Galleries.image_id))).outerjoin(Gallery_Info, Gallery_Info.id == Galleries.info_id).order_by(Client_Resources.content_id, Client_Resources.gallery_id, Client_Resources.id)
+        resources = Client_Resources.query.with_entities(Client_Resources.resource_id, Client_Resources.content_id, Header.header_text, Paragraph.paragraph_text, Image.image_name, Image.image_link, Client_Resources.gallery_id, Gallery_Info.gallery_name, Gallery_Info.description, Galleries.index_id).outerjoin(Header, Header.header_id == Client_Resources.content_id).outerjoin(
+            Galleries, Galleries.info_id == Client_Resources.gallery_id).outerjoin(Paragraph, Paragraph.paragraph_id == Header.paragraph_id).outerjoin(Image, ((Image.image_id == Header.image_id) | (Image.image_id == Galleries.image_id))).outerjoin(Gallery_Info, Gallery_Info.gallery_id == Galleries.info_id).order_by(Client_Resources.content_id, Client_Resources.gallery_id, Galleries.index_id, Client_Resources.resource_id)
 
         all_galleries = []
         all_content = []
