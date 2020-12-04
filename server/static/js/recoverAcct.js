@@ -13,9 +13,9 @@ const sendRecoveryEmail = async (e) => {
       email: email.value
     })
   }
-  const response = await fetch('/admin/users/recovery', request)
-  const json = await response.json()
-  console.log(json)
+  const response = await fetch('/admin/users/recovery', request).then((r) => r.json())
+  
+  console.log(response)
 }
 
 const toggleRecoveryForm = (e) => {

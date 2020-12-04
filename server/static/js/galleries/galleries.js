@@ -242,8 +242,8 @@ const renderGalleries = async (fetchedGalleries = null) => {
   if (fetchedGalleries && fetchedGalleries.length > 0) {
     galleries = fetchedGalleries
   } else {
-    const response = await fetch('/galleries')
-    galleries = await response.json()
+    const response = await fetch('/galleries').then((r) => r.json())
+    galleries = response
   }
   loader.remove()
   if (galleries.length > 0) {
@@ -326,9 +326,9 @@ const deleteGallery = async (e) => {
       'Content-Type': 'application/json'
     }
   }
-  const response = await fetch('/galleries/admin/delete', request)
-  const json = await response.json()
-  renderGalleries(json)
+  const response = await fetch('/galleries/admin/delete', request).then((r) => r.json())
+  
+  renderGalleries(response)
 }
 
 const selectQueue = new Set()

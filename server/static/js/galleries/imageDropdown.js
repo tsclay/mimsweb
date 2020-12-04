@@ -173,10 +173,10 @@ const generateImageModal = (e, editing = false) => {
   }
 
   const fetchImages = async () => {
-    const response = await fetch('/admin/assets/read')
-    const json = await response.json()
+    const response = await fetch('/admin/assets/read').then((r) => r.json())
+    
     imagePool.querySelector('.loading-wrapper').remove()
-    json.forEach((j) => {
+    response.forEach((j) => {
       const img = createElement('img', {
         'data-id': j.id,
         alt: j.image_name,

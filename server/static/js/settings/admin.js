@@ -25,8 +25,8 @@ const createUser = async (e) => {
       'Content-Type': 'application/json'
     }
   }
-  const response = await fetch('/admin/create-user', request)
-  const json = await response.json()
+  const response = await fetch('/admin/create-user', request).then((r) => r.json())
+  
   empty(submitBtn, () => {
     submitBtn.disabled = false
     submitBtn.innerText = 'Create User'
@@ -35,7 +35,7 @@ const createUser = async (e) => {
   lastName.value = ''
   email.value = ''
   role.value = ''
-  renderUsers(json)
+  renderUsers(response)
 }
 
 const selectOption = (e) => {
@@ -86,8 +86,8 @@ const renderUsers = async (fetchedUsers = null) => {
   let allUsers
   const target = searchForOne('div.user-list')
   if (!fetchedUsers) {
-    const response = await fetch('/admin/users')
-    allUsers = await response.json()
+    const response = await fetch('/admin/users').then((r) => r.json())
+    allUsers = response
   } else {
     allUsers = fetchedUsers
     empty(target)
@@ -132,13 +132,14 @@ let confirmDelete
 if (userRole === 'admin') {
   deleteUser = async (e) => {
     const userId = e.target.value
-    const response = await fetch('/admin/users', {
+    const request = {
       body: JSON.stringify({ id: userId }),
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
-    })
-    const json = await response.json()
-    renderUsers(json)
+    }
+    const response = await fetch('/admin/users', request).then((r) => r.json())
+    
+    renderUsers(response)
   }
 
   confirmDelete = (e) => {

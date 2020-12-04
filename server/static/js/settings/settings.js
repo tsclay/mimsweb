@@ -10,7 +10,7 @@ const changeSettings = async (e) => {
     submitBtn.disabled = true
     nestElements(submitBtn, [loading])
   })
-  const response = await fetch('/admin/settings', {
+  const request = {
     body: JSON.stringify({
       first_name: firstName.value,
       last_name: lastName.value,
@@ -20,17 +20,17 @@ const changeSettings = async (e) => {
       'Content-Type': 'application/json'
     },
     method: 'POST'
-  })
-  const updatedUser = await response.json()
+  }
+  const response = await fetch('/admin/settings', request).then((r) => r.json())
   empty(submitBtn, () => {
     submitBtn.disabled = false
     submitBtn.innerText = 'Confirm'
   })
-  shownFirstName.innerText = updatedUser.first_name
-  shownLastName.innerText = updatedUser.last_name
-  shownUsername.innerText = updatedUser.username
+  shownFirstName.innerText = response.first_name
+  shownLastName.innerText = response.last_name
+  shownUsername.innerText = response.username
   firstName.value = ''
   lastName.value = ''
   password.value = ''
-  searchForOne('#session-username').innerText = updatedUser.username
+  searchForOne('#session-username').innerText = response.username
 }

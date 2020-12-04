@@ -24,16 +24,17 @@
 // Logout user thru AJAX
 const logoutUser = async () => {
   const username = searchForOne('#session-username').innerText
-  const response = await fetch('/admin/logout', {
+  const request = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Accept: 'application/json'
     },
     body: `username=${username}`
-  })
-  const json = await response.json()
-  if (json.message === 'Logout successful') {
+  }
+  const response = await fetch('/admin/logout', request).then((r) => r.json())
+  
+  if (response.message === 'Logout successful') {
     window.location.replace('/admin/login')
   }
 }

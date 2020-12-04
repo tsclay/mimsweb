@@ -90,13 +90,12 @@ const generateEditForm = (header, paragraph, image, e) => {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch('/content/admin/update', request)
-    const updated = await response.json()
-    header.innerText = updated.header_text
-    paragraph.innerText = updated.paragraph_text
-    image.src = updated.image_link
-    image.alt = updated.image_name
-    image.setAttribute('data-id', updated.image_id)
+    const response = await fetch('/content/admin/update', request).then((r) => r.json())
+    header.innerText = response.header_text
+    paragraph.innerText = response.paragraph_text
+    image.src = response.image_link
+    image.alt = response.image_name
+    image.setAttribute('data-id', response.image_id)
     exit.click()
   }
 

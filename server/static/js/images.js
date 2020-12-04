@@ -13,9 +13,9 @@ const renderImages = async (preResponse = null) => {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch('/admin/assets/delete', request)
-    const json = await response.json()
-    renderImages(json)
+    const response = await fetch('/admin/assets/delete', request).then((r) => r.json())
+    
+    renderImages(response)
   }
   const handleNotification = (json, asset) => {
     const cancel = (e) => {
@@ -75,11 +75,11 @@ const renderImages = async (preResponse = null) => {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch('/admin/assets/delete', request)
-    const json = await response.json()
-    if (json[0].message === 1) {
-      await handleNotification(json, thisAsset)
-    } else if (json[0].message === 0) {
+    const response = await fetch('/admin/assets/delete', request).then((r) => r.json())
+    
+    if (response[0].message === 1) {
+      handleNotification(response, thisAsset)
+    } else if (response[0].message === 0) {
       await deleteImage(e.target.closest('button'))
     }
   }
@@ -355,9 +355,9 @@ const renderImages = async (preResponse = null) => {
   }
 
   if (preResponse === null) {
-    const response = await fetch('/admin/assets/read')
-    const json = await response.json()
-    content = json
+    const response = await fetch('/admin/assets/read').then((r) => r.json())
+    
+    content = response
   } else {
     content = preResponse
   }
@@ -415,17 +415,15 @@ const generateImageEditor = (e, flag) => {
       fd.append('image_name', document.querySelector('#new-image-name').value)
       fd.append('image_id', thisInput.dataset.imageId)
     }
-
     const url =
       gate === 'edit' ? '/admin/assets/replace' : '/admin/assets/create'
-
-    const response = await fetch(url, {
+    const request = {
       method: 'POST',
       body: fd
-    })
-    const updatedImages = await response.json()
+    }
+    const response = await fetch(url, request).then((r) => r.json())
     imageEditor.remove()
-    renderImages(updatedImages)
+    renderImages(response)
   }
 
   const exitEditor = (e) => {

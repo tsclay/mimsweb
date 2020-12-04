@@ -32,10 +32,10 @@ const generateImageDropdown = (image = null) => {
     // nestElements(imageGrid, [loading])
     nestElements(parent.querySelector('.image-grid-wrapper'), [imageGrid])
     thisDiv.querySelector('.arrow-icon').classList.add('active')
-    const response = await fetch('/admin/assets/read')
-    const json = await response.json()
+    const response = await fetch('/admin/assets/read').then((r) => r.json())
+    
     loading.remove()
-    json.forEach((j) => {
+    response.forEach((j) => {
       const img = createElement('img', {
         class: 'update-img-ref',
         id: j.id,

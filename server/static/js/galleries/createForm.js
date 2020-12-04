@@ -82,7 +82,7 @@ const generateCreateForm = () => {
       return
     }
     const { 1: header, 2: paragraph } = e.target.children
-    const response = await fetch('/galleries/admin/create', {
+    const request = {
       method: 'POST',
       body: JSON.stringify({
         gallery_name: header.value,
@@ -90,9 +90,10 @@ const generateCreateForm = () => {
         images: [...gallery.keys()].map((n) => Number(n))
       }),
       headers: { 'Content-Type': 'application/json' }
-    })
-    const json = await response.json()
-    renderGalleries(json)
+    }
+    const response = await fetch('/galleries/admin/create', request).then((r) => r.json())
+    
+    renderGalleries(response)
     gallery.clear()
     exitBtn.click()
   }

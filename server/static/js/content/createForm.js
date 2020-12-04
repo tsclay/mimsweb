@@ -61,7 +61,7 @@ const generateCreateForm = () => {
     const headerText = h.value
     const contentBody = p.value
     const imageRef = i.dataset.imageId
-    const response = await fetch('/content/admin/create', {
+    const request = {
       method: 'POST',
       body: JSON.stringify({
         header_text: headerText,
@@ -69,9 +69,10 @@ const generateCreateForm = () => {
         image_id: parseInt(imageRef)
       }),
       headers: { 'Content-Type': 'application/json' }
-    })
-    const json = await response.json()
-    renderContent(json)
+    }
+    const response = await fetch('/content/admin/create', request).then((r) => r.json())
+    
+    renderContent(response)
     exitBtn.click()
   }
 
