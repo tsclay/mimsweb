@@ -37,4 +37,3 @@ const formatDateTimeString = (isoStr) => {
 
 const userRole = searchForOne('meta[name="role"]').content
 
-console.log(formatDateTimeString('2020-12-02T00:00:00.601108Z'))
