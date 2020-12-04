@@ -100,3 +100,52 @@ Used in `Dockerfile`:
 ```bash
 curl -sL https://deb.nodesource.com/node_14.x | apt-get install -y nodejs
 ```
+
+## SQL notes
+
+### To get from content and galleries all that are linked in client_resources
+
+```sql
+SELECT clients.id, headers.header_text, paragraphs.paragraph_text, images.image_name, images.image_link, gallery_info.gallery_name, gallery_info.description FROM client_resources as clients
+LEFT OUTER JOIN headers ON headers.id = clients.content_id
+LEFT OUTER JOIN galleries ON galleries.info_id = clients.gallery_id
+LEFT OUTER JOIN paragraphs ON paragraphs.id = headers.paragraph_id
+LEFT OUTER JOIN images ON images.id = headers.image_id OR images.id = galleries.image_id
+LEFT OUTER JOIN gallery_info ON galleries.info_id = gallery_info.id
+ORDER BY clients.content_id, clients.gallery_id, clients.id;
+```
+
+### To get from content (headers, paragraphs, images) and gallery_info only those that are linked in client_resources
+
+```sql
+SELECT clients.id, headers.header_text, paragraphs.paragraph_text, images.image_name, images.image_link, gallery_info.gallery_name, gallery_info.description FROM client_resources as clients
+LEFT OUTER JOIN headers ON headers.id = clients.content_id
+LEFT OUTER JOIN paragraphs ON paragraphs.id = headers.paragraph_id
+LEFT OUTER JOIN images on images.id = headers.image_id
+LEFT OUTER JOIN gallery_info ON gallery_info.id = clients.gallery_id
+ORDER BY clients.content_id, clients.id;
+```
+
+### To get from galleries table only those that are linked in client_resources:
+
+For the client, who should only ask for and receive the resources registered as being on the site
+
+```sql
+SELECT clients.id, gallery_info.*, images.* FROM galleries
+LEFT OUTER JOIN gallery_info ON gallery_info.id = galleries.info_id
+INNER JOIN client_resources as clients ON clients.gallery_id = gallery_info.id
+LEFT OUTER JOIN images ON images.id = galleries.image_id
+ORDER BY galleries.id;
+```
+
+### To get all from galleries and show client_resources.id
+
+For use in the managem portal at ```/galleries```, secured by checking for session on server
+
+```sql
+SELECT clients.id, gallery_info.*, images.* FROM galleries
+LEFT OUTER JOIN gallery_info ON gallery_info.id = galleries.info_id
+LEFT OUTER JOIN client_resources as clients ON clients.gallery_id = gallery_info.id
+LEFT OUTER JOIN images ON images.id = galleries.image_id
+ORDER BY galleries.id;
+```
