@@ -1,37 +1,15 @@
-from flask import json, request, Blueprint, render_template, session, redirect, url_for, current_app
+from server.blueprints import encrypt_credentials
+from flask import json, request, Blueprint, render_template, redirect, url_for
 from server.db import db
 from server.models.Admin import Admin
-import uuid
 import os
 import smtplib
 import ssl
-import datetime
-import base64
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 
 users = Blueprint('users', __name__, template_folder='templates')
-
-
-def hash_password(user_cred):
-    secret = current_app.config["SECRET_KEY"]
-    password = bytes(secret, "utf-8")
-    salt = b"saltysaltysalt"
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        iterations=100000,
-    )
-    key = base64.urlsafe_b64encode(kdf.derive(password))
-    f = Fernet(key)
-    str_to_encrypt = bytes(f"{user_cred}", "utf-8")
-    encrypted_str = f.encrypt(str_to_encrypt).decode("utf-8")
-    return encrypted_str
 
 
 @users.route('/admin/users/recovery', methods=['POST'])
@@ -41,7 +19,7 @@ def register_recovery():
         last_name=data["last_name"]).filter_by(username=data["username"]).first()
 
     if found_user is not None:
-        found_user.recovery_link = hash_password(data["email"])
+        found_user.recovery_link = encrypt_credentials(data["email"])
         db.session.add(found_user)
         db.session.commit()
 
@@ -133,7 +111,7 @@ def handle_recovery(recovery_link):
         return render_template('recovery.html', title="Account Recovery", url=f"/admin/users/recovery/{recovery_link}")
     elif request.method == 'POST' and found_user is not None:
         data = request.form
-        found_user.password = hash_password(data["password"])
+        found_user.password = encrypt_credentials(data["password"])
         found_user.recovery_link = None
         db.session.add(found_user)
         db.session.commit()

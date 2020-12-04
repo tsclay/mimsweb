@@ -1,4 +1,5 @@
-from flask import json, request, Blueprint, render_template, session, redirect, url_for, current_app
+from flask import json, request, Blueprint, render_template, session, redirect, url_for
+from server.blueprints import encrypt_credentials
 from server.db import db
 from server.models.Admin import Admin
 import uuid
@@ -6,10 +7,6 @@ import os
 import smtplib
 import ssl
 import datetime
-import base64
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
@@ -17,21 +14,21 @@ from email.mime.image import MIMEImage
 settings = Blueprint('settings', __name__, template_folder='templates')
 
 
-def hash_password(user_cred):
-    secret = current_app.config["SECRET_KEY"]
-    password = bytes(secret, "utf-8")
-    salt = b"saltysaltysalt"
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        iterations=100000,
-    )
-    key = base64.urlsafe_b64encode(kdf.derive(password))
-    f = Fernet(key)
-    str_to_encrypt = bytes(f"{user_cred}", "utf-8")
-    encrypted_str = f.encrypt(str_to_encrypt).decode("utf-8")
-    return encrypted_str
+# def encrypt_credentials(user_cred):
+#     secret = current_app.config["SECRET_KEY"]
+#     password = bytes(secret, "utf-8")
+#     salt = os.environ["SALT"]
+#     kdf = PBKDF2HMAC(
+#         algorithm=hashes.SHA256(),
+#         length=32,
+#         salt=salt,
+#         iterations=100000,
+#     )
+#     key = base64.urlsafe_b64encode(kdf.derive(password))
+#     f = Fernet(key)
+#     str_to_encrypt = bytes(user_cred, "utf-8")
+#     encrypted_str = f.encrypt(str_to_encrypt).decode("utf-8")
+#     return encrypted_str
 
 
 def fetch_users():
@@ -77,7 +74,7 @@ def change_settings():
 
     current_user.first_name = updates["first_name"] if updates["first_name"] != '' else current_user.first_name
     current_user.last_name = updates["last_name"] if updates['last_name'] != '' else current_user.last_name
-    current_user.password = hash_password(
+    current_user.password = encrypt_credentials(
         updates["password"]) if updates['password'] != '' else current_user.password
     new_username = None
 

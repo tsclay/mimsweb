@@ -1,32 +1,12 @@
 import datetime
+from server.blueprints import decrypt
 from datetime import timezone
-from flask import current_app, Blueprint, url_for, render_template, request, session, redirect
+from flask import Blueprint, url_for, render_template, request, session, redirect
 import json
 from server.db import db
 from server.models.Admin import Admin
-import base64
-import os
-from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 auth = Blueprint('auth', __name__, template_folder='templates')
-
-
-def decrypt(user_cred):
-    secret = current_app.config["SECRET_KEY"]
-    password = bytes(secret, "utf-8")
-    salt = b"saltysaltysalt"
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(),
-        length=32,
-        salt=salt,
-        iterations=100000,
-    )
-    key = base64.urlsafe_b64encode(kdf.derive(password))
-    f = Fernet(key)
-    decrypted_str = f.decrypt(bytes(user_cred, "utf-8")).decode("utf-8")
-    return decrypted_str
 
 
 @auth.route('', methods=["GET"])
