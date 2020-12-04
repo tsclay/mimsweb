@@ -68,7 +68,8 @@ def replace_image():
     if file.filename != "" and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-        db_image = Image.query.filter_by(id=request.form["image_id"]).first()
+        db_image = Image.query.filter_by(
+            image_id=request.form["image_id"]).first()
         old_image_path = 'server' + db_image.image_link
         os.remove(old_image_path)
         db_image.image_link = '/static/assets/uploads/' + filename
@@ -92,7 +93,7 @@ def delete_image():
 
     if request.method == 'DELETE':
         data = request.get_json()
-        del_image = Image.query.filter_by(id=data['image_id']).first()
+        del_image = Image.query.filter_by(image_id=data['image_id']).first()
         os.remove("server" + del_image.image_link)
         db.session.delete(del_image)
         db.session.commit()

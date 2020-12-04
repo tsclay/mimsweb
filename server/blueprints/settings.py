@@ -224,7 +224,7 @@ def read():
         if session["role"] != 'admin':
             return json.dumps({"message": "Unauthorized"})
         data = request.get_json()
-        user_to_delete = Admin.query.filter_by(id=data["id"]).first()
+        user_to_delete = Admin.query.filter_by(user_id=data["id"]).first()
         db.session.delete(user_to_delete)
         db.session.commit()
         return fetch_users()

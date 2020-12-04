@@ -59,12 +59,11 @@ def create():
         new_header = Header(header_text=data['header_text'])
         new_paragraph = Paragraph(paragraph_text=data["paragraph_text"])
         new_header.h_image = Image.query.filter_by(
-            id=data["image_id"]).first() or None
+            image_id=data["image_id"]).first() or None
         new_header.h_paragraph = new_paragraph
         db.session.add(new_header)
         db.session.add(new_paragraph)
         db.session.commit()
-        # return redirect(url_for('.read'))
         payload = read()
         return payload
     except Exception as Error:
@@ -78,10 +77,11 @@ def update():
 
     data = request.get_json()
     # updated = content_data[data['id']]
-    updated_header = Header.query.filter_by(id=data['header_id']).first()
+    updated_header = Header.query.filter_by(
+        header_id=data['header_id']).first()
     updated_header.header_text = data['header_text']
     updated_paragraph = Paragraph.query.filter_by(
-        id=data['paragraph_id']).first()
+        paragraph_id=data['paragraph_id']).first()
     updated_paragraph.paragraph_text = data["paragraph_text"]
     updated_header.image_id = data["image_id"]
     db.session.add(updated_header)
