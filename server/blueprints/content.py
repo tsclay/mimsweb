@@ -11,19 +11,20 @@ content = Blueprint('content', __name__, template_folder='templates')
 def read():
     # sql = "SELECT * FROM headers h LEFT OUTER JOIN paragraphs p ON h.paragraph_id = p.id LEFT OUTER JOIN images i ON i.id = h.image_id ORDER BY h.id;"
     # results = db.session.execute(sql)
-    results = Header.query.outerjoin(Paragraph, Paragraph.id == Header.paragraph_id).outerjoin(
-        Image, Image.id == Header.image_id).order_by(Header.id).all()
+    results = Header.query.outerjoin(Paragraph, Paragraph.paragraph_id == Header.paragraph_id).outerjoin(
+        Image, Image.image_id == Header.image_id).order_by(Header.header_id).all()
     r_dict = []
     for row in results:
-        image_id = row.h_image.id if hasattr(row.h_image, "id") else -1
+        image_id = row.h_image.image_id if hasattr(
+            row.h_image, "image_id") else -1
         image_name = row.h_image.image_name if hasattr(
             row.h_image, "image_name") else 'Placeholder'
         image_link = row.h_image.image_link if hasattr(row.h_image, "image_link") else url_for(
             'static', filename='assets/icons/image-icon.inkscape.png')
         item = {
-            "id": row.id,
+            "id": row.header_id,
             "header_text": row.header_text,
-            "paragraph_id": row.h_paragraph.id,
+            "paragraph_id": row.h_paragraph.paragraph_id,
             "paragraph_text": row.h_paragraph.paragraph_text,
             "image_id": image_id,
             "image_name": image_name,
@@ -88,14 +89,14 @@ def update():
     db.session.commit()
     # sql = f"SELECT h.id, h.header_text, h.paragraph_id, p.paragraph_text, h.image_id, i.image_link FROM headers h INNER JOIN paragraphs p ON h.paragraph_id = p.id INNER JOIN images i ON h.image_id = i.id WHERE h.id = {data['header_id']};"
     # response = db.session.execute(sql).first()
-    results = Header.query.filter_by(id=data['header_id']).join(Paragraph, Header.paragraph_id == Paragraph.id).join(
-        Image, Header.image_id == Image.id).first()
+    results = Header.query.filter_by(header_id=data['header_id']).join(Paragraph, Header.paragraph_id == Paragraph.paragraph_id).join(
+        Image, Header.image_id == Image.image_id).first()
     return json.dumps({
-        "id": results.id,
+        "id": results.header_id,
         "header_text": results.header_text,
-        "paragraph_id": results.h_paragraph.id,
+        "paragraph_id": results.h_paragraph.paragraph_id,
         "paragraph_text": results.h_paragraph.paragraph_text,
-        "image_id": results.h_image.id,
+        "image_id": results.h_image.image_id,
         "image_name": results.h_image.image_name,
         "image_link": results.h_image.image_link
     })
@@ -109,7 +110,7 @@ def delete():
         return redirect(url_for('auth.login'))
 
     data = request.get_json()
-    del_header = Header.query.filter_by(id=data['header_id']).first()
+    del_header = Header.query.filter_by(header_id=data['header_id']).first()
     db.session.delete(del_header)
     db.session.commit()
     payload = read()

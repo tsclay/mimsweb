@@ -4,11 +4,11 @@ from server.db import db
 class Client_Resources(db.Model):
     __tablename__ = 'client_resources'
 
-    id = db.Column(db.Integer, primary_key=True)
+    resource_id = db.Column(db.Integer, primary_key=True)
     content_id = db.Column(db.Integer, db.ForeignKey(
-        'headers.id'), nullable=True)
+        'headers.header_id'), nullable=True)
     gallery_id = db.Column(db.Integer, db.ForeignKey(
-        'gallery_info.id'), nullable=True)
+        'gallery_info.gallery_id'), nullable=True)
     linked_content = db.relationship(
         'Header', passive_deletes=True, foreign_keys=[content_id], lazy=True, uselist=False)
     linked_gallery = db.relationship(

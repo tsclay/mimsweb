@@ -5,7 +5,7 @@ from server.db import db
 class Admin(db.Model):
     __tablename__ = 'admins'
 
-    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(128), unique=False, nullable=False)
     last_name = db.Column(db.String(128), unique=False, nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)

@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import JSON
 class Setting(db.Model):
     __tablename__ = 'settings'
 
-    id = db.Column(db.Integer, primary_key=True)
+    setting_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), unique=True, nullable=False)
     active = db.Column(db.Boolean(), default=False, nullable=False)

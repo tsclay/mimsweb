@@ -20,10 +20,10 @@ def get_images():
     if 'username' not in session:
         return redirect(url_for('auth.login'))
 
-    db_images = Image.query.order_by(Image.id).all()
+    db_images = Image.query.order_by(Image.image_id).all()
     payload = []
     for row in db_images:
-        payload.append({"id": row.id,
+        payload.append({"id": row.image_id,
                         "image_name": row.image_name,
                         "image_link": row.image_link})
     return json.dumps(payload)
@@ -109,6 +109,6 @@ def delete_image():
         else:
             payload.append({"message": 1})
             for row in paired_headers:
-                payload.append({"linked_content": row.id})
+                payload.append({"linked_content": row.image_id})
 
         return json.dumps(payload)

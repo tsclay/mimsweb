@@ -35,12 +35,12 @@ def hash_password(user_cred):
 
 
 def fetch_users():
-    all_users = Admin.query.order_by(Admin.id).all()
+    all_users = Admin.query.order_by(Admin.user_id).all()
     payload = []
 
     for user in all_users:
         payload.append({
-            "id": user.id,
+            "id": user.user_id,
             "first_name": user.first_name,
             "last_name": user.last_name,
             "email": user.email,

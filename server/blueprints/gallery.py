@@ -14,15 +14,15 @@ galleries = Blueprint('galleries', __name__, template_folder='templates')
 
 def fetch_galleries():
     all_galleries = []
-    results = Galleries.query.outerjoin(Gallery_Info, Gallery_Info.id == Galleries.info_id).outerjoin(
-        Image, Image.id == Galleries.image_id).order_by(Gallery_Info.id, Galleries.id).all()
+    results = Galleries.query.outerjoin(Gallery_Info, Gallery_Info.gallery_id == Galleries.info_id).outerjoin(
+        Image, Image.image_id == Galleries.image_id).order_by(Gallery_Info.gallery_id, Galleries.index_id).all()
 
     if len(results) == 0:
         return json.dumps({"message": "No galleries! Get started by creating one!"})
 
 # Loop thru all rows, need to diff by galleries.id becuase ALL images are returned
     marker = results[0].info_id
-    end_of_results = results[-1].id
+    end_of_results = results[-1].index_id
     gallery_json = {"id": results[0].info_id,
                     "gallery_name": results[0].gallery_info.gallery_name,
                     "description": results[0].gallery_info.description,
@@ -44,13 +44,13 @@ def fetch_galleries():
                             "images": []}
             marker = row.info_id
 
-        image_id = row.gallery_image.id
+        image_id = row.gallery_image.image_id
         image_link = row.gallery_image.image_link
         image_name = row.gallery_image.image_name
         gallery_json['images'].append(
             {"id": image_id, "alt": image_name, "src": image_link})
         # Append the last gallery after adding the last image to it
-        if row.id == end_of_results:
+        if row.index_id == end_of_results:
             all_galleries.append(gallery_json)
 
     def default(obj):
@@ -85,7 +85,7 @@ def create_gallery():
     for num in data["images"]:
         new_gallery = Galleries()
         new_gallery.gallery_info = new_gallery_info
-        new_gallery.gallery_image = Image.query.filter_by(id=num).first()
+        new_gallery.gallery_image = Image.query.filter_by(image_id=num).first()
         db.session.add(new_gallery)
 
     db.session.add(new_gallery_info)
@@ -99,8 +99,9 @@ def update_gallery():
 
     data = request.get_json()
     images_to_update = Galleries.query.filter_by(
-        info_id=data["id"]).order_by(Galleries.id).all()
-    info_to_update = Gallery_Info.query.filter_by(id=data["id"]).first()
+        info_id=data["id"]).order_by(Galleries.index_id).all()
+    info_to_update = Gallery_Info.query.filter_by(
+        gallery_id=data["id"]).first()
 
     info_to_update.gallery_name = data["gallery_name"]
     info_to_update.description = data["description"]
@@ -125,7 +126,7 @@ def update_gallery():
                 new_gallery = Galleries()
                 new_gallery.gallery_info = info_to_update
                 new_gallery.gallery_image = Image.query.filter_by(
-                    id=data["images"][i]).first()
+                    image_id=data["images"][i]).first()
                 db.session.add(new_gallery)
 
     db.session.add(info_to_update)
@@ -141,7 +142,7 @@ def delete_gallery():
 
     data = request.get_json()
     gallery_to_delete = Gallery_Info.query.filter_by(
-        id=data["gallery_id"]).first()
+        gallery_id=data["gallery_id"]).first()
 
     db.session.delete(gallery_to_delete)
 

@@ -4,7 +4,7 @@ from server.db import db
 class Gallery_Info(db.Model):
     __tablename__ = 'gallery_info'
 
-    id = db.Column(db.Integer, primary_key=True)
+    gallery_id = db.Column(db.Integer, primary_key=True)
     gallery_name = db.Column(db.String(128), unique=True, nullable=False)
     description = db.Column(db.Text(), nullable=True)
     last_updated = db.Column(db.DateTime(False), nullable=True)
