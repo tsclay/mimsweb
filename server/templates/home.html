@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
   {% include 'partials/head.html'%}
+  <style>
+    #root {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-flow: column;
+    }
+  </style>
 
   <body>
     <!-- NavBar to be sticky -->
     {% include 'partials/nav-bar.html'%}
     <!-- Main content -->
 
-    <div id="root"></div>
+    <div id="root">
+      <h1>
+        More stuff coming soon!
+      </h1>
+      <h1>
+        Get started by clicking the menu icon in the upper-right.
+      </h1>
+    </div>
     <script src="{{url_for('static', filename='js/global.components.js')}}"></script>
   </body>
 </html>
