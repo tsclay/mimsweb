@@ -7,6 +7,7 @@ from server.models.Image import Image
 from server.models.Paragraph import Paragraph
 from server.models.Gallery_Info import Gallery_Info
 from server.models.Galleries import Galleries
+from server.models.Client_Resources import Client_Resources
 from server.models.Role import Role
 import base64
 import os
@@ -111,7 +112,7 @@ headers = ['Five generations of excellence',
            'Serving Residential & Commercial',
            'Competitive, flexible pricing']
 
-paragraphs = ["We are built on six generations of highly-skilled workmanship, outstanding\
+paragraphs = ["We are built on five generations of highly-skilled workmanship, outstanding\
               customer relations, and exceptional service in the painting industry.\n\n\
               We serve Nassau and Suffolk Counties on Long Island, Westchester County,\
               and New York City, and we're proud to be one of the largest\
@@ -145,6 +146,10 @@ seed.append(art_gallery_info)
 seed.append(
     Image(image_link="/static/assets/uploads/1925new.jpg", image_name="1925new"))
 
+for_client = Client_Resources()
+for_client.linked_gallery = art_gallery_info
+seed.append(for_client)
+
 for role in roles:
     seed.append(Role(role_name=role["name"], permissions=role["permissions"]))
 
@@ -158,7 +163,9 @@ for i in range(4):
     new_gallery = Galleries()
     new_gallery.gallery_image = linked_img
     new_gallery.gallery_info = art_gallery_info
-    seed.extend([header, para, linked_img, new_gallery])
+    for_client = Client_Resources()
+    for_client.linked_content = header
+    seed.extend([header, para, linked_img, new_gallery, for_client])
 
 for i in range(len(art_files)):
     image = Image(
@@ -172,7 +179,9 @@ for i in range(len(art_files)):
 testimonial_gallery_info = Gallery_Info(
     gallery_name="Recognized in the community", description="Many of our clients and collaborators have expressed their gratitude for our hard work. Check them out below!", last_updated=None, last_updated_by=None)
 
-seed.append(testimonial_gallery_info)
+for_client = Client_Resources()
+for_client.linked_gallery = testimonial_gallery_info
+seed.append(for_client)
 
 for i in range(len(testimonial_files)):
     image = Image(
