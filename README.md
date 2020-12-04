@@ -106,13 +106,13 @@ curl -sL https://deb.nodesource.com/node_14.x | apt-get install -y nodejs
 ### To get from content and galleries all that are linked in client_resources
 
 ```sql
-SELECT clients.id, headers.header_text, paragraphs.paragraph_text, images.image_name, images.image_link, gallery_info.gallery_name, gallery_info.description FROM client_resources as clients
-LEFT OUTER JOIN headers ON headers.id = clients.content_id
+SELECT clients.resource_id, headers.header_text, clients.content_id, paragraphs.paragraph_text, images.image_name, images.image_link, clients.gallery_id, gallery_info.gallery_name, gallery_info.description, galleries.index_id FROM client_resources as clients
+LEFT OUTER JOIN headers ON headers.header_id = clients.content_id
 LEFT OUTER JOIN galleries ON galleries.info_id = clients.gallery_id
-LEFT OUTER JOIN paragraphs ON paragraphs.id = headers.paragraph_id
-LEFT OUTER JOIN images ON images.id = headers.image_id OR images.id = galleries.image_id
-LEFT OUTER JOIN gallery_info ON galleries.info_id = gallery_info.id
-ORDER BY clients.content_id, clients.gallery_id, clients.id;
+LEFT OUTER JOIN paragraphs ON paragraphs.paragraph_id = headers.paragraph_id
+LEFT OUTER JOIN images ON images.image_id = headers.image_id OR images.image_id = galleries.image_id
+LEFT OUTER JOIN gallery_info ON galleries.info_id = gallery_info.gallery_id
+ORDER BY clients.content_id, clients.gallery_id, galleries.index_id, clients.resource_id;
 ```
 
 ### To get from content (headers, paragraphs, images) and gallery_info only those that are linked in client_resources
