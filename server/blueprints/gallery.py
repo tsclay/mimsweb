@@ -1,6 +1,6 @@
 from datetime import timezone
 from server.models.Galleries import Galleries
-from flask import current_app, Blueprint, url_for, render_template, request, session, redirect
+from flask import current_app, Blueprint, url_for, render_template, request, session, redirect, jsonify
 import datetime
 import json
 from server.db import db
@@ -16,8 +16,8 @@ galleries = Blueprint('galleries', __name__, template_folder='templates')
 def fetch_galleries():
     """
     ```sql
-    SELECT c.resource_id, g.gallery_name, g.description, g.gallery_id, gal.image_id, i.image_name, i.image_link, gal.info_id, gal.index_id FROM client_resources as c
-    LEFT OUTER JOIN galleries gal ON gal.info_id = c.gallery_id
+    SELECT c.resource_id, g.gallery_name, g.description, g.gallery_id, gal.image_id, i.image_name, i.image_link, gal.info_id, gal.index_id FROM galleries gal
+    LEFT OUTER JOIN client_resources c ON gal.info_id = c.gallery_id
     LEFT OUTER JOIN gallery_info g ON g.gallery_id = gal.info_id
     LEFT OUTER JOIN images i ON i.image_id = gal.image_id
     ORDER BY c.gallery_id, gal.index_id;
@@ -25,15 +25,14 @@ def fetch_galleries():
     """
 
     all_galleries = []
-    results = Galleries.query.with_entities(Client_Resources.resource_id, Client_Resources.gallery_id, Gallery_Info.gallery_name, Gallery_Info.description, Gallery_Info.gallery_id, Gallery_Info.last_updated_by, Gallery_Info.last_updated, Galleries.index_id, Image.image_name, Image.image_link, Image.image_id).outerjoin(Galleries, Galleries.info_id == Client_Resources.gallery_id).outerjoin(Gallery_Info, Gallery_Info.gallery_id == Galleries.info_id).outerjoin(
+    results = Galleries.query.with_entities(Client_Resources.resource_id, Client_Resources.gallery_id, Gallery_Info.gallery_name, Gallery_Info.description, Gallery_Info.gallery_id, Gallery_Info.last_updated_by, Gallery_Info.last_updated, Galleries.index_id, Image.image_name, Image.image_link, Image.image_id).outerjoin(Client_Resources, Galleries.info_id == Client_Resources.gallery_id).outerjoin(Gallery_Info, Gallery_Info.gallery_id == Galleries.info_id).outerjoin(
         Image, Image.image_id == Galleries.image_id).order_by(Client_Resources.gallery_id, Galleries.index_id).all()
 
     if len(results) == 0:
         return json.dumps({"message": "No galleries! Get started by creating one!"})
 
 # Loop thru all rows, need to diff by galleries.id becuase ALL images are returned
-    marker = results[0].index_id
-    end_of_results = results[-1]
+    marker = results[0].gallery_id
     gallery_json = {"id": results[0].gallery_id,
                     "resource_id": results[0].resource_id,
                     "gallery_name": results[0].gallery_name,
@@ -63,14 +62,16 @@ def fetch_galleries():
         gallery_json['images'].append(
             {"id": image_id, "alt": image_name, "src": image_link})
         # Append the last gallery after adding the last image to it
-        if row == end_of_results:
+        if row == results[-1]:
             all_galleries.append(gallery_json)
 
     def default(obj):
         if isinstance(obj, (datetime.date, datetime.datetime)):
             return obj.isoformat()
 
-    return json.dumps(all_galleries, indent=2, default=default)
+    return jsonify(all_galleries)
+
+    # return json.dumps(all_galleries, indent=2, default=default)
 
 
 @ galleries.route('/admin', methods=["GET"])
