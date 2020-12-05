@@ -140,12 +140,12 @@ ORDER BY galleries.id;
 
 ### To get all from galleries and show client_resources.id
 
-For use in the managem portal at ```/galleries```, secured by checking for session on server
+For use in the managem portal at `/galleries`, secured by checking for session on server
 
 ```sql
-SELECT clients.id, gallery_info.*, images.* FROM galleries
-LEFT OUTER JOIN gallery_info ON gallery_info.id = galleries.info_id
-LEFT OUTER JOIN client_resources as clients ON clients.gallery_id = gallery_info.id
-LEFT OUTER JOIN images ON images.id = galleries.image_id
-ORDER BY galleries.id;
+SELECT c.resource_id, g.gallery_name, g.description, g.gallery_id, gal.image_id, i.image_name, i.image_link, gal.info_id, gal.index_id FROM galleries gal
+    LEFT OUTER JOIN client_resources c ON gal.info_id = c.gallery_id
+    LEFT OUTER JOIN gallery_info g ON g.gallery_id = gal.info_id
+    LEFT OUTER JOIN images i ON i.image_id = gal.image_id
+    ORDER BY c.gallery_id, gal.index_id;
 ```
