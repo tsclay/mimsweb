@@ -21,12 +21,12 @@ def fetch_galleries():
     LEFT OUTER JOIN gallery_info g ON g.gallery_id = gal.info_id
     LEFT OUTER JOIN images i ON i.image_id = gal.image_id
     ORDER BY c.gallery_id, gal.index_id;
-    ```       
+    ```
     """
 
     all_galleries = []
     results = Galleries.query.with_entities(Client_Resources.resource_id, Client_Resources.gallery_id, Gallery_Info.gallery_name, Gallery_Info.description, Gallery_Info.gallery_id, Gallery_Info.last_updated_by, Gallery_Info.last_updated, Galleries.index_id, Image.image_name, Image.image_link, Image.image_id).outerjoin(Client_Resources, Galleries.info_id == Client_Resources.gallery_id).outerjoin(Gallery_Info, Gallery_Info.gallery_id == Galleries.info_id).outerjoin(
-        Image, Image.image_id == Galleries.image_id).order_by(Client_Resources.gallery_id, Galleries.index_id).all()
+        Image, Image.image_id == Galleries.image_id).order_by(Client_Resources.resource_id, Gallery_Info.gallery_id, Galleries.index_id).all()
 
     if len(results) == 0:
         return json.dumps({"message": "No galleries! Get started by creating one!"})
@@ -65,13 +65,12 @@ def fetch_galleries():
         if row == results[-1]:
             all_galleries.append(gallery_json)
 
-    def default(obj):
-        if isinstance(obj, (datetime.date, datetime.datetime)):
-            return obj.isoformat()
+    # def default(obj):
+    #     if isinstance(obj, (datetime.date, datetime.datetime)):
+    #         return obj.isoformat()
+    # return json.dumps(all_galleries, indent=2, default=default)
 
     return jsonify(all_galleries)
-
-    # return json.dumps(all_galleries, indent=2, default=default)
 
 
 @ galleries.route('/admin', methods=["GET"])
@@ -84,6 +83,9 @@ def handle_images():
 
 @ galleries.route('', methods=["GET"])
 def get_galleries():
+    if 'username' not in session:
+        return redirect(url_for('auth.login'))
+
     return fetch_galleries()
 
 
