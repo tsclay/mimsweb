@@ -79,8 +79,7 @@ def create():
         db.session.add(new_header)
         db.session.add(new_paragraph)
         db.session.commit()
-        payload = read()
-        return payload
+        return read()
     except Exception as Error:
         return json.dumps({"message": "Error"})
 
@@ -128,6 +127,4 @@ def delete():
     del_header = Header.query.filter_by(header_id=data['header_id']).first()
     db.session.delete(del_header)
     db.session.commit()
-    payload = read()
-    return payload
-    # return redirect(url_for('.read'))
+    return read()
