@@ -236,7 +236,7 @@ const renderContent = async (preResponse = null) => {
   let content = null
   nestElements(searchForOne('.content-grid'), [loadingSpinner])
   if (preResponse === null) {
-    const response = await fetch('/content').then((r) => r.json())
+    const response = await fetch('/content/admin/all').then((r) => r.json())
     
     content = response
   } else {

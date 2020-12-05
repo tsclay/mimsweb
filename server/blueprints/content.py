@@ -1,3 +1,4 @@
+from server.models.Client_Resources import Client_Resources
 from flask import json, request, Blueprint, render_template, session, url_for, redirect
 from server.models.Image import Image
 from server.models.Paragraph import Paragraph
@@ -9,23 +10,34 @@ content = Blueprint('content', __name__, template_folder='templates')
 
 
 def read():
-    # sql = "SELECT * FROM headers h LEFT OUTER JOIN paragraphs p ON h.paragraph_id = p.id LEFT OUTER JOIN images i ON i.id = h.image_id ORDER BY h.id;"
-    # results = db.session.execute(sql)
-    results = Header.query.outerjoin(Paragraph, Paragraph.paragraph_id == Header.paragraph_id).outerjoin(
-        Image, Image.image_id == Header.image_id).order_by(Header.header_id).all()
+    """
+    ### Fetch all content rows, ordering by client-linked ones then row ids
+
+    ```sql
+    SELECT c.resource_id, h.*, p.*, i.* FROM headers h 
+    LEFT OUTER JOIN client_resources c ON c.content_id = h.header_id 
+    LEFT OUTER JOIN paragraphs p ON h.paragraph_id = p.paragraph_id 
+    LEFT OUTER JOIN images i ON i.image_id = h.image_id 
+    ORDER BY c.content_id, h.header_id;
+    ```
+    """
+    results = Header.query.with_entities(Client_Resources.resource_id, Client_Resources.content_id, Header.header_id, Header.header_text, Paragraph.paragraph_id, Paragraph.paragraph_text, Image.image_id, Image.image_name, Image.image_link).outerjoin(Client_Resources, Client_Resources.content_id == Header.header_id).outerjoin(Paragraph, Paragraph.paragraph_id == Header.paragraph_id).outerjoin(
+        Image, Image.image_id == Header.image_id).order_by(Client_Resources.content_id, Header.header_id).all()
     r_dict = []
     for row in results:
-        image_id = row.h_image.image_id if hasattr(
-            row.h_image, "image_id") else -1
-        image_name = row.h_image.image_name if hasattr(
-            row.h_image, "image_name") else 'Placeholder'
-        image_link = row.h_image.image_link if hasattr(row.h_image, "image_link") else url_for(
+        image_id = row.image_id if hasattr(
+            row, "image_id") else -1
+        image_name = row.image_name if hasattr(
+            row, "image_name") else 'Placeholder'
+        image_link = row.image_link if hasattr(row, "image_link") else url_for(
             'static', filename='assets/icons/image-icon.inkscape.png')
         item = {
             "id": row.header_id,
+            "resource_id": row.resource_id or None,
+            "content_id": row.content_id or None,
             "header_text": row.header_text,
-            "paragraph_id": row.h_paragraph.paragraph_id,
-            "paragraph_text": row.h_paragraph.paragraph_text,
+            "paragraph_id": row.paragraph_id,
+            "paragraph_text": row.paragraph_text,
             "image_id": image_id,
             "image_name": image_name,
             "image_link": image_link
@@ -44,8 +56,11 @@ def render():
     return render_template('content.html', user=session["username"], role=session["role"], title="Content")
 
 
-@content.route('', methods=["GET"])
+@content.route('/admin/all', methods=["GET"])
 def show_all():
+    if 'username' not in session:
+        return redirect(url_for('auth.login'))
+
     payload = read()
     return payload
 
