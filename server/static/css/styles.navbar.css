@@ -74,6 +74,10 @@
   justify-content: center;
 }
 
+.input-wrapper svg {
+  height: auto;
+}
+
 /* .notification {
   position: relative;
   grid-area: 1/2/1/2;
