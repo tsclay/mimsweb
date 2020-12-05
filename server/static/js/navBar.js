@@ -33,7 +33,7 @@ const logoutUser = async () => {
     body: `username=${username}`
   }
   const response = await fetch('/admin/logout', request).then((r) => r.json())
-  
+
   if (response.message === 'Logout successful') {
     window.location.replace('/admin/login')
   }
