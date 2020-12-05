@@ -236,6 +236,10 @@ const selectThisContent = (e) => {
 // After CREATE, re-render the content and re-cache
 const renderGalleries = async (fetchedGalleries = null) => {
   let galleries
+  let linkedDivider
+  let nonLinkedHeader
+  let foundNonLinked
+  let linkedHeader
   empty(galleryGrid)
   const loader = loadingSpinner.cloneNode(true)
   nestElements(galleryGrid, [loader])
@@ -245,8 +249,22 @@ const renderGalleries = async (fetchedGalleries = null) => {
     const response = await fetch('/galleries').then((r) => r.json())
     galleries = response
   }
+  if (galleries[0].resource_id) {
+    linkedHeader = createElement('h1', null, 'Linked')
+    linkedDivider = createElement('div', {
+      style: `
+      width: 75%;
+      border-bottom: 2px solid black;
+      margin: 0 auto;
+      `
+    })
+    nonLinkedHeader = createElement('h1', null, 'Non-Linked')
+  }
   loader.remove()
   if (galleries.length > 0) {
+    if (linkedHeader) {
+      nestElements(galleryGrid, [linkedHeader])
+    }
     galleries.forEach((c) => {
       const galleryRow = createElement('div', { class: 'gallery-row' })
       const galleryFragment = fragmentElements([
@@ -271,6 +289,10 @@ const renderGalleries = async (fetchedGalleries = null) => {
         [galleryFragment]
       )
       renderedGallery.addEventListener('click', selectThisContent)
+      if (!c.resource_id && !foundNonLinked) {
+        nestElements(galleryGrid, [linkedDivider, nonLinkedHeader])
+        foundNonLinked = true
+      }
       nestElements(galleryGrid, [renderedGallery])
     })
   } else {
@@ -326,8 +348,10 @@ const deleteGallery = async (e) => {
       'Content-Type': 'application/json'
     }
   }
-  const response = await fetch('/galleries/admin/delete', request).then((r) => r.json())
-  
+  const response = await fetch('/galleries/admin/delete', request).then((r) =>
+    r.json()
+  )
+
   renderGalleries(response)
 }
 
