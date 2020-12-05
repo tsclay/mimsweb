@@ -234,15 +234,32 @@ const selectThisContent = (e) => {
 // After CREATE, re-render the content and re-cache
 const renderContent = async (preResponse = null) => {
   let content = null
+  let linkedDivider
+  let nonLinkedHeader
+  let foundNonLinked
+  let linkedHeader
   nestElements(searchForOne('.content-grid'), [loadingSpinner])
   if (preResponse === null) {
     const response = await fetch('/content/admin/all').then((r) => r.json())
-    
     content = response
   } else {
     content = preResponse
   }
+  if (content[0].resource_id) {
+    linkedHeader = createElement('h1', null, 'Linked')
+    linkedDivider = createElement('div', {
+      style: `
+      width: 75%;
+      border-bottom: 2px solid black;
+      margin: 0 auto;
+      `
+    })
+    nonLinkedHeader = createElement('h1', null, 'Non-Linked')
+  }
   empty(contentGrid)
+  if (linkedHeader) {
+    nestElements(contentGrid, [linkedHeader])
+  }
   content.forEach((c) => {
     const cFragment = fragmentElements([
       createElement(
@@ -294,7 +311,11 @@ const renderContent = async (preResponse = null) => {
         [renderedContent, renderedImage]
       )
     ])
-    contentGrid.appendChild(pkgContent)
+    if (!c.resource_id && !foundNonLinked) {
+      nestElements(contentGrid, [linkedDivider, nonLinkedHeader])
+      foundNonLinked = true
+    }
+    nestElements(contentGrid, [pkgContent])
   })
 }
 
@@ -336,8 +357,10 @@ const deleteContent = async (e) => {
       'Content-Type': 'application/json'
     }
   }
-  const response = await fetch('/content/admin/delete', request).then((r) => r.json())
-  
+  const response = await fetch('/content/admin/delete', request).then((r) =>
+    r.json()
+  )
+
   renderContent(response)
 }
 
