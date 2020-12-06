@@ -1,78 +1,78 @@
 <script>
-  import { fly, fade } from "svelte/transition";
-  let errors = {};
-  let selected = "Both";
-  let sending = false;
-  let showOptions = false;
+  import { fly, fade } from 'svelte/transition'
+  let errors = {}
+  let selected = 'Both'
+  let sending = false
+  let showOptions = false
   let messageData = {
     name: null,
     email: null,
     address: null,
     message: null,
     phone: null,
-    pref_contact: "both",
-  };
+    pref_contact: 'both'
+  }
 
   const validateEmail = (e) => {
-    const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!e.target.value && errors.hasOwnProperty("InvalidEmail")) {
-      delete errors["InvalidEmail"];
-      errors = errors;
-      return;
+    const emailRegEx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!e.target.value && errors.hasOwnProperty('InvalidEmail')) {
+      delete errors['InvalidEmail']
+      errors = errors
+      return
     }
-    if (!e.target.value) return;
+    if (!e.target.value) return
     if (!emailRegEx.test(e.target.value)) {
-      errors["InvalidEmail"] = "Please enter a valid email address.";
-    } else if (errors.hasOwnProperty("InvalidEmail")) {
-      delete errors["InvalidEmail"];
-      errors = errors;
+      errors['InvalidEmail'] = 'Please enter a valid email address.'
+    } else if (errors.hasOwnProperty('InvalidEmail')) {
+      delete errors['InvalidEmail']
+      errors = errors
     }
-  };
+  }
 
   const validatePhone = (e) => {
-    const digitsWithDashes = /[0-9]{3}-[0-9]{3}-[0-9]{4}/;
-    const digitsOnly = /[0-9]{10}/;
-    if (!e.target.value && errors.hasOwnProperty("InvalidPhone")) {
-      delete errors["InvalidPhone"];
-      errors = errors;
-      return;
+    const digitsWithDashes = /[0-9]{3}-[0-9]{3}-[0-9]{4}/
+    const digitsOnly = /[0-9]{10}/
+    if (!e.target.value && errors.hasOwnProperty('InvalidPhone')) {
+      delete errors['InvalidPhone']
+      errors = errors
+      return
     }
-    if (!e.target.value) return;
+    if (!e.target.value) return
     if (
       !digitsWithDashes.test(e.target.value) &&
       !digitsOnly.test(e.target.value)
     ) {
-      errors["InvalidPhone"] = "Please enter a valid phone number.";
-    } else if (errors.hasOwnProperty("InvalidPhone")) {
-      delete errors["InvalidPhone"];
-      errors = errors;
+      errors['InvalidPhone'] = 'Please enter a valid phone number.'
+    } else if (errors.hasOwnProperty('InvalidPhone')) {
+      delete errors['InvalidPhone']
+      errors = errors
     }
-  };
+  }
 
   const handleContactPref = (e) => {
-    selected = e.target.innerText;
-    messageData.pref_contact = selected.toLowerCase();
-    showOptions = false;
-  };
+    selected = e.target.innerText
+    messageData.pref_contact = selected.toLowerCase()
+    showOptions = false
+  }
 
   const handleSubmit = async (e) => {
-    const { name, email, message } = messageData;
+    const { name, email, message } = messageData
     if (!name || !email || !message) {
-      errors["EmptyFields"] = "Please fill all fields.";
-      return;
+      errors['EmptyFields'] = 'Please fill all fields.'
+      return
     }
-    sending = true;
-    const response = await fetch("/submit-form", {
+    sending = true
+    const response = await fetch('/submit-form', {
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
       },
       body: JSON.stringify(messageData),
-      method: "POST",
-    });
-    const emailCompleted = await response.json();
-    sending = false;
-  };
+      method: 'POST'
+    })
+    const emailCompleted = await response.json()
+    sending = false
+  }
 </script>
 
 <style type="text/scss">
@@ -91,7 +91,7 @@
       resize: none;
     }
 
-    div[name="pref-contact"] {
+    div[name='pref-contact'] {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -175,13 +175,13 @@
 
   // For the selection toggle
   .rest {
-    transition: all 0.2s linear;
+    transition: all 0.15s linear;
     transform-origin: center;
     transform: rotate(0);
   }
 
   .active {
-    transition: transform 0.2s linear;
+    transition: transform 0.15s linear;
     transform-origin: center;
     transform: rotate(90deg);
   }
@@ -190,10 +190,10 @@
 <svelte:body
   on:click={(e) => {
     if (e.target.classList[0] === 'sel-text') {
-      console.log(e.target.classList);
-      return;
+      console.log(e.target.classList)
+      return
     } else {
-      showOptions = false;
+      showOptions = false
     }
   }} />
 
@@ -228,8 +228,8 @@
             <button
               type="button"
               on:click={() => {
-                delete errors['InvalidEmail'];
-                errors = errors;
+                delete errors['InvalidEmail']
+                errors = errors
               }}>X</button>
           </div>
         {/if}
@@ -250,8 +250,8 @@
             <button
               type="button"
               on:click={() => {
-                delete errors['InvalidPhone'];
-                errors = errors;
+                delete errors['InvalidPhone']
+                errors = errors
               }}>X</button>
           </div>
         {/if}
@@ -275,12 +275,12 @@
           <div
             class="sel-text"
             on:click={(e) => {
-              showOptions = !showOptions;
+              showOptions = !showOptions
             }}>
             <button
               type="button"
               on:click|stopPropagation={(e) => {
-                showOptions = !showOptions;
+                showOptions = !showOptions
               }}
               class="svg-wrapper">
               <svg
@@ -323,8 +323,8 @@
             <button
               type="button"
               on:click={() => {
-                delete errors['EmptyFields'];
-                errors = errors;
+                delete errors['EmptyFields']
+                errors = errors
               }}>X</button>
           </div>
         {/if}
