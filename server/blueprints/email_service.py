@@ -27,8 +27,9 @@ def send_email():
     # Create message from form message to send to business
     text = f'{data["message"]}\n\n\
         {data["name"]}\n\
+        {data["address"] if ("address" in data and data["address"] is not None) else "No physical address provided."}\n\
         {data["email"]}\n\
-        {data["pref_contact"]}'
+        Preffered Contact Method: {data["pref_contact"]}'
     message = MIMEMultipart()
     message["Subject"] = "Message from MFP Website"
     message["From"] = sender
@@ -50,6 +51,7 @@ def send_email():
         pref_message = 'by phone call'
     else:
         pref_message = 'by email'
+
     reply = MIMEMultipart("alternative")
     receiver = data["email"]
     reply["Subject"] = "MFP Got Your Message!"
