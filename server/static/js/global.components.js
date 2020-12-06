@@ -35,5 +35,36 @@ const formatDateTimeString = (isoStr) => {
   return `${date.toLocaleDateString()} at ${date.toLocaleTimeString()}`
 }
 
+const createDividers = (innerText) => {
+  return nestElements(
+    createElement('div', {
+      style: `
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      `
+    }),
+    [
+      createElement('h1', {
+        style: `
+        margin: 0;
+        padding: 0.5rem 0.25rem;
+        width: 49%;
+        background: var(--light);
+        box-sizing: border-box;
+        border-radius: 8px;
+        `
+      }, innerText),
+      createElement('div', {
+        style: `
+        width: 49%;
+        border-bottom: 2px solid black;
+        margin: 0 auto;
+        `
+      })
+    ]
+  )
+}
+
 const userRole = searchForOne('meta[name="role"]').content
 

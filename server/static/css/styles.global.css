@@ -3,6 +3,7 @@ GLOBAL
 ******************/
 :root {
   --light: rgb(212, 212, 212);
+  --light-selected: rgba(212, 212, 212, 0.58);
   --gray: rgb(104, 104, 104);
   --primary: rgb(97, 97, 250);
   --selected: rgba(60, 244, 244, 0.61);

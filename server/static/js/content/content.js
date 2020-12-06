@@ -246,7 +246,7 @@ const renderContent = async (preResponse = null) => {
     content = preResponse
   }
   if (content[0].resource_id) {
-    linkedHeader = createElement('h1', null, 'Linked')
+    linkedHeader = await createDividers('Linked')
     linkedDivider = createElement('div', {
       style: `
       width: 75%;
@@ -254,7 +254,7 @@ const renderContent = async (preResponse = null) => {
       margin: 0 auto;
       `
     })
-    nonLinkedHeader = createElement('h1', null, 'Non-Linked')
+    nonLinkedHeader = await createDividers('Non-Linked')
   }
   empty(contentGrid)
   if (linkedHeader) {
@@ -312,7 +312,7 @@ const renderContent = async (preResponse = null) => {
       )
     ])
     if (!c.resource_id && !foundNonLinked) {
-      nestElements(contentGrid, [linkedDivider, nonLinkedHeader])
+      nestElements(contentGrid, [nonLinkedHeader])
       foundNonLinked = true
     }
     nestElements(contentGrid, [pkgContent])

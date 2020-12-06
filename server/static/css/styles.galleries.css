@@ -127,18 +127,18 @@ button > svg {
   align-items: center;
 }
 
-input[name='headerText'],
-input[name='edit-header'] {
+input[name="headerText"],
+input[name="edit-header"] {
   margin: 2.6rem 2.25rem 0.5rem 2.25rem;
 }
 
 .content-editor > textarea,
 .content-editor > .select.new-image-ref,
-textarea[name='edit-body'] {
+textarea[name="edit-body"] {
   margin: 0.5rem 2.25rem;
 }
 
-.content-editor > button[type='submit'] {
+.content-editor > button[type="submit"] {
   margin: 0.5rem 2.25rem 2.25rem 2.25rem;
 }
 
@@ -189,7 +189,7 @@ textarea[name='edit-body'] {
   align-items: center;
   justify-content: center;
   z-index: 3;
-  background: rgba(150, 255, 255, 0.61);
+  background: var(--light-selected);
   height: 100%;
   width: 100%;
 }
