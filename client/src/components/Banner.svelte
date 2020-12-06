@@ -27,7 +27,7 @@
 
   .logo-wrapper {
     width: 70%;
-    background: rgba(141, 141, 141, 0.7);
+    background: rgba(141, 141, 141, 0.52);
     border: black solid 4px;
     max-width: 920px;
     padding: 8px;
