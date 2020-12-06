@@ -7,6 +7,7 @@
   let messageData = {
     name: null,
     email: null,
+    address: null,
     message: null,
     phone: null,
     pref_contact: "both",
@@ -176,6 +177,7 @@
   .rest {
     transition: all 0.2s linear;
     transform-origin: center;
+    transform: rotate(0);
   }
 
   .active {
@@ -215,7 +217,7 @@
         on:change={validateEmail}
         name="email"
         type="text"
-        placeholder="Email" />
+        placeholder="Email Address" />
       <div class="error-wrapper">
         {#if errors.hasOwnProperty('InvalidEmail')}
           <div
@@ -254,6 +256,12 @@
           </div>
         {/if}
       </div>
+      <label for="address">Physical Address</label>
+      <input
+        type="address"
+        name="address"
+        placeholder="Street, City, Zip Code"
+        bind:value={messageData.address} />
       <label for="message">Message</label>
       <textarea
         bind:value={messageData.message}
