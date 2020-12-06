@@ -115,8 +115,9 @@ def create_user():
         return json.dumps({"message": "Unauthorized"})
 
     data = request.get_json()
+    temp_password = uuid.uuid4().hex
     new_user = Admin(first_name=data["first_name"], last_name=data["last_name"], email=data["email"], recovery_link=None,
-                     username=f"{data['first_name'][0].lower()}{data['last_name'].lower()}", password=uuid.uuid4().hex, role=data["role"], last_logged_in=None)
+                     username=f"{data['first_name'][0].lower()}{data['last_name'].lower()}", password=encrypt_credentials(temp_password), role=data["role"], last_logged_in=None)
 
     db.session.add(new_user)
     db.session.commit()
@@ -137,7 +138,7 @@ def create_user():
             Here are your login credentials:\n\n\
                 Your name: {new_user.first_name} {new_user.last_name}\n\
                 Username: {new_user.username}\n\
-                    Password: {new_user.password}\n\n\
+                    Password: {temp_password}\n\n\
                         Visit mfpfinishes.com/admin to login for the first time. Once you log in, you may change your password\
                             to one of your choosing.\n\n\
         Best regards,\n \
@@ -181,7 +182,7 @@ def create_user():
           </div>
         </body>
     </html>
-    """.format(name=new_user.first_name, first_name=new_user.first_name, last_name=new_user.last_name, username=new_user.username, password=new_user.password)
+    """.format(name=new_user.first_name, first_name=new_user.first_name, last_name=new_user.last_name, username=new_user.username, password=temp_password)
     context = ssl.create_default_context()
 
     fp = open(os.getcwd() + '/client/public/assets/img/NEWNEWLOGO.png', 'rb')
