@@ -162,7 +162,7 @@ textarea[name="edit-body"] {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
-  width: 80%;
+  width: 100%;
   margin: 1rem auto 2rem auto;
   max-width: 1000px;
 }
@@ -170,7 +170,7 @@ textarea[name="edit-body"] {
 .rendered-block {
   position: relative;
   z-index: 1;
-  padding: 1rem;
+  padding: 2rem 1rem;
   border-radius: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
