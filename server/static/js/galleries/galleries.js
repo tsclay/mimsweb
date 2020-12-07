@@ -250,7 +250,7 @@ const renderGalleries = async (fetchedGalleries = null) => {
     galleries = response
   }
   if (galleries[0].resource_id) {
-    linkedHeader = createElement('h1', null, 'Linked')
+    linkedHeader = await createDividers('Linked')
     linkedDivider = createElement('div', {
       style: `
       width: 75%;
@@ -258,7 +258,7 @@ const renderGalleries = async (fetchedGalleries = null) => {
       margin: 0 auto;
       `
     })
-    nonLinkedHeader = createElement('h1', null, 'Non-Linked')
+    nonLinkedHeader = await createDividers('Non-Linked')
   }
   loader.remove()
   if (galleries.length > 0) {
