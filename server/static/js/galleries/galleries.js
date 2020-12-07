@@ -268,8 +268,24 @@ const renderGalleries = async (fetchedGalleries = null) => {
     galleries.forEach((c) => {
       const galleryRow = createElement('div', { class: 'gallery-row' })
       const galleryFragment = fragmentElements([
-        createElement('h2', null, c.gallery_name),
-        createElement('p', null, c.description),
+        createElement(
+          'h2',
+          {
+            style: `
+          margin: 0;
+          `
+          },
+          c.gallery_name
+        ),
+        createElement(
+          'p',
+          {
+            style: `
+          margin: 1rem 0 2rem 0;
+          `
+          },
+          c.description
+        ),
         galleryRow
       ])
       c.images.forEach((i) => {

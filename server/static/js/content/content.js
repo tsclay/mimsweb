@@ -265,14 +265,20 @@ const renderContent = async (preResponse = null) => {
       createElement(
         'h2',
         {
-          'data-id': c.id
+          'data-id': c.id,
+          style: `
+          margin: 0;
+          `
         },
         c.header_text
       ),
       createElement(
         'p',
         {
-          'data-id': c.paragraph_id
+          'data-id': c.paragraph_id,
+          style: `
+          margin: 1rem 0 2rem 0;
+          `
         },
         c.paragraph_text
       )

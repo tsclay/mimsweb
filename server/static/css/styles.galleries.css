@@ -165,13 +165,21 @@ textarea[name="edit-body"] {
   gap: 1rem;
   width: 100%;
   margin: 1rem auto 2rem auto;
+  max-width: 1000px;
 }
 
 .rendered-gallery {
-  position: relative;
+  /* position: relative;
   z-index: 1;
   padding: 1rem;
   border-radius: 8px;
+  box-sizing: border-box; */
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1rem;
+  border-radius: 8px;
+  display: grid;
+  grid-template-columns: 1fr;
   box-sizing: border-box;
 }
 
