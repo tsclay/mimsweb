@@ -112,7 +112,8 @@ const search = (e) => {
     ? new RegExp(value.match(/(?:>images )(\w.+)/i)[1], 'i')
     : new RegExp(value, 'gi')
   searchTargets.forEach((s) => {
-    if (needImages) {
+    console.log(s)
+    if (needImages && s.querySelector('img')) {
       const { alt, src } = s.querySelector('img')
       regex.test(alt) ? found.push(s) : regex.test(src) ? found.push(s) : null
     } else {
