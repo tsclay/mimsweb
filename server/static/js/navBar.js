@@ -94,6 +94,7 @@ const showModal = () => {
 // Filter #search-container for items with partially-matching text
 // Typing '>images [search term here]' will search img tags
 let searchTargets
+
 const search = (e) => {
   e.preventDefault()
   const searchContainer = searchForOne('#search-container')
@@ -114,8 +115,10 @@ const search = (e) => {
   searchTargets.forEach((s) => {
     console.log(s)
     if (needImages && s.querySelector('img')) {
-      const { alt, src } = s.querySelector('img')
-      regex.test(alt) ? found.push(s) : regex.test(src) ? found.push(s) : null
+      s.querySelectorAll('img').forEach((item, i) => {
+        const { alt, src } = item
+        regex.test(alt) ? found.push(s) : regex.test(src) ? found.push(s) : null
+      })
     } else {
       s.textContent.match(regex) ? found.push(s) : null
     }
