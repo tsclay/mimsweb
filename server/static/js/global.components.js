@@ -45,8 +45,10 @@ const createDividers = (innerText) => {
       `
     }),
     [
-      createElement('h1', {
-        style: `
+      createElement(
+        'h1',
+        {
+          style: `
         margin: 0;
         padding: 0.5rem 0.25rem;
         width: 49%;
@@ -54,7 +56,9 @@ const createDividers = (innerText) => {
         box-sizing: border-box;
         border-radius: 8px;
         `
-      }, innerText),
+        },
+        innerText
+      ),
       createElement('div', {
         style: `
         width: 49%;
@@ -67,4 +71,3 @@ const createDividers = (innerText) => {
 }
 
 const userRole = searchForOne('meta[name="role"]').content
-
