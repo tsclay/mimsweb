@@ -74,7 +74,8 @@ button > svg {
 
 .search-button,
 .create-button,
-.select-button {
+.select-button,
+.swap-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -127,7 +128,8 @@ button > svg {
 }
 
 input[name="headerText"],
-input[name="edit-header"] {
+input[name="edit-header"],
+h2.header-text {
   margin: 2.6rem 2.25rem 0.5rem 2.25rem;
 }
 

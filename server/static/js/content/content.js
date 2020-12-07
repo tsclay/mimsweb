@@ -417,3 +417,27 @@ const selectAllMode = () => {
   showMenu()
   return multiSelectMode
 }
+
+// const toggleSwapForm = (e) => {
+//   e.stopPropagation()
+//   const swapForm = generateSwapForm()
+//   const existingForms = searchForAll('.editors > .content-editor')
+//   activeForms = existingForms.length
+//   // const formId = `.content-editor.form-count"${formCount}"]`
+//   // const prev = existingForms[existingForms.length - 1]
+//   // let prevStyle = getComputedStyle(prev).transform
+//   // prevStyle = prevStyle.match(/\d+(?=\)$)/)[0]
+//   dynamicStyles.insertRule(
+//     `.form-count${formCount} { transform: matrix(1, 0, 0, 1, -3.37, ${
+//       activeForms * 35
+//     }); transition: all 0.2s linear; }`,
+//     formCount
+//   )
+//   dynamicStyles.list.push(formCount)
+//   console.log('before', dynamicStyles)
+//   swapForm.setAttribute('data-form-count', formCount)
+//   transition('in', swapForm, `form-count${formCount}`, searchForOne('.editors'))
+//   formCount += 1
+//   showMenu()
+//   return formCount
+// }
