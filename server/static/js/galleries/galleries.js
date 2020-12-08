@@ -239,7 +239,11 @@ const renderGalleries = async (fetchedGalleries = null) => {
   let nonLinkedHeader
   let foundNonLinked
   let linkedHeader
-  empty(galleryGrid)
+  if (searchTargets) {
+    empty(galleryGrid, () => {
+      searchTargets = null
+    })
+  }
   const loader = loadingSpinner.cloneNode(true)
   nestElements(galleryGrid, [loader])
   if (fetchedGalleries && fetchedGalleries.length > 0) {

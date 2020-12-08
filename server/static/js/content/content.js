@@ -239,6 +239,11 @@ const renderContent = async (preResponse = null) => {
   let nonLinkedHeader
   let foundNonLinked
   let linkedHeader
+  if (searchTargets) {
+    empty(searchForOne('.content-grid'), () => {
+      searchTargets = null
+    })
+  }
   nestElements(searchForOne('.content-grid'), [loadingSpinner.cloneNode(true)])
   if (preResponse === null) {
     const response = await fetch('/content/admin/all').then((r) => r.json())

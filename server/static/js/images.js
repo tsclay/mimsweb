@@ -12,6 +12,12 @@ const renderImages = async (preResponse = null) => {
   const imageDisplay = searchForOne('div.asset-grid')
   let content
 
+  if (searchTargets) {
+    empty(imageDisplay, () => {
+      searchTargets = null
+    })
+  }
+
   const deleteImage = async (eRef) => {
     const request = {
       method: 'DELETE',
