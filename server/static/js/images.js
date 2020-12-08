@@ -148,7 +148,7 @@ const renderImages = async (preResponse = null) => {
                   nestElements(
                     createSVG('g', {
                       transform: 'translate(-17.601098,6.0505133)',
-                      fill: '#b0b0b0',
+                      fill: 'white',
                       stroke: '#000'
                     }),
                     [
@@ -193,7 +193,7 @@ const renderImages = async (preResponse = null) => {
               nestElements(
                 createSVG('g', {
                   fill: 'none',
-                  stroke: '#b0b0b0',
+                  stroke: 'white',
                   'stroke-width': '6'
                 }),
                 [
@@ -207,7 +207,9 @@ const renderImages = async (preResponse = null) => {
                     rx: '14.145',
                     ry: '10.543',
                     'stroke-linecap': 'round',
-                    'stroke-linejoin': 'round'
+                    'stroke-linejoin': 'round',
+                    fill: 'white',
+                    stroke: 'white'
                   })
                 ]
               )
