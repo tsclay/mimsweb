@@ -91,6 +91,13 @@ div.image-uploader {
 .image-uploader > * {
   margin-bottom: 0.5rem;
 }
+div.display-for-image-info {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  height: 212px;
+}
+
 input[name="new-image-name"] {
   box-sizing: border-box;
 }
@@ -112,7 +119,7 @@ input[name="new-image-name"] {
   border-radius: 4rem;
 }
 .upload-btn {
-  width: 100%;
+  margin-top: 1rem;
 }
 
 .notification {

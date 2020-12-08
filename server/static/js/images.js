@@ -411,7 +411,6 @@ const generateImageEditor = (e, flag) => {
   console.log(thisInput)
   const gate = flag
   const [file] = thisInput.files
-  const fileNameSpan = createElement('p', { id: 'file-selected' }, file.name)
 
   const exitBtn = createElement(
     'button',
@@ -435,6 +434,8 @@ const generateImageEditor = (e, flag) => {
     exitBtn
   ])
 
+  const fileNameSpan = createElement('p', { id: 'file-selected' }, file.name)
+
   const nameLabel = createElement(
     'label',
     { for: 'new-image-name' },
@@ -451,8 +452,15 @@ const generateImageEditor = (e, flag) => {
     'Upload'
   )
 
+  const displayContainer = nestElements(
+    createElement('div', { class: 'display-for-image-info' }),
+    [fileNameSpan, nameLabel, newImageName, uploadButton]
+  )
+
   const uploadNewImage = async (e) => {
-    const imageEditor = e.currentTarget.parentElement
+    const imageEditor = e.target.closest('div.image-uploader')
+    const loader = createLoadingSpinner()
+    loader.style.cssText = `position: static; transform: translate(0,0);`
     const fd = new FormData()
     if (gate === 'new') {
       fd.append('new_image', file)
@@ -468,8 +476,11 @@ const generateImageEditor = (e, flag) => {
       method: 'POST',
       body: fd
     }
+    empty(displayContainer)
+    displayContainer.style.cssText = `align-items: center;`
+    nestElements(displayContainer, [loader])
     const response = await fetch(url, request).then((r) => r.json())
-    imageEditor.remove()
+    exitBtn.click()
     renderImages(response)
   }
 
@@ -477,15 +488,7 @@ const generateImageEditor = (e, flag) => {
 
   const editNewImageInfo = nestElements(
     createElement('div', { class: 'image-uploader content-editor' }),
-    [
-      fragmentElements([
-        fileNameSpan,
-        nameLabel,
-        newImageName,
-        titleBar,
-        uploadButton
-      ])
-    ]
+    [fragmentElements([titleBar, displayContainer])]
   )
 
   exitBtn.addEventListener('click', handleExit)
@@ -493,7 +496,7 @@ const generateImageEditor = (e, flag) => {
   const existingForms = searchForAll('.editors > .content-editor')
   activeForms = existingForms.length
   dynamicStyles.insertRule(
-    `.form-count${formCount} { transform: matrix(1, 0, 0, 1, -3.37, ${
+    `div.form-count${formCount} { transform: matrix(1, 0, 0, 1, -3.37, ${
       activeForms * 35
     }); transition: all 0.2s linear; }`,
     formCount
