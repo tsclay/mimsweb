@@ -8,7 +8,7 @@ class Galleries(db.Model):
     info_id = db.Column(db.Integer, db.ForeignKey(
         'gallery_info.gallery_id', ondelete="CASCADE"), nullable=False)
     image_id = db.Column(db.Integer, db.ForeignKey(
-        'images.image_id'), nullable=True)
+        'images.image_id', ondelete="CASCADE"), nullable=True)
     gallery_image = db.relationship('Image', backref=db.backref('galleries', passive_deletes=True), foreign_keys=[image_id],
                                     lazy=True, uselist=False)
     gallery_info = db.relationship(
