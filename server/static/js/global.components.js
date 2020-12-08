@@ -214,13 +214,24 @@ const fetchDelete = async (e, dataType, callback) => {
 
 // The "Edit" and "Delete" buttons that appear when clicking rows on content, galleries, and images pages
 const generateBtnGroup = (element, dataType, renderFunc) => {
+  let btnValue
+  switch (dataType) {
+    case 'content':
+      btnValue = element.dataset.contentId
+      break
+    case 'gallery':
+      btnValue = element.dataset.galleryId
+      break
+    default:
+      break
+  }
   return fragmentElements([
     nestElements(createElement('div', { class: 'btn-group' }), [
       createElement(
         'button',
         {
           type: 'button',
-          value: element.dataset.galleryId,
+          value: btnValue,
           onclick: 'showContentEditor(event, "edit")'
         },
         'Edit'
@@ -229,8 +240,8 @@ const generateBtnGroup = (element, dataType, renderFunc) => {
         createElement('button', {
           type: 'button',
           class: 'delete-button',
-          value: element.dataset.galleryId,
-          onclick: `fetchDelete(event, ${dataType}, ${renderFunc})`
+          value: btnValue,
+          onclick: `fetchDelete(event, '${dataType}', ${renderFunc})`
         }),
         [
           nestElements(

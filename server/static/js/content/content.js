@@ -71,6 +71,7 @@ const selectThisContent = (e) => {
   })
   div.classList.toggle('selected')
   if (div.classList[div.classList.length - 1] === 'selected') {
+    console.log(div)
     const controls = generateBtnGroup(div, 'content', 'renderContent')
     div.prepend(controls)
   } else {
