@@ -5,7 +5,7 @@ const changeSettings = async (e) => {
   )
   const { 0: firstName, 1: lastName, 2: password, 3: submitBtn } = e.target
   empty(submitBtn, () => {
-    const loading = loadingSpinner.cloneNode(true)
+    const loading = createLoadingSpinner()
     loading.style.cssText = `width: 2rem; position: static; transform: translate(0,0);`
     submitBtn.disabled = true
     nestElements(submitBtn, [loading])

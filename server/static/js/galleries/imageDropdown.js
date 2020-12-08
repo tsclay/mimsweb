@@ -4,7 +4,7 @@ const generateImageModal = (e, editing = false) => {
   const parentForm = e.target.parentElement
   console.log(parentForm.dataset)
 
-  const loading = loadingSpinner.cloneNode(true)
+  const loading = createLoadingSpinner()
 
   /*
    * ************************************************
@@ -174,7 +174,7 @@ const generateImageModal = (e, editing = false) => {
 
   const fetchImages = async () => {
     const response = await fetch('/admin/assets/read').then((r) => r.json())
-    
+
     imagePool.querySelector('.loading-wrapper').remove()
     response.forEach((j) => {
       const img = createElement('img', {

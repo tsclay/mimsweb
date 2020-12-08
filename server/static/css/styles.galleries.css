@@ -81,7 +81,7 @@ button > svg {
   width: 100%;
 }
 
-.content-editor {
+form.content-editor {
   position: absolute;
   top: 0;
   display: flex;
@@ -132,21 +132,21 @@ input[name="edit-header"] {
   margin: 2.6rem 2.25rem 0.5rem 2.25rem;
 }
 
-.content-editor > textarea,
-.content-editor > .select.new-image-ref,
+form.content-editor > textarea,
+form.content-editor > .select.new-image-ref,
 textarea[name="edit-body"] {
   margin: 0.5rem 2.25rem;
 }
 
-.content-editor > button[type="submit"] {
+form.content-editor > button[type="submit"] {
   margin: 0.5rem 2.25rem 2.25rem 2.25rem;
 }
 
-.content-editor.active {
+form.content-editor.active {
   transform: translate(-1%, 0);
 }
 
-.content-editor.minimized {
+form.content-editor.minimized {
   max-height: 2.5rem;
   max-width: 12rem;
   transform: translate(0, 0);
@@ -168,17 +168,15 @@ textarea[name="edit-body"] {
   max-width: 1000px;
 }
 
-.rendered-gallery {
-  /* position: relative;
-  z-index: 1;
-  padding: 1rem;
-  border-radius: 8px;
-  box-sizing: border-box; */
+.rendered-block {
   position: relative;
   z-index: 1;
   padding: 2rem 1rem;
   border-radius: 8px;
   display: grid;
+}
+
+.r-gallery {
   grid-template-columns: 1fr;
   box-sizing: border-box;
 }
@@ -189,8 +187,9 @@ textarea[name="edit-body"] {
   z-index: 2;
 }
 
-.rendered-gallery.btn-group {
+.btn-group {
   position: absolute;
+  border-radius: 8px;
   top: 0;
   right: 0;
   display: flex;
@@ -202,7 +201,7 @@ textarea[name="edit-body"] {
   width: 100%;
 }
 
-.rendered-gallery.btn-group > button {
+.btn-group > button {
   height: 40px;
   width: 40px;
   display: flex;

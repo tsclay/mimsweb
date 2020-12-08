@@ -22,7 +22,7 @@ const generateImageDropdown = (image = null) => {
 
     thisDiv.querySelector('.image-grid-wrapper').classList.add('active')
     const imageGrid = createElement('div', { class: 'image-grid' })
-    const loading = loadingSpinner.cloneNode(true)
+    const loading = createLoadingSpinner()
     if (thisDiv.querySelector('.image-grid')) {
       thisDiv.querySelector('.image-grid-wrapper').classList.remove('active')
       thisDiv.querySelector('.image-grid').remove()
@@ -33,7 +33,7 @@ const generateImageDropdown = (image = null) => {
     nestElements(parent.querySelector('.image-grid-wrapper'), [imageGrid])
     thisDiv.querySelector('.arrow-icon').classList.add('active')
     const response = await fetch('/admin/assets/read').then((r) => r.json())
-    
+
     loading.remove()
     response.forEach((j) => {
       const img = createElement('img', {

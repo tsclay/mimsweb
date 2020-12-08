@@ -8,7 +8,7 @@ const createUser = async (e) => {
     4: submitBtn
   } = e.target
   empty(submitBtn, () => {
-    const loading = loadingSpinner.cloneNode(true)
+    const loading = createLoadingSpinner()
     loading.style.cssText = `width: 2rem; position: static; transform: translate(0,0);`
     submitBtn.disabled = true
     nestElements(submitBtn, [loading])
@@ -25,8 +25,10 @@ const createUser = async (e) => {
       'Content-Type': 'application/json'
     }
   }
-  const response = await fetch('/admin/create-user', request).then((r) => r.json())
-  
+  const response = await fetch('/admin/create-user', request).then((r) =>
+    r.json()
+  )
+
   empty(submitBtn, () => {
     submitBtn.disabled = false
     submitBtn.innerText = 'Create User'
@@ -138,7 +140,7 @@ if (userRole === 'admin') {
       headers: { 'Content-Type': 'application/json' }
     }
     const response = await fetch('/admin/users', request).then((r) => r.json())
-    
+
     renderUsers(response)
   }
 

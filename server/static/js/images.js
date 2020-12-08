@@ -377,7 +377,6 @@ const renderImages = async (preResponse = null) => {
 
   if (preResponse === null) {
     const response = await fetch('/admin/assets/read').then((r) => r.json())
-
     content = response
   } else {
     content = preResponse
