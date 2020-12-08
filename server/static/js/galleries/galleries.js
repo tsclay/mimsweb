@@ -236,7 +236,6 @@ const selectThisContent = (e) => {
 // After CREATE, re-render the content and re-cache
 const renderGalleries = async (fetchedGalleries = null) => {
   let galleries
-  let linkedDivider
   let nonLinkedHeader
   let foundNonLinked
   let linkedHeader
@@ -251,13 +250,6 @@ const renderGalleries = async (fetchedGalleries = null) => {
   }
   if (galleries[0].resource_id) {
     linkedHeader = await createDividers('Linked')
-    linkedDivider = createElement('div', {
-      style: `
-      width: 75%;
-      border-bottom: 2px solid black;
-      margin: 0 auto;
-      `
-    })
     nonLinkedHeader = await createDividers('Non-Linked')
   }
   loader.remove()
@@ -306,7 +298,7 @@ const renderGalleries = async (fetchedGalleries = null) => {
       )
       renderedGallery.addEventListener('click', selectThisContent)
       if (!c.resource_id && !foundNonLinked) {
-        nestElements(galleryGrid, [linkedDivider, nonLinkedHeader])
+        nestElements(galleryGrid, [nonLinkedHeader])
         foundNonLinked = true
       }
       nestElements(galleryGrid, [renderedGallery])
