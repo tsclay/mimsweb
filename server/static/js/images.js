@@ -98,7 +98,7 @@ const renderImages = async (preResponse = null) => {
   }
 
   const viewFullImage = (e) => {
-    const { 2: thisImage } = e.target.closest('.asset-box').children
+    const { 1: thisImage } = e.target.closest('.asset-box').children
     window.open(thisImage.src, '_blank')
   }
 
