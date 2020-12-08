@@ -73,7 +73,8 @@ const createDividers = (innerText) => {
 const userRole = searchForOne('meta[name="role"]').content
 
 const handleExit = (e) => {
-  const tasksRect = searchForOne('.tasks').getBoundingClientRect()
+  const hasTaskBar = searchForOne('.tasks')
+  const tasksRect = hasTaskBar ? hasTaskBar.getBoundingClientRect() : null
   const thisForm = e.currentTarget.parentElement.parentElement
   const thisFormCount = Number(thisForm.dataset.formCount)
   const targetIndex = dynamicStyles.list.indexOf(thisFormCount)

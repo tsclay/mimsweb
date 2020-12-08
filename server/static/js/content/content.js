@@ -1,12 +1,13 @@
 const contentGrid = searchForOne('div.content-grid')
-let multiSelectMode = false
 const styleEl = createElement('style')
 nestElements(document.head, [styleEl])
 
 const dynamicStyles = styleEl.sheet
 dynamicStyles.list = []
 let formCount = 0
-let activeForms = 0
+let activeForms
+activeForms = 0
+let multiSelectMode = false
 
 const showMenu = (e) => {
   searchForOne('.content-toolbar').classList.toggle('hide')

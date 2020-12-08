@@ -1,3 +1,12 @@
+const styleEl = createElement('style')
+nestElements(document.head, [styleEl])
+
+const dynamicStyles = styleEl.sheet
+dynamicStyles.list = []
+let formCount = 0
+let activeForms
+activeForms = 0
+
 // Fetch content data on page load and insert into DOM
 const renderImages = async (preResponse = null) => {
   const imageDisplay = searchForOne('div.asset-grid')
@@ -13,8 +22,10 @@ const renderImages = async (preResponse = null) => {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch('/admin/assets/delete', request).then((r) => r.json())
-    
+    const response = await fetch('/admin/assets/delete', request).then((r) =>
+      r.json()
+    )
+
     renderImages(response)
   }
   const handleNotification = (json, asset) => {
@@ -43,7 +54,7 @@ const renderImages = async (preResponse = null) => {
 
     exitBtn.addEventListener('click', cancel)
     confirmBtn.addEventListener('click', confirm)
-    nestElements(searchForOne('.windows'), [
+    nestElements(searchForOne('.editors'), [
       nestElements(
         createElement('div', {
           class: 'notification',
@@ -75,8 +86,10 @@ const renderImages = async (preResponse = null) => {
         'Content-Type': 'application/json'
       }
     }
-    const response = await fetch('/admin/assets/delete', request).then((r) => r.json())
-    
+    const response = await fetch('/admin/assets/delete', request).then((r) =>
+      r.json()
+    )
+
     if (response[0].message === 1) {
       handleNotification(response, thisAsset)
     } else if (response[0].message === 0) {
@@ -356,7 +369,7 @@ const renderImages = async (preResponse = null) => {
 
   if (preResponse === null) {
     const response = await fetch('/admin/assets/read').then((r) => r.json())
-    
+
     content = response
   } else {
     content = preResponse
@@ -373,7 +386,12 @@ const renderImages = async (preResponse = null) => {
         class: 'asset-box',
         'data-image-id': c.id
       }),
-      [fragmentElements([createElement('p', null, c.image_name), img])]
+      [
+        fragmentElements([
+          img,
+          createElement('p', { style: `text-align: right;` }, c.image_name)
+        ])
+      ]
     )
 
     assetBox.addEventListener('click', selectThisContent)
@@ -387,6 +405,29 @@ const generateImageEditor = (e, flag) => {
   const gate = flag
   const [file] = thisInput.files
   const fileNameSpan = createElement('p', { id: 'file-selected' }, file.name)
+
+  const exitBtn = createElement(
+    'button',
+    {
+      type: 'button',
+      class: 'exit-btn'
+    },
+    'X'
+  )
+
+  const boxTitle = createElement(
+    'span',
+    {
+      class: 'box-title'
+    },
+    gate === 'edit' ? 'Replace Image' : 'Upload New Image'
+  )
+
+  const titleBar = nestElements(createElement('div', { class: 'title-bar' }), [
+    boxTitle,
+    exitBtn
+  ])
+
   const nameLabel = createElement(
     'label',
     { for: 'new-image-name' },
@@ -397,7 +438,6 @@ const generateImageEditor = (e, flag) => {
     name: 'new-image-name',
     id: 'new-image-name'
   })
-  const removeButton = createElement('button', { class: 'exit-btn' }, 'X')
   const uploadButton = createElement(
     'button',
     { class: 'upload-btn' },
@@ -426,25 +466,41 @@ const generateImageEditor = (e, flag) => {
     renderImages(response)
   }
 
-  const exitEditor = (e) => {
-    e.currentTarget.parentElement.remove()
-  }
-
   uploadButton.addEventListener('click', uploadNewImage)
-  removeButton.addEventListener('click', exitEditor)
 
   const editNewImageInfo = nestElements(
-    createElement('div', { class: 'image-uploader' }),
+    createElement('div', { class: 'image-uploader content-editor' }),
     [
       fragmentElements([
         fileNameSpan,
         nameLabel,
         newImageName,
-        removeButton,
+        titleBar,
         uploadButton
       ])
     ]
   )
 
-  nestElements(searchForOne('.windows'), [editNewImageInfo])
+  exitBtn.addEventListener('click', handleExit)
+
+  const existingForms = searchForAll('.editors > .content-editor')
+  activeForms = existingForms.length
+  dynamicStyles.insertRule(
+    `.form-count${formCount} { transform: matrix(1, 0, 0, 1, -3.37, ${
+      activeForms * 35
+    }); transition: all 0.2s linear; }`,
+    formCount
+  )
+  dynamicStyles.list.push(formCount)
+  console.log('before', dynamicStyles)
+  editNewImageInfo.setAttribute('data-form-count', formCount)
+  transition(
+    'in',
+    editNewImageInfo,
+    `form-count${formCount}`,
+    searchForOne('.editors')
+  )
+  formCount += 1
+
+  return formCount
 }
