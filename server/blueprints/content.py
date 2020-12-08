@@ -26,11 +26,11 @@ def read():
     r_dict = []
     for row in results:
         image_id = row.image_id if hasattr(
-            row, "image_id") else -1
+            row, "image_id") and row.image_id is not None else -1
         image_name = row.image_name if hasattr(
-            row, "image_name") else 'Placeholder'
-        image_link = row.image_link if hasattr(row, "image_link") else url_for(
-            'static', filename='assets/icons/image-icon.inkscape.png')
+            row, "image_name") and row.image_name is not None else 'Placeholder'
+        image_link = row.image_link if hasattr(row, "image_link") and row.image_link is not None else url_for(
+            'static', filename='assets/small-image.png')
         item = {
             "id": row.header_id,
             "resource_id": row.resource_id or None,
