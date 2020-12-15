@@ -5,6 +5,8 @@ client/public/build/
 .DS_Store
 .vscode
 
+client_secrets.json
+
 *.zip
 
 # Env files

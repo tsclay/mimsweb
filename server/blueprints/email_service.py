@@ -6,6 +6,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 import os
+import base64
 
 email_service = Blueprint('emailer', __name__, template_folder='templates')
 
@@ -17,12 +18,21 @@ def send_email():
     data = request.get_json() or request.form
     name = data["name"]
 
+    CLIENT_ID = "634234012352-dgrj19j5g6v44rfqpfosj3sgsbm6i8re.apps.googleusercontent.com"
+    CLIENT_SECRET = "y4vFXQ2RrQQ2zY-dkZkNU-2n"
+    REFRESH_TOKEN = "1//04d5czzr1EefQCgYIARAAGAQSNwF-L9IrRHWsKcKlVjbp0XHanLpRWjtPRyBt_7U5gWyz8mgHtozmbuzpSlDSmPYcS7i5Sn0lTyE"
+    ACCESS_TOKEN = "ya29.a0AfH6SMAcb1uXyAS4wzA2qYOVOx2DkYVCfDK5n_acWeY0oJPxPmlTk7fX4qh1l_xFhHC1ab5zDCE2psiV0FWL3rQ79FErK2gmi1VEtgHjvxqo7HjyiBSCJuZ7iyiJeB4wHLRNQu4U9QjIIbncQ6fxABAu9kq7E2VnHAWI5j3dGuU"
+
     # Configure the emailer, first setting sender and receiver to business
-    port = os.environ["EMAIL_PORT"]
-    smtp_server = os.environ["EMAIL_SERVER"]
-    sender = os.environ["EMAIL_SENDER"]
+    port = 587
+    smtp_server = "smtp.gmail.com"
+    sender = "web.mailer.mimspainting@gmail.com"
     receiver = os.environ["EMAIL_RECEIVER"]
     password = os.environ["EMAIL_PASSWORD"]
+    user = "web.mailer.mimspainting@gmail.com"
+
+    auth_string = bytes(
+        f"user={user}^Aauth=Bearer {ACCESS_TOKEN}^A^A", 'utf-8')
 
     # Create message from form message to send to business
     text = f'{data["message"]}\n\n\
@@ -37,8 +47,12 @@ def send_email():
     message.attach(MIMEText(text, 'plain'))
     context = ssl.create_default_context()
 
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as emailer:
-        emailer.login(sender, password)
+    with smtplib.SMTP(smtp_server, port) as emailer:
+        emailer.ehlo(CLIENT_ID)
+        emailer.starttls(context=context)
+        emailer.ehlo(CLIENT_ID)
+        # emailer.login(sender, password)
+        emailer.docmd('AUTH', 'XOAUTH2 ' + auth_string.decode('utf-8'))
         emailer.sendmail(sender, receiver, message.as_string())
         emailer.close()
 
@@ -114,9 +128,13 @@ def send_email():
 
     reply.attach(msgImage)
 
-    with smtplib.SMTP_SSL(smtp_server, port, context=context) as responder:
-        responder.login(sender, password)
-        responder.sendmail(sender, receiver, reply.as_string())
+    with smtplib.SMTP(smtp_server, port) as responder:
+        responder.ehlo(CLIENT_ID)
+        responder.starttls(context=context)
+        responder.ehlo(CLIENT_ID)
+        # responder.login(sender, password)
+        responder.docmd('AUTH', 'XOAUTH2 ' + base64.b64encode(auth_string))
+        responder.sendmail(sender, receiver, message.as_string())
         responder.close()
 
     return json.dumps({
