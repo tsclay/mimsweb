@@ -81,37 +81,64 @@ def send_notification_to_client(mailer, website_json):
     reply_rel = MIMEMultipart('related')
     html = """\
     <html>
-        <div
-          style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-          border: 20px solid black;
-          box-sizing: border-box;
-          max-width: 680px;
-          min-width: 375px;
-          margin: 0 auto;
-          color: black;
-        ">
-          <div style="padding: 2.5rem; background: #faf8f4; box-sizing: border-box; width: 100%; margin-bottom: 2rem;">
-            <div style="width: 80%;\
-                    display: block;
-                    margin: auto;\
-                    box-sizing: border-box;
-                ">
-                <img style="background: rgba(141, 141, 141, 0.5);\
-                    border: black solid 4px;\
-                    padding: 8px;
-                "
-                src="cid:{img}"
-                alt="Mims Family Painting"
-                />
-            </div>
-            <p style="margin: 0 0 1.25rem 0;">Hi {name},</p>
-            <p style="margin: 0 0 1.25rem 0;">Thank you for contacting us at Mims Family Painting. We will review your message and reply to you within 2 business days (Monday - Friday) {pref_message}.
+    <table style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+        font-size: 16px;
+        border-collapse: separate;
+        border-spacing: 0 1em; 
+        max-width: 680px;
+        min-width: 375px;
+        border: 20px solid black;
+        padding: 16px;"> 
+    <tbody style="
+            font-size: 16px;
+            box-sizing: border-box;
+            margin: 0px auto;
+            color: black;">
+        <tr>
+        <td>
+        <table>
+          <tbody>
+            <td style="width: 25%;"></td>
+            <td style="width: 50%;">
+              <img style="background: rgba(141, 141, 141, 0.5);
+                              border: black solid 4px;
+                              padding: 8px;
+                              box-sizing: border-box;
+                              display: block;
+                              width: 100%;
+                             " src="cid:{img}" alt="Mims Family Painting" />
+            </td>
+            <td style="width: 25%;"></td>
+          </tbody>
+        </table>
+     </td>
+        </tr>
+        <tr>
+        <td>
+            <p>Hi {name},</p>
+        </td>
+        </tr>
+        <tr>
+        <td>
+            <p>
+            Thank you for contacting us at Mims Family Painting. 
+            We will review your message and reply to you within 2 business days (Monday - Friday) by phone and/or email.
             </p>
-            <p style="margin: 0 0 1.25rem 0;">We look forward to speaking with you soon.</p>
-            <p style="margin: 0 0 1.25rem 0;">Best regards,</p>
-            <p style="margin: 0;">Mims Family Painting</p>
-          </div>
-        </div>
+        </td>
+        </tr>
+        <tr>
+        <td>
+            <p>We look forward to speaking with you soon.</p>
+        </td>
+        </tr>
+        <tr>
+        <td>
+            <p>Best regards,</p>
+            <p>Mims Family Painting</p>
+        </td>
+        </tr>
+    </tbody>
+    </table>
     </html>
     """.format(name=client_name, pref_message=pref_message, img=image_cid)
 
