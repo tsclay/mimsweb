@@ -250,7 +250,7 @@
         <p>You should receive a email confirming that we got it shortly.</p>
         <p>
           If you do not receive this email, please contact us directly at
-          <a href="mailto:mims@mimspainting.com">mims@mimspainting.com</a>
+          <a href="mailto:mims@mimspainting.com">mims@mimspainting.com</a>.
         </p>
       </div>
     {/if}
