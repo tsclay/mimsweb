@@ -6,6 +6,7 @@ client/public/build/
 .vscode
 
 client_secrets.json
+*.pickle
 
 *.zip
 
