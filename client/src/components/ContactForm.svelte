@@ -1,8 +1,11 @@
 <script>
+  import { circOut } from 'svelte/easing'
+
   import { fly, fade } from 'svelte/transition'
   let errors = {}
   let selected = 'Both'
   let sending = false
+  let hasSent = false
   let showOptions = false
   let messageData = {
     name: null,
@@ -11,6 +14,19 @@
     message: null,
     phone: null,
     pref_contact: 'both'
+  }
+
+  const revealHasSentDiv = (node, { duration }) => {
+    return {
+      duration,
+      css: (t) => {
+        const eased = circOut(t)
+
+        return `
+					max-height: ${eased * 100}%
+					`
+      }
+    }
   }
 
   const validateEmail = (e) => {
@@ -72,6 +88,7 @@
     })
     const emailCompleted = await response.json()
     sending = false
+    hasSent = true
   }
 </script>
 
@@ -146,6 +163,28 @@
     background: var(--lightGray);
     border-radius: 4px;
     margin: 0 auto;
+    position: relative;
+  }
+
+  .email-has-sent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #faf8f4b8;
+    z-index: 9;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 2rem;
+    color: black;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 1.25rem;
+    overflow: hidden;
   }
 
   .error-wrapper {
@@ -204,6 +243,17 @@
     an entire house; you name it, we'll quote it.
   </p>
   <div id="form-wrapper">
+    {#if hasSent}
+      <div in:revealHasSentDiv={{ duration: 1000 }} class="email-has-sent hide">
+        <p>✅</p>
+        <p>Your message has been sent!</p>
+        <p>You should receive a email confirming that we got it shortly.</p>
+        <p>
+          If you do not receive this email, please contact us directly at
+          <a href="mailto:mims@mimspainting.com">mims@mimspainting.com</a>.
+        </p>
+      </div>
+    {/if}
     <form on:submit|preventDefault={handleSubmit}>
       <label for="clientName">Name</label>
       <input
@@ -331,7 +381,7 @@
       </div>
       <button
         type="submit"
-        disabled={sending ? true : false}>{sending ? 'Sending...' : 'Send'}</button>
+        disabled={sending || hasSent}>{sending ? 'Sending...' : hasSent ? 'Already sent!' : 'Send'}</button>
     </form>
   </div>
 </div>

@@ -149,3 +149,11 @@ SELECT c.resource_id, g.gallery_name, g.description, g.gallery_id, gal.image_id,
     LEFT OUTER JOIN images i ON i.image_id = gal.image_id
     ORDER BY c.gallery_id, gal.index_id;
 ```
+
+### Resources for Email
+
+[Beginning with smtplib](https://stackoverflow.com/questions/920910/sending-multipart-html-emails-which-contain-embedded-images)
+
+[Creating the service needed using adapted version of Gmail API quickstart](https://learndataanalysis.org/how-to-use-gmail-api-to-send-an-email-with-attachments-in-python/)
+
+[Formatting and attaching the MIMEMultipart correctly](https://github.com/fabianlee/python-send-html-email/blob/master/send_html_email.py)
