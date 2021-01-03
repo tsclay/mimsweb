@@ -26,10 +26,9 @@ def send_email():
     # Configure the emailer, first setting sender and receiver to business
     port = 587
     smtp_server = "smtp.gmail.com"
-    sender = "web.mailer.mimspainting@gmail.com"
+    sender = os.environ["WEB_SENDER"]
     receiver = os.environ["EMAIL_RECEIVER"]
-    password = os.environ["EMAIL_PASSWORD"]
-    user = "web.mailer.mimspainting@gmail.com"
+    user = sender
 
     auth_string = bytes(
         f"user={user}^Aauth=Bearer {ACCESS_TOKEN}^A^A", 'utf-8')
