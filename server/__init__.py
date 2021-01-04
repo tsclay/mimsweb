@@ -1,13 +1,36 @@
-from flask import Flask, send_from_directory, url_for, jsonify
+from flask import Flask, send_from_directory, url_for, jsonify, render_template
+from flask_wtf.csrf import CSRFProtect
+from flask_talisman import Talisman
 import os
 
 
 def create_app():
-    server = Flask(__name__)
+    server = Flask(__name__, template_folder='../client/public')
     server.config.from_object("server." + os.environ["APP_SETTINGS"])
 
     from .db import db
+    csrf = CSRFProtect()
     db.init_app(server)
+    csrf.init_app(server)
+    Talisman(server, content_security_policy={
+        'font-src': ["'self'", 'themes.googleusercontent.com', '*.gstatic.com'],
+        'script-src': "'self'",
+        'style-src': "*:* 'unsafe-inline'",
+        'default-src': ["'self'", "*.gstatic.com"],
+    }, content_security_policy_nonce_in=[])
+
+# {
+#         # Fonts from fonts.google.com
+#         'font-src': ['\'self\'', 'themes.googleusercontent.com *.gstatic.com'],
+#         # <iframe> based embedding for Maps and Youtube.
+#         'frame-src': ['\'self\'', 'www.google.com www.youtube.com'],
+#         # Assorted Google-hosted Libraries/APIs.
+#         'script-src': ['\'self\'', 'ajax.googleapis.com *.googleanalytics.com',
+#                        '*.google-analytics.com', 'unsafe-inline'],
+#         # Used by generated code from http://www.google.com/fonts
+#         'style-src': '*',
+#         'default-src': ['\'self\'', '*.gstatic.com'],
+#     }
 
     from server.models.Client_Resources import Client_Resources
     from server.models.Gallery_Info import Gallery_Info
@@ -38,7 +61,8 @@ def create_app():
 
     @server.route('/', methods=["GET"])
     def home():
-        return send_from_directory('../client/public', 'index.html')
+        return render_template('index.html')
+        # return send_from_directory('../client/public', 'index.html')
 
     @server.route("/<path:path>")
     def send_assets(path):
