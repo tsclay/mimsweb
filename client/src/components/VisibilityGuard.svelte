@@ -28,10 +28,17 @@
   $: if (hasBeenVisible) {
     observer.unobserve(el);
   }
+  $: if (el) {
+    el.style.cssText = `
+    position: relative; 
+    ${gridArea ? `grid-area: ${gridArea}` : ""};
+    ${styleOverride ? styleOverride : ""};
+    `;
+  }
 </script>
 
-<div
-  bind:this={el}
-  style="position: relative; {gridArea ? `grid-area: ${gridArea}` : ''} {styleOverride ? styleOverride : ''}">
+<div bind:this={el}>
   <slot {visible} {hasBeenVisible} />
 </div>
+
+<!-- style="position: relative; {gridArea ? `grid-area: ${gridArea}` : ''} {styleOverride ? styleOverride : ''}" -->
