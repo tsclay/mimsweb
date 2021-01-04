@@ -73,3 +73,7 @@ body {
 .fade-out {
   opacity: 0;
 }
+
+input[name="csrf_token"] {
+  display: none;
+}
