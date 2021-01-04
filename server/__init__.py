@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, url_for, jsonify, render_template
+from flask import Flask, send_from_directory, url_for, jsonify, render_template, current_app
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
 import os
@@ -17,20 +17,7 @@ def create_app():
         'script-src': "'self'",
         'style-src': "*:* 'unsafe-inline'",
         'default-src': ["'self'", "*.gstatic.com"],
-    }, content_security_policy_nonce_in=[])
-
-# {
-#         # Fonts from fonts.google.com
-#         'font-src': ['\'self\'', 'themes.googleusercontent.com *.gstatic.com'],
-#         # <iframe> based embedding for Maps and Youtube.
-#         'frame-src': ['\'self\'', 'www.google.com www.youtube.com'],
-#         # Assorted Google-hosted Libraries/APIs.
-#         'script-src': ['\'self\'', 'ajax.googleapis.com *.googleanalytics.com',
-#                        '*.google-analytics.com', 'unsafe-inline'],
-#         # Used by generated code from http://www.google.com/fonts
-#         'style-src': '*',
-#         'default-src': ['\'self\'', '*.gstatic.com'],
-#     }
+    }, content_security_policy_nonce_in=["script-src"])
 
     from server.models.Client_Resources import Client_Resources
     from server.models.Gallery_Info import Gallery_Info
@@ -58,6 +45,24 @@ def create_app():
     server.register_blueprint(settings)
     server.register_blueprint(email_service)
     server.register_blueprint(users)
+
+# Set custom CSP settings for admin portal, no easier way to do this unfortunately
+# https://github.com/GoogleCloudPlatform/flask-talisman/issues/45
+    with server.app_context():
+        setattr(current_app.view_functions.get("auth.home"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("auth.login"), "talisman_view_options", {
+            "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("images.handle_images"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("content.render"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("galleries.handle_images"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("settings.show_page"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("users.handle_recovery"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
 
     @server.route('/', methods=["GET"])
     def home():
