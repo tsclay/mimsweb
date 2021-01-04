@@ -1,6 +1,6 @@
 from flask import json, request, Blueprint, render_template, session, redirect, url_for
 
-blacklist = Blueprint('blacklist', __name__, template_folder='templates')
+blacklist = Blueprint('blacklist', __name__, template_folder='../templates')
 
 
 @blacklist.route('', methods=["GET"])

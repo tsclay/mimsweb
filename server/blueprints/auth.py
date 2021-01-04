@@ -6,7 +6,7 @@ import json
 from server.db import db
 from server.models.Admin import Admin
 
-auth = Blueprint('auth', __name__, template_folder='templates')
+auth = Blueprint('auth', __name__, template_folder='../templates')
 
 
 @auth.route('', methods=["GET"])

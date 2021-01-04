@@ -10,7 +10,7 @@ import base64
 from server.blueprints import Create_Service
 
 
-email_service = Blueprint('emailer', __name__, template_folder='templates')
+email_service = Blueprint('emailer', __name__, template_folder='../templates')
 
 
 def send_website_msg_to_business(mailer, website_json):
