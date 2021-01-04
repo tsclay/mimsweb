@@ -24,12 +24,15 @@
 // Logout user thru AJAX
 const logoutUser = async () => {
   const username = searchForOne('#session-username').innerText
+  const csrf = searchForOne('meta[name="csrf_token"]').content
   const request = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
-      Accept: 'application/json'
+      Accept: 'application/json',
+      'X-CSRFToken': csrf
     },
+    credentials: 'same-origin',
     body: `username=${username}`
   }
   const response = await fetch('/admin/logout', request).then((r) => r.json())
@@ -91,6 +94,8 @@ const showModal = () => {
   }
 }
 
+searchForOne('#options-toggle').addEventListener('click', showModal)
+
 // Filter #search-container for items with partially-matching text
 // Typing '>images [search term here]' will search img tags
 let searchTargets
@@ -127,6 +132,8 @@ const search = (e) => {
   return searchTargets
 }
 
+searchForOne('#search-form').addEventListener('submit', search)
+
 // Typing '>' first will toggle dropdown options similar to VSCode functionality
 const displaySearchFilters = (e) => {
   const { value } = e.target
@@ -157,3 +164,8 @@ const displaySearchFilters = (e) => {
 
   nestElements(inputWrapper, [filtersDropdown])
 }
+
+searchForOne('input[form="search-form"]').addEventListener(
+  'input',
+  displaySearchFilters
+)
