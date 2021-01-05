@@ -17,7 +17,8 @@ def create_app():
         'script-src': "'self'",
         'style-src': "*:* 'unsafe-inline'",
         'default-src': ["'self'", "*.gstatic.com"],
-    }, content_security_policy_nonce_in=["script-src"])
+    }, content_security_policy_nonce_in=["script-src"],
+        force_https=False)
 
     from server.models.Client_Resources import Client_Resources
     from server.models.Gallery_Info import Gallery_Info
