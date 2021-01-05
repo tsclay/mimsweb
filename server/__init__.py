@@ -9,9 +9,11 @@ def create_app():
     server.config.from_object("server." + os.environ["APP_SETTINGS"])
 
     from .db import db
+    from .limiter import limiter
     csrf = CSRFProtect()
     db.init_app(server)
     csrf.init_app(server)
+    limiter.init_app(server)
     Talisman(server, content_security_policy={
         'font-src': ["'self'", 'themes.googleusercontent.com', '*.gstatic.com'],
         'script-src': "'self'",
@@ -66,11 +68,13 @@ def create_app():
                 "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
 
     @server.route('/', methods=["GET"])
+    @limiter.limit('4 per minute')
     def home():
         return render_template('index.html')
         # return send_from_directory('../client/public', 'index.html')
 
     @server.route("/<path:path>")
+    @limiter.exempt
     def send_assets(path):
         return send_from_directory('../client/public', path)
 
