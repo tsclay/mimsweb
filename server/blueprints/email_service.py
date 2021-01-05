@@ -8,6 +8,7 @@ from email.mime.image import MIMEImage
 import os
 import base64
 from server.blueprints import Create_Service
+from server.limiter import limiter
 
 
 email_service = Blueprint('emailer', __name__, template_folder='../templates')
@@ -167,6 +168,10 @@ def send_notification_to_client(mailer, website_json):
 
 
 @email_service.route('/submit-form', methods=["POST"])
+@limiter.limit(
+    '2 per day',
+    deduct_when=lambda response: response.status_code == 200
+)
 def send_email():
 
     # Get form data
