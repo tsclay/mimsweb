@@ -53,7 +53,7 @@ if [ "$FLASK_ENV" = "production" ]; then
   echo "💻  Dev database created! 💻"
   python manage.py seed_db
   echo "🌱 Database seeded 🌱"
-  gunicorn -b 0.0.0.0:$PORT 'server:create_app()'
+  gunicorn -b 0.0.0.0:$PORT -w 4 'server:create_app()'
 fi
 
 exec "$@"
