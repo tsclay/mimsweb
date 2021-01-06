@@ -16,10 +16,10 @@ def create_app():
     limiter.init_app(server)
     Talisman(server, content_security_policy={
         'font-src': ["'self'", 'themes.googleusercontent.com', '*.gstatic.com'],
-        'script-src': "'self'",
-        'style-src': "*:* 'unsafe-inline'",
-        'default-src': ["'self'", "*.gstatic.com"],
-    }, content_security_policy_nonce_in=["script-src"],
+        'script-src': ["'self'", 'ajax.googleapis.com'],
+        'style-src': ["'self'", 'fonts.googleapis.com', '*.gstatic.com', 'ajax.googleapis.com', "'unsafe-inline'", ],
+        'default-src':  ["'self'", '*.gstatic.com']
+    },
         force_https=False)
 
     from server.models.Client_Resources import Client_Resources
@@ -71,6 +71,7 @@ def create_app():
     @limiter.limit('4 per minute')
     def home():
         return render_template('index.html')
+
         # return send_from_directory('../client/public', 'index.html')
 
     @server.route("/<path:path>")
