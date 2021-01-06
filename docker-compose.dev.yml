@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   flask:
     build:
@@ -6,11 +6,12 @@ services:
       dockerfile: Dockerfile
       target: dev
     ports:
-      - '4001:3000'
+      - "4001:3000"
     volumes:
       - .:/code
     depends_on:
       - db
+      - rdb
     env_file:
       - .dev.env
 
@@ -20,15 +21,15 @@ services:
       dockerfile: Dockerfile.client
       target: dev
     ports:
-      - '5000:5000'
-      - '35729:35729'
+      - "5000:5000"
+      - "35729:35729"
     volumes:
       - ./client:/usr/src/app
     depends_on:
       - flask
 
   db:
-    image: 'postgres:13'
+    image: "postgres:13"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -38,5 +39,23 @@ services:
       - POSTGRES_PASSWORD=snakes
       - POSTGRES_DB=flask-app
 
+  rdb:
+    image: "redis:alpine"
+    volumes:
+      - redis-data:/var/lib/redis
+    ports:
+      - 6379:6379
+    # networks:
+    #   node_net:
+    #     ipv4_address: 172.28.1.4
+
+# networks:
+#   node_net:
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.28.0.0/16
+
 volumes:
   postgres_data:
+  redis-data:
