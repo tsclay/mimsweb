@@ -4,9 +4,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: stage
+      target: prod
     ports:
-      - "4001:5000"
+      - "4001:4001"
     restart: always
     depends_on:
       - rdb
