@@ -22,8 +22,7 @@ def create_app():
         'script-src': ["'self'", 'ajax.googleapis.com'],
         'style-src': ["'self'", 'fonts.googleapis.com', '*.gstatic.com', 'ajax.googleapis.com', "'unsafe-inline'", ],
         'default-src':  ["'self'", '*.gstatic.com']
-    },
-        force_https=False)
+    }, force_https=False)
 
     from server.models.Client_Resources import Client_Resources
     from server.models.Gallery_Info import Gallery_Info
