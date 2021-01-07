@@ -5,6 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
       target: prod
+    env_file:
+      - ./prod.new.env
     ports:
       - "4001:4001"
     restart: always

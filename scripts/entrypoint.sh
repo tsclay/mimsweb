@@ -40,9 +40,9 @@ if [ "$FLASK_ENV" = "staging" ]; then
 fi
 
 if [ "$FLASK_ENV" = "production" ]; then
-  echo "🏞 Loading .env 🏞"
-  set -a
-  source .prod.env
+  # echo "🏞 Loading .env 🏞"
+  # set -a
+  # source .prod.env
   echo "📦 Installing NPM packages 📦"
   cd client && npm i
   npm run build
