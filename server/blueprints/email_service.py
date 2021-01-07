@@ -7,6 +7,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 import os
 import base64
+
+from flask.helpers import make_response
+from flask.json import jsonify
 from server.blueprints import Create_Service
 from server.limiter import limiter
 
@@ -167,10 +170,21 @@ def send_notification_to_client(mailer, website_json):
             "Failed to send email to client. Email address likely at fault.")
 
 
+@email_service.errorhandler(429)
+def handle_excess_submits(e):
+    return make_response(
+        jsonify(
+            Error="Too Many Requests",
+            message="For security reasons, you may not submit this form again today. Follow up on your inquiry from your email client by emailing us at mims@mimspainting.com."
+        ), 429
+    )
+
+
 @email_service.route('/submit-form', methods=["POST"])
 @limiter.limit(
     '2 per day',
-    deduct_when=lambda response: response.status_code == 200
+    deduct_when=lambda response: response.status_code == 200,
+    error_message="For security reasons, you may not submit this form again today. Follow up on your inquiry from your email client by emailing us at mims@mimspainting.com."
 )
 def send_email():
 
