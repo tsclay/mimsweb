@@ -49,10 +49,10 @@ if [ "$FLASK_ENV" = "production" ]; then
   echo "🚀 Svelte app bundled 🚀"
   cd ..
   sleep 0.1
-  python manage.py create_db
-  echo "💻  Dev database created! 💻"
-  python manage.py seed_db
-  echo "🌱 Database seeded 🌱"
+  # python manage.py create_db
+  # echo "💻  Dev database created! 💻"
+  # python manage.py seed_db
+  # echo "🌱 Database seeded 🌱"
   gunicorn -b 0.0.0.0:$PORT -w 4 'server:create_app()'
 fi
 
