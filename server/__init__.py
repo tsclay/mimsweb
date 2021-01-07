@@ -2,10 +2,13 @@ from flask import Flask, send_from_directory, url_for, jsonify, render_template,
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
 import os
+# from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 def create_app():
     server = Flask(__name__, template_folder='../client/public')
+
+    # server.wsgi_app = ProxyFix(server.wsgi_app, num_proxies=1)
     server.config.from_object("server." + os.environ["APP_SETTINGS"])
 
     from .db import db
@@ -67,8 +70,14 @@ def create_app():
         setattr(current_app.view_functions.get("users.handle_recovery"), "talisman_view_options", {
                 "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
 
+    @server.errorhandler(429)
+    def handle_excess_req(e):
+        message = "You've requested our site quite rapidly recently. Take a deep breath, make a cup of coffee... you get the idea."
+        error = "Relax..."
+        return render_template('error.html', message=message, error=error)
+
     @server.route('/', methods=["GET"])
-    @limiter.limit('4 per minute')
+    @limiter.limit('20/day;10/hour;5/minute')
     def home():
         return render_template('index.html')
 
