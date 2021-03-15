@@ -1,14 +1,14 @@
-from flask import Flask, send_from_directory, url_for, jsonify, render_template, current_app
+from flask import Flask, send_from_directory, url_for, jsonify, render_template, current_app, request
 from flask_wtf.csrf import CSRFProtect
 from flask_talisman import Talisman
 import os
-# from werkzeug.middleware.proxy_fix import ProxyFix
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 def create_app():
     server = Flask(__name__, template_folder='../client/public')
 
-    # server.wsgi_app = ProxyFix(server.wsgi_app, num_proxies=1)
+    server.wsgi_app = ProxyFix(server.wsgi_app, x_for=1)
     server.config.from_object("server." + os.environ["APP_SETTINGS"])
 
     from .db import db
@@ -71,14 +71,14 @@ def create_app():
 
     @server.errorhandler(429)
     def handle_excess_req(e):
-        message = "You've requested our site quite rapidly recently. Take a deep breath, make a cup of coffee... you get the idea."
-        error = "Relax..."
+        message = "You've requested our site quite rapidly recently. Please try again later."
+        error = "Too Many Requests"
         return render_template('error.html', message=message, error=error)
 
     @server.route('/', methods=["GET"])
-    @limiter.limit('20/day;10/hour;5/minute')
+    @limiter.limit('5/minute')
     def home():
-        return render_template('index.html')
+        return render_template('index.html', test=request.headers)
 
         # return send_from_directory('../client/public', 'index.html')
 
