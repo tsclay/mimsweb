@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 services:
   flask:
     build:
@@ -6,15 +6,15 @@ services:
       dockerfile: Dockerfile
       target: prod
     env_file:
-      - ./prod.new.env
+      - ./.prod.new.env
     ports:
-      - "4001:4001"
+      - '4001:4001'
     restart: always
     depends_on:
       - rdb
 
   rdb:
-    image: "redis:alpine"
+    image: 'redis:alpine'
     volumes:
       - redis-data:/var/lib/redis
     ports:
