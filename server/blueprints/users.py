@@ -9,7 +9,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 
-users = Blueprint('users', __name__, template_folder='templates')
+users = Blueprint('users', __name__, template_folder='../templates')
 
 
 @users.route('/admin/users/recovery', methods=['POST'])

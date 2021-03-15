@@ -130,7 +130,8 @@
           <p style="color: green;">{{message["message"]}}</p>
           {% endif %}
         </div>
-        <form action="/admin/login" method="POST">
+        <form>
+          <input name="csrf_token" type="text" value="{{ csrf_token() }}" />
           <input
             type="text"
             name="username"
@@ -152,19 +153,20 @@
       </div>
     </div>
     <script src="{{url_for('static', filename='js/helpers.js')}}"></script>
+    <script src="{{url_for('static', filename='js/login.js')}}"></script>
     <script src="{{url_for('static', filename='js/recoverAcct.js')}}"></script>
     {% if message is defined %}
     <script>
-      let messageTimer
+      let messageTimer;
       messageTimer = setTimeout(() => {
-        const allMessages = searchForAll('.messages > *')
-        allMessages.forEach(m => {
-          m.addEventListener('transitionend', (e) => {
-            m.remove()
-          })
-          m.classList.toggle('fade-out')
-        })
-      }, 3000)
+        const allMessages = searchForAll(".messages > *");
+        allMessages.forEach((m) => {
+          m.addEventListener("transitionend", (e) => {
+            m.remove();
+          });
+          m.classList.toggle("fade-out");
+        });
+      }, 3000);
     </script>
     {% endif %}
   </body>

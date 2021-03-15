@@ -73,3 +73,15 @@ body {
 .fade-out {
   opacity: 0;
 }
+
+input[name="csrf_token"] {
+  display: none;
+}
+
+p.error-msg {
+  color: red;
+}
+
+p.success-msg {
+  color: green;
+}

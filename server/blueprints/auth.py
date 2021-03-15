@@ -1,12 +1,21 @@
 import datetime
+from flask.helpers import make_response
+
+from flask.json import jsonify
 from server.blueprints import decrypt
 from datetime import timezone
 from flask import Blueprint, url_for, render_template, request, session, redirect
 import json
 from server.db import db
 from server.models.Admin import Admin
+from server.limiter import limiter
 
-auth = Blueprint('auth', __name__, template_folder='templates')
+auth = Blueprint('auth', __name__, template_folder='../templates')
+
+
+@auth.errorhandler(429)
+def handle_excess_attempts(e):
+    return make_response(jsonify(error="For security reasons, you are unable to make login attempts for one hour."), 429)
 
 
 @auth.route('', methods=["GET"])
@@ -18,6 +27,7 @@ def home():
 
 
 @auth.route('/login', methods=["GET", "POST"])
+@limiter.limit('5/hour', override_defaults=True, deduct_when=lambda response: response.status_code == 401)
 def login():
     if request.method == "GET":
         message = request.args.get('message')
@@ -26,22 +36,23 @@ def login():
         else:
             return render_template('login.html')
 
-    username = request.form["username"]
-    password = request.form["password"]
+    data = request.get_json()
+    username = data["username"]
+    password = data["password"]
     found_user = Admin.query.filter_by(
         username=username).first()
     if found_user is not None and \
             username == found_user.username and \
             password == decrypt(found_user.password):
-        session["username"] = request.form["username"]
+        session["username"] = found_user.username
         session["role"] = found_user.role
         found_user.active = True
         found_user.last_logged_in = datetime.datetime.now(timezone.utc)
         db.session.add(found_user)
         db.session.commit()
-        return redirect(url_for('auth.home'))
+        return redirect(url_for('auth.home'), 302)
     else:
-        return redirect(url_for('auth.login', message=json.dumps({"error": "Double-check your credentials and try again."})))
+        return make_response(jsonify(error="Double-check your credentials and try again."), 401)
 
 
 @auth.route('/logout', methods=["POST"])

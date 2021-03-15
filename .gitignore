@@ -4,6 +4,10 @@ client/public/build/
 
 .DS_Store
 .vscode
+nginx
+
+client_secrets.json
+*.pickle
 
 *.zip
 

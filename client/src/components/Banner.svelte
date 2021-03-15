@@ -1,6 +1,3 @@
-<script>
-</script>
-
 <style type="text/scss">
   #banner {
     position: relative;

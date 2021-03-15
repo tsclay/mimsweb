@@ -1,41 +1,41 @@
 <script>
-  import { onMount } from "svelte";
-  import NavBar from "./components/NavBar.svelte";
-  import ContactForm from "./components/ContactForm.svelte";
-  import Banner from "./components/Banner.svelte";
-  import About from "./components/About.svelte";
-  import Testimonials from "./components/Testimonials.svelte";
-  import Gallery from "./components/Gallery.svelte";
-  import Footer from "./components/Footer.svelte";
-  import { windowWidth, needModal } from "./stores.js";
+  import { onMount } from 'svelte'
+  import NavBar from './components/NavBar.svelte'
+  import ContactForm from './components/ContactForm.svelte'
+  import Banner from './components/Banner.svelte'
+  import About from './components/About.svelte'
+  import Testimonials from './components/Testimonials.svelte'
+  import Gallery from './components/Gallery.svelte'
+  import Footer from './components/Footer.svelte'
+  import { windowWidth, needModal } from './stores.js'
 
-  export let toggleModal;
-  export let width;
-  let resources = {};
+  export let toggleModal
+  export let width
+  let resources = {}
 
   const fetchResources = async () => {
-    const url = "/resources";
-    resources = await fetch(url).then((r) => r.json());
-    return resources;
-  };
+    const url = '/resources'
+    resources = await fetch(url).then((r) => r.json())
+    return resources
+  }
 
-  onMount(fetchResources);
+  onMount(fetchResources)
 
-  let navIsSticky = false;
+  let navIsSticky = false
   const stickyNav = `position: sticky;
     position: -webkit-sticky;
     z-index: 99;
     top: 0;
-    left: 0;`;
+    left: 0;`
 
-  const unsubscribeWidth = windowWidth.subscribe((value) => (width = value));
+  const unsubscribeWidth = windowWidth.subscribe((value) => (width = value))
   const unsubscribeModal = needModal.subscribe((value) => {
-    toggleModal = value;
-  });
+    toggleModal = value
+  })
 
   const toggleNavButtons = () => {
-    needModal.set(!toggleModal);
-  };
+    needModal.set(!toggleModal)
+  }
 </script>
 
 <style type="text/scss">
@@ -46,7 +46,7 @@
   }
   .loading-wrapper {
     position: fixed;
-    width: 50%;
+    width: clamp(125px, 50%, 365px);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -80,13 +80,13 @@
 <svelte:body
   on:click={(e) => {
     if (e.target.id !== 'modal-toggler') {
-      needModal.set(false);
+      needModal.set(false)
     }
   }} />
 
 <svelte:window
   on:resize={() => {
-    windowWidth.set(window.innerWidth);
+    windowWidth.set(window.innerWidth)
   }} />
 
 <div>

@@ -11,7 +11,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 
-settings = Blueprint('settings', __name__, template_folder='templates')
+settings = Blueprint('settings', __name__, template_folder='../templates')
 
 
 # def encrypt_credentials(user_cred):

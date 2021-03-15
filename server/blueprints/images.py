@@ -7,7 +7,7 @@ import server
 from server.models.Image import Image
 from server.models.Header import Header
 
-images = Blueprint('images', __name__, template_folder='templates')
+images = Blueprint('images', __name__, template_folder='../templates')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 

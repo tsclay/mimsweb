@@ -1,13 +1,28 @@
-from flask import Flask, send_from_directory, url_for, jsonify
+from flask import Flask, send_from_directory, url_for, jsonify, render_template, current_app, request
+from flask_wtf.csrf import CSRFProtect
+from flask_talisman import Talisman
 import os
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 
 def create_app():
-    server = Flask(__name__)
+    server = Flask(__name__, template_folder='../client/public')
+
+    server.wsgi_app = ProxyFix(server.wsgi_app, x_for=1)
     server.config.from_object("server." + os.environ["APP_SETTINGS"])
 
     from .db import db
+    from .limiter import limiter
+    csrf = CSRFProtect()
     db.init_app(server)
+    csrf.init_app(server)
+    limiter.init_app(server)
+    Talisman(server, content_security_policy={
+        'font-src': ["'self'", 'themes.googleusercontent.com', '*.gstatic.com'],
+        'script-src': ["'self'", 'ajax.googleapis.com'],
+        'style-src': ["'self'", 'fonts.googleapis.com', '*.gstatic.com', 'ajax.googleapis.com', "'unsafe-inline'", ],
+        'default-src':  ["'self'", '*.gstatic.com']
+    }, force_https=False)
 
     from server.models.Client_Resources import Client_Resources
     from server.models.Gallery_Info import Gallery_Info
@@ -36,11 +51,39 @@ def create_app():
     server.register_blueprint(email_service)
     server.register_blueprint(users)
 
+# Set custom CSP settings for admin portal, no easier way to do this unfortunately
+# https://github.com/GoogleCloudPlatform/flask-talisman/issues/45
+    with server.app_context():
+        setattr(current_app.view_functions.get("auth.home"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("auth.login"), "talisman_view_options", {
+            "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("images.handle_images"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("content.render"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("galleries.handle_images"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("settings.show_page"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+        setattr(current_app.view_functions.get("users.handle_recovery"), "talisman_view_options", {
+                "content_security_policy": {"default-src": "* 'unsafe-inline'"}})
+
+    @server.errorhandler(429)
+    def handle_excess_req(e):
+        message = "You've requested our site quite rapidly recently. Please try again later."
+        error = "Too Many Requests"
+        return render_template('error.html', message=message, error=error)
+
     @server.route('/', methods=["GET"])
+    @limiter.limit('5/minute')
     def home():
-        return send_from_directory('../client/public', 'index.html')
+        return render_template('index.html', test=request.headers)
+
+        # return send_from_directory('../client/public', 'index.html')
 
     @server.route("/<path:path>")
+    @limiter.exempt
     def send_assets(path):
         return send_from_directory('../client/public', path)
 

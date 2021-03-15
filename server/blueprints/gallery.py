@@ -10,7 +10,7 @@ from server.models.Galleries import Galleries
 from server.models.Image import Image
 from server.models.Client_Resources import Client_Resources
 
-galleries = Blueprint('galleries', __name__, template_folder='templates')
+galleries = Blueprint('galleries', __name__, template_folder='../templates')
 
 
 def fetch_galleries():

@@ -6,7 +6,7 @@ from server.models.Header import Header
 from server.db import db
 import os
 
-content = Blueprint('content', __name__, template_folder='templates')
+content = Blueprint('content', __name__, template_folder='../templates')
 
 
 def read():
