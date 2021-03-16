@@ -76,7 +76,7 @@ def create_app():
         return render_template('error.html', message=message, error=error)
 
     @server.route('/', methods=["GET"])
-    @limiter.limit('5/minute')
+    @limiter.limit('50/minute')
     def home():
         return render_template('index.html', test=request.headers)
 
