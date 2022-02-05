@@ -35,7 +35,7 @@
       username: e.target[1].value,
       password: e.target[2].value
     }
-    const response = await fetch('/admin/login', {
+    const response = await fetch('https://mfpfinishes.com/admin/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -46,7 +46,7 @@
       body: JSON.stringify(payload)
     })
     if (response.status === 200) {
-      return window.location.replace('/admin')
+      return window.location.replace('https://mfpfinishes.com/admin')
     }
     const message = await response.json()
     return showClientMessage(message)
